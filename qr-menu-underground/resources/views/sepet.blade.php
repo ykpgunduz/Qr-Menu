@@ -19,17 +19,51 @@
     <link href="css/style.css" rel="stylesheet">
     <style>
         #success-message {
-        position: fixed;
-        top: 70px;
-        right: 20px;
-        background-color: #28a745; /* Yeşil arka plan */
-        color: white !important; /* Beyaz yazı rengi */
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: none;
-        z-index: 9999;
-        transition: opacity 0.5s, visibility 0.5s;
-    }
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background-color: #28a745; /* Yeşil arka plan */
+            color: white !important; /* Beyaz yazı rengi */
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        .containerr{
+            background-color: #ffffff;
+            border-radius: 45px;
+            display: inline-block;
+            /* box-shadow: 0 20px 30px rgba(0,0,0,0.15); */
+        }
+        input[type="number"]{
+            -moz-appearance: textfield;
+            text-align: center;
+            font-size: 20px;
+            border: none;
+            background-color: #ffffff;
+            color: #202030;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button{
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        button{
+            color: #FEA116;
+            background-color: #ffffff;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #decrement{
+            padding: 6px 2px 6px 10px;
+            border-radius: 18px 0 0 18px;
+        }
+        #increment{
+            padding: 6px 10px 6px 2px;
+            border-radius: 0 18px 18px 0;
+        }
     </style>
 </head>
 <body>
@@ -60,19 +94,23 @@
                         <div class="d-flex align-items-center">
                             <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;">
                             <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>{{ $cartItem->product->title }}</span>
-                                    <span class="text">{{ $cartItem->price }}₺</span>
-                                </h5>
-                                <p class="d-flex justify-content-between">
-                                    <small class="fst-italic">{{ $cartItem->product->body }}</small>
-                                    <small class="">{{ $cartItem->quantity }} Adet</small>
                                     <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST" class="remove-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-primary btn-sm" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"><i class="fa-solid fa-close"></i></button>
+                                        <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                            <span>{{ $cartItem->product->title }}</span>
+                                            <span class="text">{{ $cartItem->price }}₺</span>
+                                        </h5>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="fst-italic">{{ $cartItem->product->body }}</small>
+                                            <div class="containerr">
+                                                <button type="button" onclick="minus(this)"> - </button>
+                                                <input type="number" name="quantity" min="1" max="20" step="1" value="{{$cartItem->quantity}}" readonly>
+                                                <button type="button" onclick="plus(this)"> + </button>
+                                            </div>
+                                            <button type="submit" class="btn btn-danger btn-sm" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"><i class="fa-solid fa-close"></i></button>
+                                        </div>
                                     </form>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -170,6 +208,36 @@
                 });
             });
         });
+    </script>
+    <script>
+        function plus(btn){
+            let myInput = btn.parentElement.querySelector('input[type="number"]');
+            let id = btn.getAttribute("id");
+            let min = myInput.getAttribute("min");
+            let max = myInput.getAttribute("max");
+            let step = myInput.getAttribute("step");
+            let val = myInput.getAttribute("value");
+            let calcStep = (step * 1);
+            let newValue = parseInt(val) + calcStep;
+
+            if(newValue >= min && newValue <= max){
+                myInput.setAttribute("value", newValue);
+            }
+        }
+        function minus(btn){
+            let myInput = btn.parentElement.querySelector('input[type="number"]');
+            let id = btn.getAttribute("id");
+            let min = myInput.getAttribute("min");
+            let max = myInput.getAttribute("max");
+            let step = myInput.getAttribute("step");
+            let val = myInput.getAttribute("value");
+            let calcStep = (step * -1);
+            let newValue = parseInt(val) + calcStep;
+
+            if(newValue >= min && newValue <= max){
+                myInput.setAttribute("value", newValue);
+            }
+        }
     </script>
 
     <!-- Success Message -->

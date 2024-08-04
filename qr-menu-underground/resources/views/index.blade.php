@@ -17,6 +17,42 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        .containerr{
+            background-color: #ffffff;
+            border-radius: 45px;
+            display: inline-block;
+            /* box-shadow: 0 20px 30px rgba(0,0,0,0.15); */
+        }
+        input[type="number"]{
+            -moz-appearance: textfield;
+            text-align: center;
+            font-size: 20px;
+            border: none;
+            background-color: #ffffff;
+            color: #202030;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button{
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        button{
+            color: #FEA116;
+            background-color: #ffffff;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #decrement{
+            padding: 6px 2px 6px 10px;
+            border-radius: 18px 0 0 18px;
+        }
+        #increment{
+            padding: 6px 10px 6px 2px;
+            border-radius: 0 18px 18px 0;
+        }
+    </style>
 </head>
 <body>
     <style>
@@ -89,11 +125,15 @@
                                                 <span>{{ $product->title }}</span>
                                                 <span class="text">{{ $product->price }}₺</span>
                                             </h5>
-                                            <p class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between align-items-center">
                                                 <small class="fst-italic">{{ $product->body }}</small>
-                                                <input type="number" name="quantity" value="1" min="1">
+                                                <div class="containerr">
+                                                    <button type="button" onclick="minus(this)"> - </button>
+                                                    <input type="number" name="quantity" min="1" max="20" step="1" value="1" readonly>
+                                                    <button type="button" onclick="plus(this)"> + </button>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-cart-plus"></i></button>
-                                            </p>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -105,6 +145,36 @@
                 </div>
             </div>
         </div>
+        <script>
+            function plus(btn){
+                let myInput = btn.parentElement.querySelector('input[type="number"]');
+                let id = btn.getAttribute("id");
+                let min = myInput.getAttribute("min");
+                let max = myInput.getAttribute("max");
+                let step = myInput.getAttribute("step");
+                let val = myInput.getAttribute("value");
+                let calcStep = (step * 1);
+                let newValue = parseInt(val) + calcStep;
+
+                if(newValue >= min && newValue <= max){
+                    myInput.setAttribute("value", newValue);
+                }
+            }
+            function minus(btn){
+                let myInput = btn.parentElement.querySelector('input[type="number"]');
+                let id = btn.getAttribute("id");
+                let min = myInput.getAttribute("min");
+                let max = myInput.getAttribute("max");
+                let step = myInput.getAttribute("step");
+                let val = myInput.getAttribute("value");
+                let calcStep = (step * -1);
+                let newValue = parseInt(val) + calcStep;
+
+                if(newValue >= min && newValue <= max){
+                    myInput.setAttribute("value", newValue);
+                }
+            }
+        </script>
         <!-- Menu End -->
 
         <!-- Success Message -->
