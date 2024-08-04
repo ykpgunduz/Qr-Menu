@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="utf-8">
-    <title>Underground</title>
+    <title>Restoran - Bootstrap Restaurant Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -17,10 +17,8 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-</head>
-<body>
     <style>
-   #success-message {
+        #success-message {
         position: fixed;
         top: 70px;
         right: 20px;
@@ -32,8 +30,9 @@
         z-index: 9999;
         transition: opacity 0.5s, visibility 0.5s;
     }
-
     </style>
+</head>
+<body>
     <div class="container bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -45,10 +44,8 @@
 
         <!-- Navbar & Hero Start -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-            <a href="">
-                <h1 class="text-primary m-0"><i class="fa fa-coffee me-3"></i>Underground</h1>
-                <a href="{{ route('sepet', ['table' => $tableNumber]) }}">Sepete Git</a>
-            </a>
+            <h1 class="text-primary m-0"><i class="fa fa-coffee me-3"></i>Underground</h1>
+            <a href="{{ route('index', ['table' => $tableNumber]) }}">Menüye Git</a>
         </nav>
         <!-- Navbar & Hero End -->
 
@@ -56,59 +53,37 @@
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h5 class="section-title ff-secondary text-center text fw-normal">Coffee Shop</h5>
-                <h1 class="mb-5">Ne İçmek İstersiniz?</h1>
-            </div>
-            <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
-                <ul class="nav nav-pills d-inline-flex justify-content-center">
-                    @foreach($categories as $category)
-                    <li class="nav-item">
-                        <a class="d-flex align-items-center text-start mx-3 mt-4 pb-3" data-bs-toggle="pill" href="#tab-{{ $category->id }}">
-                            <i class="fa fa-coffee text" style="font-size: 1.5em;"></i>
-                            <div class="ps-3">
-                                <h6 class="mt-n1 mb-0">{{ $category->name }}</h6>
+                <h1 class="mb-5">Sepetinizdeki Ürünler</h1>
+                <div id="cart-items">
+                    @foreach($cartItems as $cartItem)
+                    <div class="col-lg-6 mb-3 cart-item" data-id="{{ $cartItem->id }}" data-price="{{ $cartItem->price }}">
+                        <div class="d-flex align-items-center">
+                            <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;">
+                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                    <span>{{ $cartItem->product->title }}</span>
+                                    <span class="text">{{ $cartItem->price }}₺</span>
+                                </h5>
+                                <p class="d-flex justify-content-between">
+                                    <small class="fst-italic">{{ $cartItem->product->body }}</small>
+                                    <small class="">{{ $cartItem->quantity }} Adet</small>
+                                    <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST" class="remove-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-primary btn-sm" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"><i class="fa-solid fa-close"></i></button>
+                                    </form>
+                                </p>
                             </div>
-                        </a>
-                    </li>
-                    @endforeach
-                </ul>
-                <hr>
-                <div class="tab-content">
-                    @foreach($categories as $category)
-                    <div id="tab-{{ $category->id }}" class="tab-pane fade p-0">
-                        <div class="row g-4">
-                            @foreach($products->where('category_id', $category->id) as $product)
-                            <div class="col-lg-6">
-                                <div class="d-flex align-items-center">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $product->thumbnail) }}" alt="" style="width: 80px;">
-                                    <div class="w-100 d-flex flex-column text-start ps-4">
-                                        <form class="add-to-cart-form" data-product-id="{{ $product->id }}" data-table-number="{{ request()->get('table') }}">
-                                            @csrf
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <input type="hidden" name="table" value="{{ request()->get('table') }}">
-                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                <span>{{ $product->title }}</span>
-                                                <span class="text">{{ $product->price }}₺</span>
-                                            </h5>
-                                            <p class="d-flex justify-content-between">
-                                                <small class="fst-italic">{{ $product->body }}</small>
-                                                <input type="number" name="quantity" value="1" min="1">
-                                                <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-cart-plus"></i></button>
-                                            </p>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
                         </div>
                     </div>
                     @endforeach
                 </div>
+                <div class="text-end mt-5">
+                    <h5 class="mb-5" id="total-amount">Sepet Tutar: {{ $totalAmount }}₺</h5>
+                </div>
             </div>
         </div>
         <!-- Menu End -->
-
-        <!-- Success Message -->
-        <div id="success-message" class="text-center" style="display: none; color: green;"></div>
 
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -116,17 +91,20 @@
                 <div class="row g-5">
                     <div class="col-md-12 text-center">
                         <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
-                        <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B Bakirköy/İstanbul</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Bakırköy - İstanbul</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>iletisim@undergroundcoffe.com</p>
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
                         <h4 class="section-title text-white fw-normal mb-4">Çalışma Saatlerimiz</h4>
-                        <h6 class="text-light fw-normal">Her gün | 10.00 - 22.00</h6>
+                        <h6 class="text-light fw-normal">Haftaiçi | 10.00 - 00.00</h6>
+                        <h6 class="text-light fw-normal">Haftasonu | 10.00 - 02.00</h6>
                     </div>
                 </div>
             </div>
@@ -159,34 +137,42 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
-    <!-- Custom JavaScript -->
     <script>
-        $(document).ready(function(){
-            $('.add-to-cart-form').on('submit', function(event) {
-                event.preventDefault(); // Formun normal submit işlemini engelle
-
+        $(document).ready(function () {
+            $('.remove-form').on('submit', function (event) {
+                event.preventDefault(); // Formun varsayılan gönderimini engelle
                 var form = $(this);
-                var url = '{{ route('addToCart') }}'; // Route URL'sini burada belirleyin
+                var formData = new FormData(this);
+                var itemPrice = parseFloat(form.closest('.cart-item').data('price'));
 
                 $.ajax({
-                    url: url,
+                    url: form.attr('action'),
                     type: 'POST',
-                    data: form.serialize(),
-                    success: function(response) {
-                        $('#success-message').text(response.message).show();
-                        setTimeout(function() {
-                            $('#success-message').fadeOut();
-                        }, 3000);
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        // Başarılı olduğunda yapılacak işlemler
+                        form.closest('.cart-item').remove(); // Ürünü kaldır
+
+                        // Sepet toplamını güncelle
+                        var currentTotal = parseFloat($('#total-amount').text().replace('Sepet Tutar: ', '').replace('₺', ''));
+                        var newTotalAmount = currentTotal - itemPrice;
+                        $('#total-amount').text('Sepet Tutar: ' + newTotalAmount.toFixed(2) + '₺');
+
+                        // Başarı mesajını göster
+                        $('#success-message').text('Ürün başarıyla silindi.').fadeIn().delay(3000).fadeOut();
                     },
-                    error: function(xhr, status, error) {
-                        $('#success-message').text('Bir hata oluştu.').show();
-                        setTimeout(function() {
-                            $('#success-message').fadeOut();
-                        }, 3000);
+                    error: function (response) {
+                        // Hata durumunda yapılacak işlemler
+                        $('#success-message').text('Bir hata oluştu.').fadeIn().delay(3000).fadeOut(); // Hata mesajını göster
                     }
                 });
             });
         });
     </script>
+
+    <!-- Success Message -->
+    <div id="success-message"></div>
 </body>
 </html>
