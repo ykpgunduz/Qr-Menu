@@ -34,7 +34,7 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('product.name')->label('Ürün Adı'), // Ürün adını göstermek için product ilişkisini kullanın
+                TextColumn::make('product.title')->label('Ürün Adı'), // Ürün adını göstermek için product ilişkisini kullanın
                 TextColumn::make('quantity')->label('Miktar'),
                 TextColumn::make('price')->label('Fiyat')->formatStateUsing(fn ($state) => number_format($state, 2) . '₺'),
                 TextColumn::make('total_amount')->label('Toplam Tutar')->formatStateUsing(fn ($state) => number_format($state, 2) . '₺'),

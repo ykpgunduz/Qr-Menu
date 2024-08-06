@@ -93,7 +93,7 @@
                                         <small class="fst-italic text-black product-body">{{ Str::limit($cartItem->product->body, 20) }}</small>
                                         <div class="containerr">
                                             <button type="button" class="update-quantity" data-change="-1"> - </button>
-                                            <input type="number" name="quantity" min="1" max="20" step="1" value="{{ $cartItem->quantity }}" readonly>
+                                            <input type="number" name="quantity" min="1" max="20" step="1" disabled value="{{ $cartItem->quantity }}" readonly>
                                             <button type="button" class="update-quantity" data-change="1"> + </button>
                                         </div>
                                         <button type="submit" class="btn btn-danger btn-sm" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
@@ -122,6 +122,41 @@
             </div>
         </div>
         <!-- Menu End -->
+
+         <!-- Success Message -->
+         <div id="success-message" class="text-center" style="display: none; color: green;"></div>
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-black text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-md-12 text-center">
+                        <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
+                        <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B Bakirköy/İstanbul</p>
+                        <div class="d-flex justify-content-center">
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <h4 class="section-title text-white fw-normal mb-4">Çalışma Saatlerimiz</h4>
+                        <h6 class="text-light fw-normal">Her gün | 10.00 - 22.00</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-12 text-center mb-3 mb-md-0">
+                            <a href="#">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -157,7 +192,7 @@
                         itemPriceElement.text(`${itemPrice.toFixed(2)}₺`);
 
                         // Güncellenmiş toplam tutarı göster
-                        $('#total-amount').text(`Sepet Tutarı: ${response.totalAmount.toFixed(2)}₺`);
+                        updateTotalAmount(); // Her ürün güncellendiğinde toplamı tekrar hesapla
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
@@ -169,7 +204,7 @@
                 let cartItem = button.closest('.cart-item');
                 let input = cartItem.querySelector('input[name="quantity"]');
                 let cartItemId = cartItem.getAttribute('data-id');
-                let currentQuantity = parseInt(input.value);
+                let currentQuantity = parseInt(input.value, 10);
                 let newQuantity = currentQuantity + quantityChange;
 
                 if (newQuantity < 1) {
@@ -185,7 +220,7 @@
 
                 $('.cart-item').each(function () {
                     let itemPriceText = $(this).find('.text').text().replace('₺', '').trim();
-                    let itemPrice = parseFloat(itemPriceText) || 0; // NaN kontrolü
+                    let itemPrice = parseFloat(itemPriceText) || 0;
                     totalAmount += itemPrice;
                 });
 
@@ -195,7 +230,7 @@
             $(document).ready(function () {
                 // Ürün miktarını güncelleme butonlarına tıklama olayını ayarla
                 $('.update-quantity').off('click').on('click', function () {
-                    let quantityChange = parseInt($(this).data('change'));
+                    let quantityChange = parseInt($(this).data('change'), 10);
                     updateQuantity(this, quantityChange);
                 });
 
@@ -213,7 +248,7 @@
                         contentType: false,
                         success: function (response) {
                             form.closest('.cart-item').remove();
-                            updateTotalAmount();
+                            updateTotalAmount(); // Ürün kaldırıldığında toplamı tekrar hesapla
                             $('#success-message').text('Ürün başarıyla silindi.').fadeIn().delay(3000).fadeOut();
                         },
                         error: function (response) {
