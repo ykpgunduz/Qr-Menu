@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderItem;
+use App\Models\Calculation;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -68,24 +70,6 @@ class HomeController extends Controller
         ]);
     }
 
-    public function viewCart(Request $request)
-    {
-        $tableNumber = $request->input('table');
-        $sessionId = session()->getId();
-
-        $cartItems = Cart::where('table_number', $tableNumber)
-            ->where('session_id', $sessionId)
-            ->with('product') // 'product' yerine 'item' yazılmalı
-            ->get();
-
-        // Toplam tutarı hesaplama
-        $totalAmount = $cartItems->sum(function ($cartItem) {
-            return $cartItem->price;
-        });
-
-        return view('sepet', compact('cartItems', 'tableNumber', 'totalAmount'));
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -94,28 +78,12 @@ class HomeController extends Controller
         ]);
 
         // Yeni siparişi oluştur
-        Order::create([
+        Calculation::create([
             'table_number' => $request->input('table_number'),
             'products' => json_decode($request->input('products')),
         ]);
 
         // Sipariş onaylandıktan sonra admin sayfasına yönlendir
         return redirect()->route('admin.orders');
-    }
-
-    public function removeFromCart($id)
-    {
-        $cartItem = Cart::find($id);
-        if ($cartItem) {
-            $cartItem->delete();
-            return redirect()->back()->with('success', 'Ürün sepetten çıkarıldı');
-        }
-
-        return redirect()->back()->with('error', 'Ürün bulunamadı');
-    }
-
-    public function sepet()
-    {
-        return view('sepet');
     }
 }

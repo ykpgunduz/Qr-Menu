@@ -9,12 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('calculations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('table_number');
-            $table->json('products');
+            $table->integer('table_number');
+            $table->decimal('total_amount', 8, 2);
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('calculations');
     }
 };

@@ -19,17 +19,13 @@
     <link href="css/style.css" rel="stylesheet">
     <style>
         .containerr{
-            background-color: #ffffff;
-            border-radius: 45px;
             display: inline-block;
-            /* box-shadow: 0 20px 30px rgba(0,0,0,0.15); */
         }
         input[type="number"]{
             -moz-appearance: textfield;
             text-align: center;
-            font-size: 20px;
+            font-size: 15px;
             border: none;
-            background-color: #ffffff;
             color: #202030;
         }
         input::-webkit-outer-spin-button,
@@ -41,20 +37,13 @@
             color: #FEA116;
             background-color: #ffffff;
             border: none;
-            font-size: 20px;
+            font-size: 17px;
             cursor: pointer;
-        }
-        #decrement{
-            padding: 6px 2px 6px 10px;
-            border-radius: 18px 0 0 18px;
-        }
-        #increment{
-            padding: 6px 10px 6px 2px;
-            border-radius: 0 18px 18px 0;
+            padding: 0px;
         }
     </style>
 </head>
-<body>
+<body class="text-nav">
     <style>
    #success-message {
         position: fixed;
@@ -79,19 +68,20 @@
         </div>
         <!-- Spinner End -->
 
-        <!-- Navbar & Hero Start -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-            <a href="">
-                <h1 class="text-primary m-0"><i class="fa fa-coffee me-3"></i>Underground</h1>
-                <a href="{{ route('sepet', ['table' => $tableNumber]) }}">Sepete Git</a>
-            </a>
+        <!-- Navbar Start -->
+        <nav class="navbar d-flex align-items-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <img class="logo-underground" src="{{ asset('storage/img/logo.jpg') }}" alt="Logo">
+                <h2 class="text-nav mt-3">Underground</h2>
+            </div>
+            <a href="{{ route('sepet', ['table' => $tableNumber]) }}"><i class="mt-3 me-4 fa-solid fa-xl fa-cart-shopping text-nav"></i></a>
         </nav>
-        <!-- Navbar & Hero End -->
+        <!-- Navbar End -->
 
         <!-- Menu Start -->
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h5 class="section-title ff-secondary text-center text fw-normal">Coffee Shop</h5>
+                <h5 class="section-title ff-secondary text-center text fw-normal">Hoşgeldiniz</h5>
                 <h1 class="mb-5">Ne İçmek İstersiniz?</h1>
             </div>
             <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -119,14 +109,14 @@
                                     <div class="w-100 d-flex flex-column text-start ps-4">
                                         <form class="add-to-cart-form" data-product-id="{{ $product->id }}" data-table-number="{{ request()->get('table') }}">
                                             @csrf
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                            <h6 class="d-flex justify-content-between border-bottom pb-2">
                                                 <input type="hidden" name="table" value="{{ request()->get('table') }}">
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                 <span>{{ $product->title }}</span>
                                                 <span class="text">{{ $product->price }}₺</span>
-                                            </h5>
+                                            </h6>
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <small class="fst-italic">{{ $product->body }}</small>
+                                                <small class="fst-italic text-black product-body">{{ Str::limit($product->body, 15) }} | devamını oku -></small>
                                                 <div class="containerr">
                                                     <button type="button" onclick="minus(this)"> - </button>
                                                     <input type="number" name="quantity" min="1" max="20" step="1" value="1" readonly>
@@ -181,7 +171,7 @@
         <div id="success-message" class="text-center" style="display: none; color: green;"></div>
 
         <!-- Footer Start -->
-        <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container-fluid bg-black text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5">
                     <div class="col-md-12 text-center">

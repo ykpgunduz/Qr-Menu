@@ -5,22 +5,22 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\OrderItem;
 use Filament\Tables\Table;
+use App\Models\Calculation;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Filament\Resources\CalculationResource\Pages;
+use App\Filament\Resources\CalculationResource\RelationManagers;
 
-class OrderResource extends Resource
+class CalculationResource extends Resource
 {
-    protected static ?string $model = OrderItem::class;
+    protected static ?string $model = Calculation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $pluralModelLabel = "Siparişler";
+    protected static ?string $pluralModelLabel = "Masalar";
 
     public static function form(Form $form): Form
     {
@@ -34,10 +34,10 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('product.name')->label('Ürün Adı'), // Ürün adını göstermek için product ilişkisini kullanın
-                TextColumn::make('quantity')->label('Miktar'),
-                TextColumn::make('price')->label('Fiyat')->formatStateUsing(fn ($state) => number_format($state, 2) . '₺'),
+                TextColumn::make('id')->label('ID'),
+                TextColumn::make('table_number')->label('Masa Numarası'), // Siparişlerin masa numarasını gösterir
                 TextColumn::make('total_amount')->label('Toplam Tutar')->formatStateUsing(fn ($state) => number_format($state, 2) . '₺'),
+                TextColumn::make('created_at')->label('Oluşturulma Tarihi')->dateTime('H:i d/m/Y'),
             ])
             ->filters([
                 //
@@ -62,9 +62,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'index' => Pages\ListCalculations::route('/'),
+            'create' => Pages\CreateCalculation::route('/create'),
+            'edit' => Pages\EditCalculation::route('/{record}/edit'),
         ];
     }
 }

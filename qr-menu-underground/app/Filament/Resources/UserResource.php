@@ -3,35 +3,30 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
-use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\CategoryResource\Pages;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CategoryResource\RelationManagers;
+use App\Filament\Resources\UserResource\RelationManagers;
 
-class CategoryResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = User::class;
 
-    protected static ?string $pluralModelLabel = "Kategoriler";
+    protected static ?string $pluralModelLabel = "Kullanıcılar";
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Kategori Başlığı')
-                    ->required()
-                    ->maxLength(255)
-                    ->reactive()
+                //
             ]);
     }
 
@@ -40,7 +35,9 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Kategori Başlığı')
+                ->label('İsim'),
+                TextColumn::make('email')
+                ->label('E-Posta'),
             ])
             ->filters([
                 //
@@ -49,7 +46,9 @@ class CategoryResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                //
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
@@ -63,10 +62,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'view' => Pages\ViewCategory::route('/{record}'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }
