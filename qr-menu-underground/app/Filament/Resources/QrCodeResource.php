@@ -19,7 +19,9 @@ class QrCodeResource extends Resource
 
     protected static ?string $pluralModelLabel = "Qr Kod Masalar";
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Geliştirici Yönetimi'; // Navigasyon grubu
+
+    protected static ?string $navigationIcon = 'heroicon-o-qr-code';
 
     public static function form(Form $form): Form
     {

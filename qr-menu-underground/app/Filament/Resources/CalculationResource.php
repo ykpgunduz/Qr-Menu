@@ -18,6 +18,8 @@ class CalculationResource extends Resource
 {
     protected static ?string $model = Calculation::class;
 
+    protected static ?string $navigationGroup = 'Siparişler ve Masalar';
+
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     protected static ?string $pluralModelLabel = "Masalar";

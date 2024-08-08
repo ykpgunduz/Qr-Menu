@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->decimal('price');
-            $table->string('device_info')->nullable(); // Cihaz bilgilerini saklamak için sütun ekleyin
+            $table->string('device_info')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

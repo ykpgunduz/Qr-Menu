@@ -19,6 +19,8 @@ class ProductResource extends Resource
 
     protected static ?string $pluralModelLabel = "Ürünler";
 
+    protected static ?string $navigationGroup = 'İçerik Yönetimi'; // Navigasyon grubu
+
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
@@ -66,7 +68,13 @@ class ProductResource extends Resource
                     ->label('Ürün Adı')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label('Aktiflik')
+                ->label('Aktiflik')
+                ->action(function($record, $column) {
+                    $name = $column->getName();
+                    $record->update([
+                        $name => !$record->$name
+                    ]);
+                })
                     ->boolean(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Ürün Fiyatı')

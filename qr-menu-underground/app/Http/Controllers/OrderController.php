@@ -43,14 +43,19 @@ class OrderController extends Controller
         // Sepeti temizle
         $request->session()->forget('cartItems');
 
-        return redirect()->route('store', $order->id)->with('success', 'Siparişiniz başarıyla oluşturuldu.');
+        return redirect()->route('order.store', $order->id)->with('success', 'Siparişiniz başarıyla oluşturuldu.');
     }
 
-
-    public function show($id)
+    public function show(Request $request)
     {
-        $order = Calculation::with('items.product')->findOrFail($id);
+        $tableNumber = $request->query('table');
 
-        return view('orders.show', compact('order'));
+        if (!$tableNumber) {
+            return redirect('/')->with('error', 'Table number is required.');
+        }
+
+        $calculations = Calculation::where('table_number', $tableNumber)->get();
+
+        return view('orders.show', compact('calculations', 'tableNumber'));
     }
 }
