@@ -59,7 +59,7 @@ class OrderResource extends Resource
                     ])
                     ->action(function($record, $column) {
                         $currentStatus = $record->status;
-                        $nextStatus = self::getNextStatus($currentStatus); // Call static method
+                        $nextStatus = self::getNextStatus($currentStatus);
 
                         $record->update([
                             'status' => $nextStatus,
@@ -76,9 +76,9 @@ class OrderResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 

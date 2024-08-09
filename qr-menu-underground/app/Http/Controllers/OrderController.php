@@ -10,41 +10,55 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function store(Request $request)
-    {
-        // Formdan gelen sepet verilerini JSON formatında al
-        $cartItems = json_decode($request->input('cart_items'), true);
+{
+    // Formdan gelen sepet verilerini JSON formatında al
+    $cartItems = json_decode($request->input('cart_items'), true);
 
-        if (!$cartItems) {
-            return redirect()->back()->with('error', 'Sepet boş.');
-        }
+    if (!$cartItems) {
+        return redirect()->back()->with('error', 'Sepet boş.');
+    }
 
-        // Toplam tutarı hesapla
-        $totalAmount = array_sum(array_column($cartItems, 'price'));
+    // Toplam tutarı hesapla
+    $totalAmount = array_sum(array_column($cartItems, 'price'));
 
-        // Masa numarasını al
-        $tableNumber = $request->input('table_number');
+    // Masa numarasını al
+    $tableNumber = $request->input('table_number');
 
-        // Yeni sipariş oluştur
+    // Aynı masa numarasıyla daha önce oluşturulmuş bir sipariş var mı kontrol et
+    $existingOrder = Calculation::where('table_number', $tableNumber)->first();
+
+    if ($existingOrder) {
+        // Eğer varsa, mevcut siparişin toplam tutarını güncelle
+        $existingOrder->total_amount += $totalAmount;
+        $existingOrder->save();
+
+        $orderId = $existingOrder->id;
+    } else {
+        // Eğer yoksa, yeni bir sipariş oluştur
         $order = Calculation::create([
             'table_number' => $tableNumber,
             'total_amount' => $totalAmount,
         ]);
 
-        // Sepetteki ürünleri siparişe ekle
-        foreach ($cartItems as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-            ]);
-        }
-
-        // Sepeti temizle
-        $request->session()->forget('cartItems');
-
-        return redirect()->route('order.store', $order->id)->with('success', 'Siparişiniz başarıyla oluşturuldu.');
+        $orderId = $order->id;
     }
+
+    // Sepetteki ürünleri siparişe ekle
+    foreach ($cartItems as $item) {
+        OrderItem::create([
+            'order_id' => $orderId,
+            'product_id' => $item['product_id'],
+            'quantity' => $item['quantity'],
+            'price' => $item['price'],
+        ]);
+    }
+
+    // Sepeti temizle
+    $request->session()->forget('cartItems');
+
+    return redirect()->route('order.store', $orderId)->with('success', 'Siparişiniz başarıyla oluşturuldu.');
+}
+
 
     public function show(Request $request)
     {

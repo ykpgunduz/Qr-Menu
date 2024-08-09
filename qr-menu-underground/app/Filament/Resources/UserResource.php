@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,16 +21,35 @@ class UserResource extends Resource
 
     protected static ?string $pluralModelLabel = "Kullanıcılar";
 
-    protected static ?string $navigationGroup = 'Geliştirici Yönetimi'; // Navigasyon grubu
+    protected static ?string $navigationGroup = 'Geliştirici Yönetimi';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+        ->schema([
+            TextInput::make('name')
+                ->label('Ad Soyad')
+                ->required()
+                ->maxLength(50)
+                ->reactive(),
+            TextInput::make('email')
+                ->label('E-posta')
+                ->email()
+                ->required()
+                ->maxLength(50)
+                ->reactive(),
+            TextInput::make('password')
+                ->label('Şifre')
+                ->password()
+                ->required()
+                ->maxLength(50)
+                ->reactive(),
+            Forms\Components\Select::make('category_id')
+                ->label('Kullanıcı Rolü')
+                ->required()
+        ]);
     }
 
     public static function table(Table $table): Table
