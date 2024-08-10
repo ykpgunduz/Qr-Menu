@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProductSeeder extends Seeder
@@ -19,7 +20,6 @@ class ProductSeeder extends Seeder
             ['title' => 'Ice Latte', 'price' => 130.00, 'category' => 'Soğuk İçecekler', 'body' => 'Buraya ürün ile ilgili açıklama yazısı gelecek.'],
             ['title' => 'Eldiven', 'price' => 300.00, 'category' => 'Aksesuarlar', 'body' => 'Buraya ürün ile ilgili açıklama yazısı gelecek.'],
             ['title' => 'Kek', 'price' => 70.00, 'category' => 'Atıştırmalıklar', 'body' => 'Buraya ürün ile ilgili açıklama yazısı gelecek.'],
-            // Ek ürünler
             ['title' => 'Cappuccino', 'price' => 90.00, 'category' => 'Sıcak İçecekler', 'body' => 'Buraya ürün ile ilgili açıklama yazısı gelecek.'],
             ['title' => 'Mocha', 'price' => 100.00, 'category' => 'Sıcak İçecekler', 'body' => 'Buraya ürün ile ilgili açıklama yazısı gelecek.'],
             ['title' => 'Americano', 'price' => 85.00, 'category' => 'Sıcak İçecekler', 'body' => 'Buraya ürün ile ilgili açıklama yazısı gelecek.'],

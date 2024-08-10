@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -39,27 +40,30 @@ class CalculationResource extends Resource
         return $table
         ->columns([
             Tables\Columns\Layout\Stack::make([
-                Tables\Columns\Layout\Stack::make([
-                    TextColumn::make('table_number')
-                        ->label('Masa Numarası')
-                        ->weight(FontWeight::Bold)
-                        ->html()
-                        ->formatStateUsing(fn ($state) => '<span style="font-size: 20px; font-weight: bold;">' . $state . '. Masa</span>'),
-
-                    TextColumn::make('total_amount')->label('Toplam Tutar')
-                        ->html() // HTML desteğini açıyoruz
-                        ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>'),
-                ]),
+                TextColumn::make('table_number')
+                    ->label('Masa Numarası')
+                    ->weight(FontWeight::Bold)
+                    ->html()
+                    ->formatStateUsing(fn ($state) => '<span style="font-size: 20px; font-weight: bold;">' . $state . '. Masa</span>'),
+                TextColumn::make('total_amount')->label('Toplam Tutar')
+                    ->html()
+                    ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>')
             ])->space(3),
             Tables\Columns\Layout\Panel::make([
-                Tables\Columns\Layout\Split::make([
-                    Tables\Columns\ColorColumn::make('')
-                        ->grow(false),
-                    Tables\Columns\TextColumn::make('order_items.product_id')
-                        ->color('gray'),
-                ]),
+                Tables\Columns\Layout\Grid::make(1)
+                    ->schema([
+                        TextColumn::make('created_at')
+                            ->label('İlk Sipariş')
+                            ->formatStateUsing(fn ($state) => 'İlk sipariş:<br>' . Carbon::parse($state)->diffForHumans())
+                            ->html(), // HTML desteğini etkinleştiriyoruz
+                        TextColumn::make('updated_at')
+                            ->label('Son Sipariş')
+                            ->formatStateUsing(fn ($state) => 'Son sipariş:<br>' . Carbon::parse($state)->diffForHumans())
+                            ->html(), // HTML desteğini etkinleştiriyoruz
+                    ]),
             ])->collapsible(),
         ])
+
         ->filters([
             //
         ])
@@ -92,25 +96,7 @@ class CalculationResource extends Resource
             //         }),
             // ]),
         ]);
-}
-    //         ->columns([
-    //             TextColumn::make('id')->label('ID'),
-    //             TextColumn::make('table_number')->label('Masa Numarası'),
-    //             TextColumn::make('total_amount')->label('Toplam Tutar')->formatStateUsing(fn ($state) => number_format($state, 2) . '₺'),
-    //             TextColumn::make('created_at')->label('Oluşturulma Tarihi')->dateTime('H:i d/m/Y'),
-    //         ])
-    //         ->filters([
-    //             //
-    //         ])
-    //         ->actions([
-    //             Tables\Actions\EditAction::make(),
-    //         ])
-    //         ->bulkActions([
-    //             Tables\Actions\BulkActionGroup::make([
-    //                 Tables\Actions\DeleteBulkAction::make(),
-    //             ]),
-    //         ]);
-    // }
+    }
 
     public static function getRelations(): array
     {
