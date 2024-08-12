@@ -22,9 +22,9 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Filament::registerNavigationGroups([
-            NavigationGroup::make('Siparişler ve Masalar'),
-            NavigationGroup::make('İçerik Yönetimi'),
-            NavigationGroup::make('Geliştirici Yönetimi'),
+            NavigationGroup::make('Masalar ve Siparişler'),
+            NavigationGroup::make('İçerik ve Kullanıcı Yönetimi'),
+            NavigationGroup::make('İşletme İstatistikleri'),
         ]);
     }
 }

@@ -14,7 +14,7 @@ class CartController extends Controller
 
         $cartItems = Cart::where('table_number', $tableNumber)
             ->where('session_id', $sessionId)
-            ->with('product') // 'product' yerine 'item' yazılmalı
+            ->with('product') // 'product' ilişkisini yükleme
             ->get();
 
         // Toplam tutarı hesaplama
@@ -22,7 +22,12 @@ class CartController extends Controller
             return $cartItem->price;
         });
 
-        return view('sepet', compact('cartItems', 'tableNumber', 'totalAmount'));
+        // Cart tablosundaki device_info alanını alıyoruz
+        $deviceInfo = Cart::where('table_number', $tableNumber)
+            ->where('session_id', $sessionId)
+            ->value('device_info');
+
+        return view('sepet', compact('cartItems', 'tableNumber', 'totalAmount', 'sessionId', 'deviceInfo'));
     }
 
     public function removeFromCart($id)

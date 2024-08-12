@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Resources\UserResource as BaseUserResource;
+use Filament\Forms\Components\Select;
+use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
@@ -21,7 +24,7 @@ class UserResource extends Resource
 
     protected static ?string $pluralModelLabel = "Kullanıcılar";
 
-    protected static ?string $navigationGroup = 'Geliştirici Yönetimi';
+    protected static ?string $navigationGroup = 'İçerik ve Kullanıcı Yönetimi';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -46,9 +49,12 @@ class UserResource extends Resource
                 ->required()
                 ->maxLength(50)
                 ->reactive(),
-            Forms\Components\Select::make('category_id')
+            Select::make('roles')
                 ->label('Kullanıcı Rolü')
-                ->required()
+                ->multiple()
+                ->relationship('roles', 'name')
+                ->options(Role::all()->pluck('name', 'id'))
+                ->preload(),
         ]);
     }
 

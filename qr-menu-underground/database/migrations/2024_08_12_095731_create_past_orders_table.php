@@ -9,15 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('calculations', function (Blueprint $table) {
+        Schema::create('past_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('session_id');
             $table->integer('table_number');
             $table->decimal('total_amount', 8, 2);
-            $table->string('session_id');
+            $table->string('product_name');
+            $table->integer('quantity');
+            $table->decimal('price');
             $table->string('device_info')->nullable();
-            $table->string('status')->default('Aktif');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calculations');
+        Schema::dropIfExists('past_orders');
     }
 };

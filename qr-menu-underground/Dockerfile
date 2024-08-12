@@ -1,21 +1,19 @@
 # PHP 8.2.0 imajını kullanalım
 FROM php:8.2.0-fpm
 
-# Install ICU and necessary tools
-RUN apt-get update && apt-get install -y libicu-dev
-
-# Install PHP extensions
-RUN docker-php-ext-install intl
-
-# Gerekli bağımlılıkları yükleyin
+# ICU ve gerekli araçları yükleyin
 RUN apt-get update && apt-get install -y \
+    libicu-dev \
     libzip-dev \
     zip \
     unzip \
-    git
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
 # PHP eklentilerini yükleyin
-RUN docker-php-ext-configure zip --with-zip && docker-php-ext-install zip pdo pdo_mysql
+RUN docker-php-ext-install intl \
+    && docker-php-ext-configure zip --with-zip \
+    && docker-php-ext-install zip pdo pdo_mysql
 
 # Composer'ı yükleyin
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -30,4 +28,4 @@ COPY . .
 RUN composer install
 
 # Uygulamayı ayağa kaldırın
-CMD php artisan serve --host=0.0.0.0 --port=80
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]

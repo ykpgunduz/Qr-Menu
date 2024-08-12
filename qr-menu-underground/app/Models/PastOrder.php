@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Calculation extends Model
+class PastOrder extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'session_id',
         'table_number',
         'total_amount',
-        'session_id',
-        'device_info',
-        'status'
+        'product_name',
+        'quantity',
+        'price',
+        'device_info'
     ];
-
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class, 'order_id', 'id');
-    }
 }

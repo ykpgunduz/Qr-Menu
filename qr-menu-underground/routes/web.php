@@ -14,4 +14,4 @@ Route::post('/sepet', [OrderController::class, 'store'])->name('store');
 Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
-Route::get('/order/{orderId}', [OrderController::class, 'show'])->name('order');
+Route::get('/order', [OrderController::class, 'show'])->name('order');

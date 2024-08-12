@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use DB;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
@@ -21,9 +22,9 @@ class CalculationResource extends Resource
 {
     protected static ?string $model = Calculation::class;
 
-    protected static ?string $navigationGroup = 'Siparişler ve Masalar';
+    protected static ?string $navigationGroup = 'Masalar ve Siparişler';
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
     protected static ?string $pluralModelLabel = "Masalar";
 
@@ -38,65 +39,83 @@ class CalculationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-        ->columns([
-            Tables\Columns\Layout\Stack::make([
-                TextColumn::make('table_number')
-                    ->label('Masa Numarası')
-                    ->weight(FontWeight::Bold)
-                    ->html()
-                    ->formatStateUsing(fn ($state) => '<span style="font-size: 20px; font-weight: bold;">' . $state . '. Masa</span>'),
-                TextColumn::make('total_amount')->label('Toplam Tutar')
-                    ->html()
-                    ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>')
-            ])->space(3),
-            Tables\Columns\Layout\Panel::make([
-                Tables\Columns\Layout\Grid::make(1)
-                    ->schema([
-                        TextColumn::make('created_at')
-                            ->label('İlk Sipariş')
-                            ->formatStateUsing(fn ($state) => 'İlk sipariş:<br>' . Carbon::parse($state)->diffForHumans())
-                            ->html(), // HTML desteğini etkinleştiriyoruz
-                        TextColumn::make('updated_at')
-                            ->label('Son Sipariş')
-                            ->formatStateUsing(fn ($state) => 'Son sipariş:<br>' . Carbon::parse($state)->diffForHumans())
-                            ->html(), // HTML desteğini etkinleştiriyoruz
-                    ]),
-            ])->collapsible(),
-        ])
+            ->columns([
+                Tables\Columns\Layout\Stack::make([
+                    TextColumn::make('table_number')
+                        ->label('Masa Numarası')
+                        ->weight(FontWeight::Bold)
+                        ->html()
+                        ->formatStateUsing(fn ($state) => '<span style="font-size: 20px; font-weight: bold;">' . $state . '. Masa</span>'),
+                    TextColumn::make('total_amount')->label('Toplam Tutar')
+                        ->html()
+                        ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>')
+                ])->space(3),
+                Tables\Columns\Layout\Panel::make([
+                    Tables\Columns\Layout\Grid::make(1)
+                        ->schema([
+                            TextColumn::make('created_at')
+                                ->label('İlk Sipariş')
+                                ->formatStateUsing(fn ($state) => 'İlk sipariş:<br>' . Carbon::parse($state)->diffForHumans())
+                                ->html(), // HTML desteğini etkinleştiriyoruz
+                            TextColumn::make('updated_at')
+                                ->label('Son Sipariş')
+                                ->formatStateUsing(fn ($state) => 'Son sipariş:<br>' . Carbon::parse($state)->diffForHumans())
+                                ->html(), // HTML desteğini etkinleştiriyoruz
+                        ]),
+                ])->collapsible(),
+            ])
+            ->filters([
+                //
+            ])
+            ->contentGrid([
+                'md' => 4,
+                'xl' => 4,
+            ])
+            ->paginated([
+                18,
+                36,
+                72,
+                'all',
+            ])
+            ->actions([
+                Tables\Actions\Action::make('markAsPaid')
+                ->label('Hesap Ödendi')
+                ->action(function (Calculation $record) {
+                    // Önce verileri past_orders tablosuna taşıyalım
+                    foreach ($record->orderItems as $item) {
+                        // Ürün adını doğrudan veritabanından çek
+                        $productName = DB::table('products')
+                            ->where('id', $item->product_id)
+                            ->value('title'); // 'title' yerine gerçek sütun adınızı yazın
 
-        ->filters([
-            //
-        ])
-        ->contentGrid([
-            'md' => 4,
-            'xl' => 4,
-        ])
-        ->paginated([
-            18,
-            36,
-            72,
-            'all',
-        ])
-        ->actions([
-            // Tables\Actions\Action::make('visit')
-            //     ->label('Visit link')
-            //     ->icon('heroicon-m-arrow-top-right-on-square')
-            //     ->color('gray')
-            //     ->url(fn (Link $record): string => '#' . urlencode($record->url)),
-            // Tables\Actions\EditAction::make(),
-        ])
-        ->bulkActions([
-            // Tables\Actions\BulkActionGroup::make([
-            //     Tables\Actions\DeleteBulkAction::make()
-            //         ->action(function () {
-            //             Notification::make()
-            //                 ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
-            //                 ->warning()
-            //                 ->send();
-            //         }),
-            // ]),
-        ]);
+                        DB::table('past_orders')->insert([
+                            'table_number' => $record->table_number,
+                            'session_id' => $record->session_id,
+                            'total_amount' => $record->total_amount,
+                            'device_info' => $record->device_info,
+                            'product_name' => $productName,
+                            'quantity' => $item->quantity,
+                            'price' => $item->price,
+                            'created_at' => $record->created_at,
+                            'updated_at' => now(),
+                        ]);
+                    }
+
+                    // Orijinal kaydı güncelle
+                    $record->update([
+                        'status' => 'paid', // Durumu güncelleyin
+                    ]);
+
+                    // İsterseniz orijinal kaydı silebilirsiniz
+                    $record->delete();
+                })
+                ->color('warning'),
+            ])
+            ->bulkActions([
+                //
+            ]);
     }
+
 
     public static function getRelations(): array
     {

@@ -25,6 +25,12 @@ class OrderController extends Controller
         // Masa numarasını al
         $tableNumber = $request->input('table_number');
 
+        // Session ID'yi al
+        $sessionId = $request->session()->getId();
+
+        // Formdan gelen device_info'yu al
+        $deviceInfo = $request->input('device_info');
+
         // Aynı masa numarasıyla daha önce oluşturulmuş bir sipariş var mı kontrol et
         $existingOrder = Calculation::where('table_number', $tableNumber)->first();
 
@@ -39,6 +45,8 @@ class OrderController extends Controller
             $order = Calculation::create([
                 'table_number' => $tableNumber,
                 'total_amount' => $totalAmount,
+                'session_id' => $sessionId, // Session ID'yi kaydet
+                'device_info' => $deviceInfo, // Device info'yu kaydet
             ]);
 
             $orderId = $order->id;
@@ -57,33 +65,33 @@ class OrderController extends Controller
         DB::table('carts')->where('table_number', $tableNumber)->delete();
 
         // Sepeti temizlemek için client-side JavaScript kodunu ekleyin
-        // Bu kod, sepet bilgilerini localStorage'dan temizler.
         $request->session()->flash('clearCart', true);
 
         return redirect()->route('order', ['orderId' => $orderId, 'table' => $tableNumber])
             ->with('success', 'Siparişiniz başarıyla oluşturuldu.');
     }
 
-    public function show(Request $request, $orderId)
+    public function show(Request $request)
     {
         // Masa numarasını al
         $tableNumber = $request->query('table');
 
+        // Eğer masa numarası yoksa, hata mesajıyla ana sayfaya yönlendir
         if (!$tableNumber) {
             return redirect('/')->with('error', 'Masa numarası gerekli.');
         }
 
-        // Sipariş detayını al
+        // Masa numarasına göre ilk siparişi bul
         $order = Calculation::with('orderItems.product')
             ->where('table_number', $tableNumber)
-            ->where('id', $orderId)
             ->first();
 
+        // Eğer sipariş bulunamadıysa, hata mesajıyla ana sayfaya yönlendir
         if (!$order) {
             return redirect('/')->with('error', 'Sipariş bulunamadı.');
         }
 
+        // Sipariş bulunduysa, order view'i ile siparişi göster
         return view('order', compact('order'));
     }
-
 }

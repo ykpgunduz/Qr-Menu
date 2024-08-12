@@ -115,6 +115,8 @@
                         <input type="hidden" name="cart_items" value="{{ json_encode($cartItems) }}">
                         <div class="mb-3">
                             <input type="hidden" name="table_number" value="{{ $tableNumber }}" id="table_number" class="form-control" required>
+                            <input type="hidden" name="session_id" value="{{ $sessionId }}" id="table_number" class="form-control" required>
+                            <input type="hidden" name="device_info" value="{{ $deviceInfo }}" id="table_number" class="form-control" required>
                         </div>
                         <button type="submit" class="btn btn-dark btn-sm">Sepeti Onayla</button>
                     </form>
