@@ -18,12 +18,21 @@
                 <li>{{ $item->product->title }} - {{ $item->quantity }} x {{ $item->price }}₺</li>
             @endforeach
         </ul>
+        @if($order->note)
+            <p><strong>Sipariş Notu:</strong> {{ $order->note }}</p>
+        @endif
     </div>
 
     <div class="container">
-        <form action="">
-            <button>Hesabı İste</button>
-        </form>
+        @if($order->status === 'Hesap')
+            <p>Hesap İstendi</p>
+        @else
+            <form action="{{ route('order.come', $order->id) }}" method="POST">
+                @csrf
+                <button type="submit">Hesabı İste</button>
+            </form>
+        @endif
     </div>
 </body>
 </html>
+

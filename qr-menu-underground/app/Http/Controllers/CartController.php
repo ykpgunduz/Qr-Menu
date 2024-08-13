@@ -14,15 +14,13 @@ class CartController extends Controller
 
         $cartItems = Cart::where('table_number', $tableNumber)
             ->where('session_id', $sessionId)
-            ->with('product') // 'product' ilişkisini yükleme
+            ->with('product')
             ->get();
 
-        // Toplam tutarı hesaplama
         $totalAmount = $cartItems->sum(function ($cartItem) {
             return $cartItem->price;
         });
 
-        // Cart tablosundaki device_info alanını alıyoruz
         $deviceInfo = Cart::where('table_number', $tableNumber)
             ->where('session_id', $sessionId)
             ->value('device_info');
@@ -48,12 +46,10 @@ class CartController extends Controller
             return response()->json(['error' => 'Cart item not found'], 404);
         }
 
-        // Güncellenmiş quantity ve price hesaplama
         $cartItem->quantity = $request->quantity;
         $cartItem->price = $cartItem->product->price * $cartItem->quantity;
         $cartItem->save();
 
-        // Toplam tutarı hesaplama
         $totalAmount = Cart::where('session_id', $cartItem->session_id)->sum('price');
 
         return response()->json([

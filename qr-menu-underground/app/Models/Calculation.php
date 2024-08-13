@@ -14,7 +14,8 @@ class Calculation extends Model
         'total_amount',
         'session_id',
         'device_info',
-        'status'
+        'status',
+        'note'
     ];
 
     public function orderItems()

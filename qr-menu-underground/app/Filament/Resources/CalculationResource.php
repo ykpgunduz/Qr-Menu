@@ -49,7 +49,13 @@ class CalculationResource extends Resource
                     TextColumn::make('total_amount')->label('Toplam Tutar')
                         ->html()
                         ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>')
-                ])->space(3),
+                ])->space(3)
+                ->extraAttributes(fn ($record) => [
+                    'style' => match ($record->status) {
+                        'Hesap' => 'box-shadow: 0px 0px 10px 5px rgba(255, 193, 7, 0.7); outline-offset: 10px; padding: 15px;',  // Sarı dış çizgi
+                        'Aktif' => 'box-shadow: 0px 0px 10px 5px rgba(0, 255, 0, 0.7); outline-offset: 10px; padding: 15px;',   // Yeşil dış çizgi
+                    },
+                ]),
                 Tables\Columns\Layout\Panel::make([
                     Tables\Columns\Layout\Grid::make(1)
                         ->schema([
@@ -62,7 +68,7 @@ class CalculationResource extends Resource
                                 ->formatStateUsing(fn ($state) => 'Son sipariş:<br>' . Carbon::parse($state)->diffForHumans())
                                 ->html(), // HTML desteğini etkinleştiriyoruz
                         ]),
-                ])->collapsible(),
+                ])->collapsible()
             ])
             ->filters([
                 //
@@ -79,20 +85,19 @@ class CalculationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('markAsPaid')
-                ->label('Hesap Ödendi')
+                ->label('Ödendi İşaretle')
                 ->action(function (Calculation $record) {
-                    // Önce verileri past_orders tablosuna taşıyalım
                     foreach ($record->orderItems as $item) {
-                        // Ürün adını doğrudan veritabanından çek
                         $productName = DB::table('products')
                             ->where('id', $item->product_id)
-                            ->value('title'); // 'title' yerine gerçek sütun adınızı yazın
+                            ->value('title');
 
                         DB::table('past_orders')->insert([
                             'table_number' => $record->table_number,
                             'session_id' => $record->session_id,
                             'total_amount' => $record->total_amount,
                             'device_info' => $record->device_info,
+                            'note' => $record->note,
                             'product_name' => $productName,
                             'quantity' => $item->quantity,
                             'price' => $item->price,
@@ -101,15 +106,10 @@ class CalculationResource extends Resource
                         ]);
                     }
 
-                    // Orijinal kaydı güncelle
-                    $record->update([
-                        'status' => 'paid', // Durumu güncelleyin
-                    ]);
-
-                    // İsterseniz orijinal kaydı silebilirsiniz
                     $record->delete();
                 })
-                ->color('warning'),
+                ->color('warning')
+                ->visible(fn (Calculation $record) => $record->status === 'Hesap'),
             ])
             ->bulkActions([
                 //

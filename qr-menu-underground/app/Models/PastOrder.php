@@ -16,6 +16,7 @@ class PastOrder extends Model
         'product_name',
         'quantity',
         'price',
-        'device_info'
+        'device_info',
+        'note'
     ];
 }

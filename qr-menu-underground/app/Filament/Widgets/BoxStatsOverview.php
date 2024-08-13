@@ -2,9 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Cart;
-use App\Models\OrderItem;
-use App\Models\Calculation;
+use App\Models\PastOrder;
+use Illuminate\Support\Facades\DB;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
@@ -12,17 +11,18 @@ class BoxStatsOverview extends BaseWidget
 {
     protected function getDailyCustomerCount(): int
     {
-        return Cart::whereDate('created_at', today())->distinct('session_id')->count('session_id');
-    }
-
-    protected function getDailyRevenue(): float
-    {
-        return Calculation::whereDate('created_at', today())->sum('total_amount');
+        return PastOrder::whereDate('created_at', today())->distinct('session_id')->count('session_id');
     }
 
     protected function getDailyOrderCount(): int
     {
-        return OrderItem::whereDate('created_at', today())->count();
+        return PastOrder::whereDate('created_at', today())->count();
+    }
+
+    protected function getDailyRevenue(): float
+    {
+        return PastOrder::whereDate('created_at', today())
+            ->sum(DB::raw('price * quantity'));
     }
 
     protected function getStats(): array

@@ -68,12 +68,14 @@ class OrderResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Saat ve Tarih')
                     ->dateTime('H:i | d/m'),
+                TextColumn::make('calculation.note')
+                    ->label('Sipariş Notu'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([

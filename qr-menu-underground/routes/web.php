@@ -15,3 +15,4 @@ Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->n
 Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
 Route::get('/order', [OrderController::class, 'show'])->name('order');
+Route::post('/order/{order}', [OrderController::class, 'come'])->name('order.come');

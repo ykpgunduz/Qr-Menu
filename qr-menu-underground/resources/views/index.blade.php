@@ -105,7 +105,8 @@
                             @foreach($products->where('category_id', $category->id) as $product)
                             <div class="col-lg-6">
                                 <div class="d-flex align-items-center">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $product->thumbnail) }}" alt="" style="width: 80px;">
+                                    <img class="flex-shrink-0 img-fluid rounded" src="{{ $product->thumbnail }}" alt="" style="width: 80px;">
+                                    {{-- <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $product->thumbnail) }}" alt="" style="width: 80px;"> --}}
                                     <div class="w-100 d-flex flex-column text-start ps-4">
                                         <form class="add-to-cart-form" data-product-id="{{ $product->id }}" data-table-number="{{ request()->get('table') }}">
                                             @csrf

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('total_amount', 8, 2);
             $table->string('session_id');
             $table->string('device_info')->nullable();
+            $table->text('note')->nullable();
             $table->string('status')->default('Aktif');
             $table->timestamps();
         });

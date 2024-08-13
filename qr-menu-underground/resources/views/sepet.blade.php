@@ -80,7 +80,8 @@
                     @foreach($cartItems as $cartItem)
                     <div class="col-lg-6 mb-3 cart-item" data-id="{{ $cartItem->id }}" data-price="{{ $cartItem->price }}">
                         <div class="d-flex align-items-center">
-                            <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;">
+                            {{-- <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;"> --}}
+                            <img class="flex-shrink-0 img-fluid rounded" src="{{ $cartItem->product->thumbnail }}" alt="" style="width: 80px;">
                             <div class="w-100 d-flex flex-column text-start ps-4">
                                 <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST" class="remove-form" data-id="{{ $cartItem->id }}">
                                     @csrf
@@ -117,6 +118,7 @@
                             <input type="hidden" name="table_number" value="{{ $tableNumber }}" id="table_number" class="form-control" required>
                             <input type="hidden" name="session_id" value="{{ $sessionId }}" id="table_number" class="form-control" required>
                             <input type="hidden" name="device_info" value="{{ $deviceInfo }}" id="table_number" class="form-control" required>
+                            <input type="text" name="note" placeholder="Sipariş Notu (opsiyonel)" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-dark btn-sm">Sepeti Onayla</button>
                     </form>
