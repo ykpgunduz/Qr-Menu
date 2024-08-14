@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\AnnualStatisticsResource\Pages;
 
-use App\Filament\Resources\AnnualStatisticsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\AnnualStatisticsResource;
+use App\Filament\Resources\AnnualStatisticsResource\Widgets\AnnualChart;
+use App\Filament\Resources\AnnualStatisticsResource\Widgets\AnnualStatsOverview;
 
 class ListAnnualStatistics extends ListRecords
 {
     protected static string $resource = AnnualStatisticsResource::class;
 
-    protected function getHeaderActions(): array
+    protected function getHeaderWidgets(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            AnnualStatsOverview::class,
+            AnnualChart::class,
         ];
     }
 }

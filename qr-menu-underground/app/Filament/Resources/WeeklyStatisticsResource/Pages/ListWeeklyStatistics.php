@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\WeeklyStatisticsResource\Pages;
 
-use App\Filament\Resources\WeeklyStatisticsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\WeeklyStatisticsResource;
+use App\Filament\Resources\WeeklyStatisticsResource\Widgets\WeeklyChart;
+use App\Filament\Resources\WeeklyStatisticsResource\Widgets\WeeklyStatsOverview;
 
 class ListWeeklyStatistics extends ListRecords
 {
     protected static string $resource = WeeklyStatisticsResource::class;
 
-    protected function getHeaderActions(): array
+    protected function getHeaderWidgets(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            WeeklyStatsOverview::class,
+            WeeklyChart::class,
         ];
     }
 }

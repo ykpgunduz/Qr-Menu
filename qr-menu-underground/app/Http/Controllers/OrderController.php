@@ -65,17 +65,12 @@ class OrderController extends Controller
     {
         $tableNumber = $request->query('table');
 
-        if (!$tableNumber) {
-            return redirect('/')->with('error', 'Masa numarası gerekli.');
-        }
 
         $order = Calculation::with('orderItems.product')
             ->where('table_number', $tableNumber)
             ->first();
 
-        if (!$order) {
-            return redirect('/')->with('error', 'Sipariş bulunamadı.');
-        }
+  
 
         return view('order', compact('order'));
     }

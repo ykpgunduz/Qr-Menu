@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="utf-8">
-    <title>Restoran - Bootstrap Restaurant Template</title>
+    <title>Sepet | Underground</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link href="{{ asset('images/favicon.png') }}" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('images/favicon.png') }}" rel="icon">
     <style>
-        .containerr{
+        .containerr {
             background-color: #ffffff;
             border-radius: 45px;
             display: inline-block;
         }
-        input[type="number"]{
+
+        input[type="number"] {
             -moz-appearance: textfield;
             text-align: center;
             font-size: 20px;
@@ -25,18 +38,21 @@
             background-color: #ffffff;
             color: #202030;
         }
+
         input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button{
+        input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-        button{
+
+        button {
             color: #FEA116;
             background-color: #ffffff;
             border: none;
             font-size: 20px;
             cursor: pointer;
         }
+
         #success-message {
             position: fixed;
             top: 70px;
@@ -51,10 +67,12 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="container bg-white p-0">
+    <div class="container-fluid bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Yükleniyor...</span>
             </div>
@@ -64,10 +82,11 @@
         <!-- Navbar Start -->
         <nav class="navbar d-flex align-items-center">
             <div class="d-flex justify-content-center align-items-center">
-                <img class="logo-underground" src="{{ asset('storage/img/logo.jpg') }}" alt="Logo">
-                <h2 class="text-nav mt-3">Underground</h2>
+                <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
+                {{-- <h2 class="text-nav mt-3">Underground</h2> --}}
             </div>
-            <a href="{{ route('index', ['table' => $tableNumber]) }}"><i class="mt-3 me-4 fa-solid fa-xl fa-book-open text-nav"></i></a>
+            <a href="{{ route('index', ['table' => $tableNumber]) }}"><i
+                    class="mt-3 me-4 fa-solid fa-xl fa-book-open text-nav"></i></a>
         </nav>
         <!-- Navbar End -->
 
@@ -77,34 +96,43 @@
                 <h5 class="section-title ff-secondary text-center text fw-normal">Coffee Shop</h5>
                 <h1 class="mb-5">Sepetinizdeki Ürünler</h1>
                 <div id="cart-items">
-                    @foreach($cartItems as $cartItem)
-                    <div class="col-lg-6 mb-3 cart-item" data-id="{{ $cartItem->id }}" data-price="{{ $cartItem->price }}">
-                        <div class="d-flex align-items-center">
-                            {{-- <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;"> --}}
-                            <img class="flex-shrink-0 img-fluid rounded" src="{{ $cartItem->product->thumbnail }}" alt="" style="width: 80px;">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST" class="remove-form" data-id="{{ $cartItem->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>{{ $cartItem->product->title }}</span>
-                                        <span class="text">{{ $cartItem->price }}₺</span>
-                                    </h5>
-                                    <div class="d-flex justify-content-between align-items-center cart-item" data-id="{{ $cartItem->id }}">
-                                        <small class="fst-italic text-black product-body">{{ Str::limit($cartItem->product->body, 20) }}</small>
-                                        <div class="containerr">
-                                            <button type="button" class="update-quantity" data-change="-1"> - </button>
-                                            <input type="number" name="quantity" min="1" max="20" step="1" disabled value="{{ $cartItem->quantity }}" readonly>
-                                            <button type="button" class="update-quantity" data-change="1"> + </button>
+                    @foreach ($cartItems as $cartItem)
+                        <div class="col-lg-6 mb-3 cart-item" data-id="{{ $cartItem->id }}"
+                            data-price="{{ $cartItem->price }}">
+                            <div class="d-flex align-items-center">
+                                {{-- <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;"> --}}
+                                <img class="flex-shrink-0 img-fluid rounded" src="{{ $cartItem->product->thumbnail }}"
+                                    alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST"
+                                        class="remove-form" data-id="{{ $cartItem->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                            <span>{{ $cartItem->product->title }}</span>
+                                            <span class="text">{{ $cartItem->price }}₺</span>
+                                        </h5>
+                                        <div class="d-flex justify-content-between align-items-center cart-item"
+                                            data-id="{{ $cartItem->id }}">
+                                            <small
+                                                class="fst-italic text-black product-body">{{ Str::limit($cartItem->product->body, 20) }}</small>
+                                            <div class="containerr">
+                                                <button type="button" class="update-quantity" data-change="-1"> -
+                                                </button>
+                                                <input type="number" name="quantity" min="1" max="20"
+                                                    step="1" disabled value="{{ $cartItem->quantity }}" readonly>
+                                                <button type="button" class="update-quantity" data-change="1"> +
+                                                </button>
+                                            </div>
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                <i class="fa-solid fa-close"></i>
+                                            </button>
                                         </div>
-                                        <button type="submit" class="btn btn-danger btn-sm" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                            <i class="fa-solid fa-close"></i>
-                                        </button>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
                 <div class="text-end mt-5">
@@ -115,10 +143,14 @@
                         @csrf
                         <input type="hidden" name="cart_items" value="{{ json_encode($cartItems) }}">
                         <div class="mb-3">
-                            <input type="hidden" name="table_number" value="{{ $tableNumber }}" id="table_number" class="form-control" required>
-                            <input type="hidden" name="session_id" value="{{ $sessionId }}" id="table_number" class="form-control" required>
-                            <input type="hidden" name="device_info" value="{{ $deviceInfo }}" id="table_number" class="form-control" required>
-                            <input type="text" name="note" placeholder="Sipariş Notu (opsiyonel)" class="form-control">
+                            <input type="hidden" name="table_number" value="{{ $tableNumber }}" id="table_number"
+                                class="form-control" required>
+                            <input type="hidden" name="session_id" value="{{ $sessionId }}" id="table_number"
+                                class="form-control" required>
+                            <input type="hidden" name="device_info" value="{{ $deviceInfo }}" id="table_number"
+                                class="form-control" required>
+                            <input type="text" name="note" placeholder="Sipariş Notu (opsiyonel)"
+                                class="form-control">
                         </div>
                         <button type="submit" class="btn btn-dark btn-sm">Sepeti Onayla</button>
                     </form>
@@ -127,8 +159,8 @@
         </div>
         <!-- Menu End -->
 
-         <!-- Success Message -->
-         <div id="success-message" class="text-center" style="display: none; color: green;"></div>
+        <!-- Success Message -->
+        <div id="success-message" class="text-center" style="display: none; color: green;"></div>
 
         <!-- Footer Start -->
         <div class="container-fluid bg-black text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -137,11 +169,15 @@
                     <div class="col-md-12 text-center">
                         <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
                         <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B Bakirköy/İstanbul</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B
+                            Bakirköy/İstanbul</p>
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i
+                                    class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i
+                                    class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
@@ -222,7 +258,7 @@
             function updateTotalAmount() {
                 let totalAmount = 0;
 
-                $('.cart-item').each(function () {
+                $('.cart-item').each(function() {
                     let itemPriceText = $(this).find('.text').text().replace('₺', '').trim();
                     let itemPrice = parseFloat(itemPriceText) || 0;
                     totalAmount += itemPrice;
@@ -231,15 +267,15 @@
                 $('#total-amount').text(`Sepet Tutarı: ${totalAmount.toFixed(2)}₺`);
             }
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 // Ürün miktarını güncelleme butonlarına tıklama olayını ayarla
-                $('.update-quantity').off('click').on('click', function () {
+                $('.update-quantity').off('click').on('click', function() {
                     let quantityChange = parseInt($(this).data('change'), 10);
                     updateQuantity(this, quantityChange);
                 });
 
                 // Sepetten ürün kaldırma formunu gönderme olayını ayarla
-                $('.remove-form').off('submit').on('submit', function (event) {
+                $('.remove-form').off('submit').on('submit', function(event) {
                     event.preventDefault();
                     var form = $(this);
                     var formData = new FormData(this);
@@ -250,13 +286,15 @@
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success: function (response) {
+                        success: function(response) {
                             form.closest('.cart-item').remove();
                             updateTotalAmount(); // Ürün kaldırıldığında toplamı tekrar hesapla
-                            $('#success-message').text('Ürün başarıyla silindi.').fadeIn().delay(3000).fadeOut();
+                            $('#success-message').text('Ürün başarıyla silindi.').fadeIn().delay(
+                                3000).fadeOut();
                         },
-                        error: function (response) {
-                            $('#success-message').text('Bir hata oluştu.').fadeIn().delay(3000).fadeOut();
+                        error: function(response) {
+                            $('#success-message').text('Bir hata oluştu.').fadeIn().delay(3000)
+                                .fadeOut();
                         }
                     });
                 });
@@ -268,4 +306,5 @@
 
     </div>
 </body>
+
 </html>

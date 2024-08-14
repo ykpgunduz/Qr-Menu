@@ -8,8 +8,10 @@ use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ColorColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,13 +30,30 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                    ->label('Kategori Başlığı')
-                    ->required()
-                    ->maxLength(255)
-                    ->reactive()
-            ]);
+        ->schema([
+            TextInput::make('name')
+                ->required()
+                ->label('Kategori Başlığı')
+                ->columnSpan('full'),
+            Select::make('icon')
+                ->options([
+                    'fa-regular fa-snowflake' => 'Kar İkonu',
+                    'fa-solid fa-fire-flame-curved' => 'Alev İkonu',
+                    'fa-solid fa-cookie-bite' => 'Kurabiye İkonu',
+                    'fa-solid fa-motorcycle' => 'Motor İkonu',
+                ])
+                ->label('İkon Seçiniz')
+                ->required(),
+            Select::make('color')
+                ->options([
+                    '#005AC8' => 'Mavi',
+                    '#B40000' => 'Kırmızı',
+                    '#000000' => 'Siyah',
+                    '#A35200' => 'Kahverengi',
+                ])
+                ->label('İkon Rengi')
+                ->required()
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -42,7 +61,9 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Kategori Başlığı')
+                    ->label('Kategori Başlığı'),
+                ColorColumn::make('color')
+                    ->label('İkon Rengi')
             ])
             ->filters([
                 //

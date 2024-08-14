@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\MonthlyStatisticsResource\Pages;
 
-use App\Filament\Resources\MonthlyStatisticsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\MonthlyStatisticsResource;
+use App\Filament\Resources\MonthlyStatisticsResource\Widgets\MonthlyChart;
+use App\Filament\Resources\MonthlyStatisticsResource\Widgets\MonthlyStatsOverview;
 
 class ListMonthlyStatistics extends ListRecords
 {
     protected static string $resource = MonthlyStatisticsResource::class;
 
-    protected function getHeaderActions(): array
+    protected function getHeaderWidgets(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            MonthlyStatsOverview::class,
+            MonthlyChart::class,
         ];
     }
 }
