@@ -20,7 +20,7 @@ class MonthlyChart extends ChartWidget
 
         $customers = PastOrder::select(
                 DB::raw('DAY(created_at) as day'),
-                DB::raw('COUNT(DISTINCT session_id) as customer_count')
+                DB::raw('SUM(customer) as customer_count')
             )
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->groupBy(DB::raw('DAY(created_at)'))

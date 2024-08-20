@@ -12,7 +12,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('thumbnail')->nullable();
-            $table->decimal('price');
+            $table->integer('price');
             $table->text('body');
             $table->boolean('active')->default(true);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');

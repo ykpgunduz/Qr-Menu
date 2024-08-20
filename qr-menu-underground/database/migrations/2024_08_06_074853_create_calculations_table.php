@@ -6,16 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('calculations', function (Blueprint $table) {
             $table->id();
-            $table->integer('table_number');
-            $table->decimal('total_amount', 8, 2);
-            $table->string('session_id');
+            $table->integer('table_number')->unique();
+            $table->integer('total_amount')->default(0);
+            $table->integer('customer')->nullable();
+            $table->string('session_id')->nullable();
             $table->string('device_info')->nullable();
             $table->text('note')->nullable();
             $table->string('status')->default('Aktif');
@@ -23,10 +21,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('calculations');
     }

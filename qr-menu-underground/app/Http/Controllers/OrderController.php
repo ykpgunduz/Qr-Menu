@@ -18,41 +18,49 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Sepet boş.');
         }
 
-        $totalAmount = array_sum(array_column($cartItems, 'price'));
+        // Toplam tutarı hesapla
+        $totalAmount = array_sum(array_map(function ($item) {
+            return $item['price'] * $item['quantity'];
+        }, $cartItems));
+
         $tableNumber = $request->input('table_number');
         $sessionId = $request->session()->getId();
         $deviceInfo = $request->input('device_info');
-        $note = $request->input('note'); // Get the note from the request
+        $note = $request->input('note');
 
+        // Var olan siparişi kontrol et
         $existingOrder = Calculation::where('table_number', $tableNumber)->first();
 
         if ($existingOrder) {
             $existingOrder->total_amount += $totalAmount;
-            $existingOrder->note = $note; // Update the note if the order already exists
+            $existingOrder->note = $note;
             $existingOrder->save();
 
             $orderId = $existingOrder->id;
         } else {
+            // Yeni sipariş oluştur
             $order = Calculation::create([
                 'table_number' => $tableNumber,
                 'total_amount' => $totalAmount,
                 'session_id' => $sessionId,
                 'device_info' => $deviceInfo,
-                'note' => $note, // Save the note when creating a new order
+                'note' => $note,
             ]);
 
             $orderId = $order->id;
         }
 
+        // Sipariş öğelerini ekle
         foreach ($cartItems as $item) {
             OrderItem::create([
-                'order_id' => $orderId,
+                'table_number' => $tableNumber,
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
         }
 
+        // Sepeti temizle
         DB::table('carts')->where('table_number', $tableNumber)->delete();
 
         $request->session()->flash('clearCart', true);
@@ -65,18 +73,20 @@ class OrderController extends Controller
     {
         $tableNumber = $request->query('table');
 
-
         $order = Calculation::with('orderItems.product')
             ->where('table_number', $tableNumber)
             ->first();
 
-  
+        if (!$order) {
+            return redirect()->back()->with('error', 'Sipariş bulunamadı.');
+        }
 
-        return view('order', compact('order'));
+        return view('order', compact('order', 'tableNumber'));
     }
 
     public function come(Calculation $order)
     {
+        // Siparişin durumunu güncelle
         $order->status = 'Hesap';
         $order->save();
 

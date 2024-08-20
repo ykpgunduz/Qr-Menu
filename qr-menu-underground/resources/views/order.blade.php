@@ -77,14 +77,15 @@
             </div>
         </div>
         <!-- Spinner End -->
+
         <!-- Navbar Start -->
         <nav class="navbar d-flex align-items-center">
             <div class="d-flex justify-content-center align-items-center">
                 <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
                 {{-- <h2 class="text-nav mt-3">Underground</h2> --}}
             </div>
-            <a href="{{ route('index', ['table' => $order->table_number ?? '']) }}"><i
-                    class="mt-3 me-4 fa-solid fa-xl fa-book-open text-nav"></i></a>
+            <a href="{{ route('index', ['table' => $tableNumber]) }}"><i
+                class="mt-3 me-4 fa-solid fa-xl fa-book-open text-nav"></i></a>
         </nav>
         <!-- Navbar End -->
         <div class="container py-5">
@@ -93,11 +94,12 @@
                     <h5 class="section-title ff-secondary text-center text fw-normal">Siparişiniz Alındı!</h5>
                     <h1 class="mb-5">Sipariş Bilgileriniz</h1>
                 </div>
+                <div class="wow fadeInUp" data-wow-delay="0.1s">
                 <p><strong>Masa Numarası:</strong> {{ $order->table_number }}</p>
                 <h3>Sipariş Ürünleri:</h3>
                 <ul>
                     @foreach ($order->orderItems as $item)
-                        <li>{{ $item->product->title }} - {{ $item->quantity }} x {{ $item->price }}₺</li>
+                        <li>{{ $item->quantity }} x {{ $item->product->title }} - {{ $item->price }}₺</li>
                     @endforeach
                 </ul>
                 <p><strong>Toplam Tutar:</strong> {{ $order->total_amount }}₺</p>
@@ -121,10 +123,11 @@
                     <h1 class="mb-5">Henüz Sipariş Vermediniz</h1>
                 </div>
             @endif
+            </div>
         </div>
 
         <!-- Footer Start -->
-        <div class="container-fluid bg-black text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5">
                     <div class="col-md-12 text-center">

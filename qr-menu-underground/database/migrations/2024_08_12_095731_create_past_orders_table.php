@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('past_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('session_id');
+            $table->string('session_id')->nullable();
             $table->integer('table_number');
-            $table->decimal('total_amount', 8, 2);
-            $table->string('product_name');
+            $table->integer('customer')->nullable();
+            $table->integer('total_amount');
+            $table->text('products');
             $table->integer('quantity');
-            $table->decimal('price');
-            $table->text('note')->nullable();
+            $table->string('note')->default('-');
             $table->string('device_info')->nullable();
             $table->timestamps();
         });

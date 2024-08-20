@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\WeeklyStatisticsResource;
 use App\Filament\Resources\WeeklyStatisticsResource\Widgets\WeeklyChart;
+use App\Filament\Resources\WeeklyStatisticsResource\Widgets\WeeklyDrinkWidget;
 use App\Filament\Resources\WeeklyStatisticsResource\Widgets\WeeklyStatsOverview;
 
 class ListWeeklyStatistics extends ListRecords
@@ -17,6 +18,7 @@ class ListWeeklyStatistics extends ListRecords
         return [
             WeeklyStatsOverview::class,
             WeeklyChart::class,
+            WeeklyDrinkWidget::class
         ];
     }
 }

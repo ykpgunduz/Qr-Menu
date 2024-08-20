@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\AnnualStatisticsResource;
 use App\Filament\Resources\AnnualStatisticsResource\Widgets\AnnualChart;
+use App\Filament\Resources\AnnualStatisticsResource\Widgets\AnnualDrinkWidget;
 use App\Filament\Resources\AnnualStatisticsResource\Widgets\AnnualStatsOverview;
 
 class ListAnnualStatistics extends ListRecords
@@ -17,6 +18,7 @@ class ListAnnualStatistics extends ListRecords
         return [
             AnnualStatsOverview::class,
             AnnualChart::class,
+            AnnualDrinkWidget::class,
         ];
     }
 }

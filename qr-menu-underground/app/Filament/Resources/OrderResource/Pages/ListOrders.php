@@ -14,7 +14,8 @@ class ListOrders extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label('Yeni Sipariş Oluştur')
         ];
     }
 
@@ -31,10 +32,7 @@ class ListOrders extends ListRecords
                 ->query(fn ($query) => $query->where('status', 'Hazırlanıyor')),
             'Teslim Edildi' => Tab::make()
                 ->icon('heroicon-o-check-circle')
-                ->query(fn ($query) => $query->where('status', 'Teslim Edildi')),
-            'İptal Edildi' => Tab::make()
-                ->icon('heroicon-o-x-circle')
-                ->query(fn ($query) => $query->where('status', 'İptal Edildi')),
+                ->query(fn ($query) => $query->where('status', 'Teslim Edildi'))
         ];
     }
 }

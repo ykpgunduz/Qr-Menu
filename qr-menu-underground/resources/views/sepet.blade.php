@@ -7,7 +7,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-    <link href="{{ asset('images/favicon.png') }}" rel="icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -70,8 +69,8 @@
 
 <body>
     <div class="container-fluid bg-white p-0">
-        <!-- Spinner Start -->
-        <div id="spinner"
+         <!-- Spinner Start -->
+            <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Yükleniyor...</span>
@@ -83,7 +82,6 @@
         <nav class="navbar d-flex align-items-center">
             <div class="d-flex justify-content-center align-items-center">
                 <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
-                {{-- <h2 class="text-nav mt-3">Underground</h2> --}}
             </div>
             <a href="{{ route('index', ['table' => $tableNumber]) }}"><i
                     class="mt-3 me-4 fa-solid fa-xl fa-book-open text-nav"></i></a>
@@ -100,36 +98,37 @@
                         <div class="col-lg-6 mb-3 cart-item" data-id="{{ $cartItem->id }}"
                             data-price="{{ $cartItem->price }}">
                             <div class="d-flex align-items-center">
-                                {{-- <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 80px;"> --}}
                                 <img class="flex-shrink-0 img-fluid rounded" src="{{ $cartItem->product->thumbnail }}"
                                     alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
-                                    <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST"
-                                        class="remove-form" data-id="{{ $cartItem->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                            <span>{{ $cartItem->product->title }}</span>
-                                            <span class="text">{{ $cartItem->price }}₺</span>
-                                        </h5>
-                                        <div class="d-flex justify-content-between align-items-center cart-item"
-                                            data-id="{{ $cartItem->id }}">
-                                            <small
-                                                class="fst-italic text-black product-body">{{ Str::limit($cartItem->product->body, 20) }}</small>
-                                            <div class="containerr">
-                                                <button type="button" class="update-quantity" data-change="-1"> -
-                                                </button>
-                                                <input type="number" name="quantity" min="1" max="20"
-                                                    step="1" disabled value="{{ $cartItem->quantity }}" readonly>
-                                                <button type="button" class="update-quantity" data-change="1"> +
-                                                </button>
-                                            </div>
-                                            <button type="submit" class="btn btn-danger btn-sm"
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>{{ $cartItem->product->title }}</span>
+                                        <span class="text">{{ $cartItem->price }}₺</span>
+                                    </h5>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="fst-italic text-black product-body">{{ Str::limit($cartItem->product->body, 20) }}</small>
+
+                                        <!-- Miktarı Artır/Azalt -->
+                                        <div class="containerr">
+                                            <form action="{{ route('cart.update', $cartItem->id) }}" method="POST" class="update-cart-form">
+                                                @csrf
+                                                <button type="submit" name="quantity_change" value="-1" class="quantity-change-btn"> - </button>
+                                                <input type="number" name="quantity" min="1" max="20" step="1" disabled
+                                                    value="{{ $cartItem->quantity }}" readonly>
+                                                <button type="submit" name="quantity_change" value="1" class="quantity-change-btn"> + </button>
+                                            </form>
+                                        </div>
+
+                                        <!-- Ürünü Sil -->
+                                        <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" name="remove" value="true" class="btn btn-danger btn-sm"
                                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                 <i class="fa-solid fa-close"></i>
                                             </button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -198,113 +197,21 @@
         </div>
         <!-- Footer End -->
 
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/counterup/counterup.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/tempusdominus/js/moment.min.js"></script>
-        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-
-        <!-- Custom JavaScript -->
-        <script>
-            function updateCartItemQuantity(cartItemId, newQuantity) {
-                $.ajax({
-                    url: `/cart/update/${cartItemId}`,
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        quantity: newQuantity
-                    },
-                    success: function(response) {
-                        let cartItem = $(`[data-id='${cartItemId}']`);
-                        let itemPriceElement = cartItem.find('.text');
-                        let itemPrice = response.itemPrice;
-
-                        // Güncellenmiş ürün fiyatını göster
-                        itemPriceElement.text(`${itemPrice.toFixed(2)}₺`);
-
-                        // Güncellenmiş toplam tutarı göster
-                        updateTotalAmount(); // Her ürün güncellendiğinde toplamı tekrar hesapla
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            }
-
-            function updateQuantity(button, quantityChange) {
-                let cartItem = button.closest('.cart-item');
-                let input = cartItem.querySelector('input[name="quantity"]');
-                let cartItemId = cartItem.getAttribute('data-id');
-                let currentQuantity = parseInt(input.value, 10);
-                let newQuantity = currentQuantity + quantityChange;
-
-                if (newQuantity < 1) {
-                    return;
-                }
-
-                input.value = newQuantity;
-                updateCartItemQuantity(cartItemId, newQuantity);
-            }
-
-            function updateTotalAmount() {
-                let totalAmount = 0;
-
-                $('.cart-item').each(function() {
-                    let itemPriceText = $(this).find('.text').text().replace('₺', '').trim();
-                    let itemPrice = parseFloat(itemPriceText) || 0;
-                    totalAmount += itemPrice;
-                });
-
-                $('#total-amount').text(`Sepet Tutarı: ${totalAmount.toFixed(2)}₺`);
-            }
-
-            $(document).ready(function() {
-                // Ürün miktarını güncelleme butonlarına tıklama olayını ayarla
-                $('.update-quantity').off('click').on('click', function() {
-                    let quantityChange = parseInt($(this).data('change'), 10);
-                    updateQuantity(this, quantityChange);
-                });
-
-                // Sepetten ürün kaldırma formunu gönderme olayını ayarla
-                $('.remove-form').off('submit').on('submit', function(event) {
-                    event.preventDefault();
-                    var form = $(this);
-                    var formData = new FormData(this);
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            form.closest('.cart-item').remove();
-                            updateTotalAmount(); // Ürün kaldırıldığında toplamı tekrar hesapla
-                            $('#success-message').text('Ürün başarıyla silindi.').fadeIn().delay(
-                                3000).fadeOut();
-                        },
-                        error: function(response) {
-                            $('#success-message').text('Bir hata oluştu.').fadeIn().delay(3000)
-                                .fadeOut();
-                        }
-                    });
-                });
-
-                // Sayfa yüklendiğinde toplam tutarı güncelle
-                updateTotalAmount();
-            });
-        </script>
-
     </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="js/main.js"></script>
+
 </body>
 
 </html>

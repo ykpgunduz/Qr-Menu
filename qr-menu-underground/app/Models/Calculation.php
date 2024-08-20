@@ -20,6 +20,13 @@ class Calculation extends Model
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class, 'order_id', 'id');
+        return $this->hasMany(OrderItem::class, 'table_number', 'table_number');
+    }
+
+    public function updateTotalAmount()
+    {
+        $totalAmount = $this->orderItems()->sum(DB::raw('quantity * price'));
+        $this->total_amount = $totalAmount;
+        $this->save();
     }
 }

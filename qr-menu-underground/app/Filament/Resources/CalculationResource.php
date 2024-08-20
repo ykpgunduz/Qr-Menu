@@ -9,14 +9,16 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Calculation;
-use TextEntry\TextEntrySize;
+use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\Layout\Grid;
+use Filament\Tables\Columns\Layout\Stack;
 use App\Filament\Resources\CalculationResource\Pages;
-use App\Filament\Resources\CalculationResource\RelationManagers;
 
 class CalculationResource extends Resource
 {
@@ -32,7 +34,14 @@ class CalculationResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('table_number')
+                    ->label('Masa Numarası')
+                    ->required()
+                    ->numeric()
+                    ->rules([
+                        Rule::unique('calculations', 'table_number')
+                            ->ignore(request()->route('record')), // Kayıt düzenleniyorsa mevcut kaydı yok sayar
+                    ])
             ]);
     }
 
@@ -46,14 +55,23 @@ class CalculationResource extends Resource
                         ->weight(FontWeight::Bold)
                         ->html()
                         ->formatStateUsing(fn ($state) => '<span style="font-size: 20px; font-weight: bold;">' . $state . '. Masa</span>'),
-                    TextColumn::make('total_amount')->label('Toplam Tutar')
-                        ->html()
-                        ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>')
+                        Grid::make(2)
+                        ->schema([
+                            TextColumn::make('total_amount')
+                                ->label('Toplam Tutar')
+                                ->html()
+                                ->formatStateUsing(fn ($state) => '<span style="font-size: 20px;">' . number_format($state, 0) . '₺</span>'),
+
+                            BadgeColumn::make('customer')
+                                ->icon('heroicon-o-user')
+                                ->iconPosition('after')
+                        ])
                 ])->space(3)
                 ->extraAttributes(fn ($record) => [
                     'style' => match ($record->status) {
-                        'Hesap' => 'box-shadow: 0px 0px 10px 5px rgba(255, 193, 7, 0.7); outline-offset: 10px; padding: 15px;',  // Sarı dış çizgi
-                        'Aktif' => 'box-shadow: 0px 0px 10px 5px rgba(0, 255, 0, 0.7); outline-offset: 10px; padding: 15px;',   // Yeşil dış çizgi
+                        'Hesap' => 'box-shadow: 0px 0px 10px 5px rgba(255, 193, 7, 0.7); outline-offset: 10px; padding: 15px;',
+                        'Aktif' => 'box-shadow: 0px 0px 10px 5px rgba(0, 255, 0, 0.7); outline-offset: 10px; padding: 15px;',
+                        'Masa Askıda' => 'box-shadow: 0px 0px 10px 5px rgba(128, 0, 128, 0.7); outline-offset: 10px; padding: 15px;', // Purple color
                     },
                 ]),
                 Tables\Columns\Layout\Panel::make([
@@ -62,11 +80,11 @@ class CalculationResource extends Resource
                             TextColumn::make('created_at')
                                 ->label('İlk Sipariş')
                                 ->formatStateUsing(fn ($state) => 'İlk sipariş:<br>' . Carbon::parse($state)->diffForHumans())
-                                ->html(), // HTML desteğini etkinleştiriyoruz
+                                ->html(),
                             TextColumn::make('updated_at')
                                 ->label('Son Sipariş')
                                 ->formatStateUsing(fn ($state) => 'Son sipariş:<br>' . Carbon::parse($state)->diffForHumans())
-                                ->html(), // HTML desteğini etkinleştiriyoruz
+                                ->html(),
                         ]),
                 ])->collapsible()
             ])
@@ -84,44 +102,95 @@ class CalculationResource extends Resource
                 'all',
             ])
             ->actions([
-                Tables\Actions\Action::make('markAsPaid')
-                ->label('Ödendi İşaretle')
-                ->action(function (Calculation $record) {
-                    foreach ($record->orderItems as $item) {
-                        $productName = DB::table('products')
-                            ->where('id', $item->product_id)
-                            ->value('title');
-
-                        DB::table('past_orders')->insert([
-                            'table_number' => $record->table_number,
-                            'session_id' => $record->session_id,
-                            'total_amount' => $record->total_amount,
-                            'device_info' => $record->device_info,
-                            'note' => $record->note,
-                            'product_name' => $productName,
+                Action::make('viewDetails')
+                ->label('Detay')
+                ->icon('heroicon-o-eye')
+                ->action(function (Calculation $record, \Filament\Forms\ComponentContainer $form) {
+                    $items = $record->orderItems->map(function ($item) {
+                        return [
+                            'product_id' => $item->product_id, // Product ID direkt olarak gösterilecekse
                             'quantity' => $item->quantity,
                             'price' => $item->price,
-                            'created_at' => $record->created_at,
-                            'updated_at' => now(),
-                        ]);
-                    }
+                        ];
+                    })->toArray();
 
-                    $record->delete();
+                    dd($items); // Verileri burada kontrol edin
+                    $form->fill([
+                        'items' => $items,
+                    ]);
                 })
-                ->color('warning')
-                ->visible(fn (Calculation $record) => $record->status === 'Hesap'),
+                ->form([
+                    Forms\Components\Repeater::make('items')
+                        ->schema([
+                            Forms\Components\Placeholder::make('product_id')
+                                ->label('Ürün ID')
+                                ->content(fn ($record) => $record['product_id']),
+                            Forms\Components\Placeholder::make('quantity')
+                                ->label('Miktar')
+                                ->content(fn ($record) => $record['quantity']),
+                            Forms\Components\Placeholder::make('price')
+                                ->label('Fiyat')
+                                ->content(fn ($record) => $record['price'] . '₺'),
+                        ])
+                        ->disableItemMovement()
+                        ->disableItemCreation()
+                        ->disableItemDeletion()
+                        ->columns(3),
+                ])
+                ->modalHeading('Masa Detayları')
+                ->modalButton('Kapat')
+                ->color('primary'),
+
+                Tables\Actions\Action::make('editCustomerCount')
+                    ->label('Kişi')
+                    ->icon('heroicon-o-user')
+                    ->form([
+                        Forms\Components\TextInput::make('customer')
+                            ->label('Kişi Sayısı')
+                            ->required()
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(50)
+                    ])
+                    ->action(function (Calculation $record, array $data) {
+                        $record->customer = $data['customer'];
+                        $record->save();
+                    })
+                    ->color('primary')
+                    ->visible(fn (Calculation $record) => $record->status !== 'Ödendi'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('markAsPaid')
+                        ->label('Ödendi İşaretle')
+                        ->action(function (Calculation $record) {
+                            $productDetails = $record->orderItems->map(function ($item) {
+                                $productName = DB::table('products')
+                                    ->where('id', $item->product_id)
+                                    ->value('title');
+
+                                return $item->quantity . ' x ' . $productName . ' = ' . $item->price . '₺';
+                            })->implode(', ');
+
+                            DB::table('past_orders')->insert([
+                                'table_number' => $record->table_number,
+                                'session_id' => $record->session_id,
+                                'total_amount' => $record->total_amount,
+                                'device_info' => $record->device_info,
+                                'note' => $record->note ?? '-',
+                                'customer' => $record->customer,
+                                'products' => $productDetails,
+                                'quantity' => $record->orderItems->sum('quantity'),
+                                'created_at' => $record->created_at,
+                                'updated_at' => now(),
+                            ]);
+
+                            $record->delete();
+                        })
+                        ->color('warning')
+                ])
             ])
             ->bulkActions([
                 //
             ]);
-    }
-
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

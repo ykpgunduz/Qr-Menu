@@ -17,10 +17,9 @@ return new class extends Migration
             $table->unsignedInteger('table_number');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
-            $table->decimal('price');
+            $table->integer('price');
             $table->string('device_info')->nullable();
             $table->timestamps();
-
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             UserSeeder::class,
-            PastOrdersSeeder::class,
+            // PastOrdersSeeder::class,
         ]);
     }
 }

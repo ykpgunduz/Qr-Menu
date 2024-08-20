@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\MonthlyStatisticsResource;
 use App\Filament\Resources\MonthlyStatisticsResource\Widgets\MonthlyChart;
+use App\Filament\Resources\MonthlyStatisticsResource\Widgets\MonthlyDrinkWidget;
 use App\Filament\Resources\MonthlyStatisticsResource\Widgets\MonthlyStatsOverview;
 
 class ListMonthlyStatistics extends ListRecords
@@ -17,6 +18,7 @@ class ListMonthlyStatistics extends ListRecords
         return [
             MonthlyStatsOverview::class,
             MonthlyChart::class,
+            MonthlyDrinkWidget::class,
         ];
     }
 }

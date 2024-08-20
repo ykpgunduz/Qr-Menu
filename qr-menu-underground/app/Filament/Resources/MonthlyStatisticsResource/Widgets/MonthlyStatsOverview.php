@@ -6,51 +6,128 @@ use App\Models\PastOrder;
 use Illuminate\Support\Facades\DB;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Carbon\Carbon;
 
 class MonthlyStatsOverview extends BaseWidget
 {
+    protected function getCurrentMonthDay(): int
+    {
+        return now()->day;
+    }
+
     protected function getMonthlyCustomerCount(): int
     {
-        return PastOrder::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->distinct('session_id')
-            ->count('session_id');
+        return PastOrder::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->whereDay('created_at', '<=', $this->getCurrentMonthDay())
+            ->sum('customer');
+    }
+
+    protected function getLastMonthCustomerCount(): int
+    {
+        $lastMonth = now()->subMonth();
+
+        return PastOrder::whereYear('created_at', $lastMonth->year)
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereDay('created_at', '<=', $this->getCurrentMonthDay())
+            ->sum('customer');
     }
 
     protected function getMonthlyOrderCount(): int
     {
-        return PastOrder::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+        return PastOrder::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->whereDay('created_at', '<=', $this->getCurrentMonthDay())
+            ->count();
+    }
+
+    protected function getLastMonthOrderCount(): int
+    {
+        $lastMonth = now()->subMonth();
+
+        return PastOrder::whereYear('created_at', $lastMonth->year)
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereDay('created_at', '<=', $this->getCurrentMonthDay())
             ->count();
     }
 
     protected function getMonthlyRevenue(): float
     {
-        return PastOrder::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->sum(DB::raw('price * quantity'));
+        return PastOrder::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->whereDay('created_at', '<=', $this->getCurrentMonthDay())
+            ->sum('total_amount');
+    }
+
+    protected function getLastMonthRevenue(): float
+    {
+        $lastMonth = now()->subMonth();
+
+        return PastOrder::whereYear('created_at', $lastMonth->year)
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereDay('created_at', '<=', $this->getCurrentMonthDay())
+            ->sum('total_amount');
     }
 
     protected function getStats(): array
     {
+        $monthlyCustomerCount = $this->getMonthlyCustomerCount();
+        $lastMonthCustomerCount = $this->getLastMonthCustomerCount();
+        $customerChange = $this->getPercentageChange($lastMonthCustomerCount, $monthlyCustomerCount);
+        $customerColor = $this->getStatColor($customerChange);
+
+        $monthlyOrderCount = $this->getMonthlyOrderCount();
+        $lastMonthOrderCount = $this->getLastMonthOrderCount();
+        $orderChange = $this->getPercentageChange($lastMonthOrderCount, $monthlyOrderCount);
+        $orderColor = $this->getStatColor($orderChange);
+
+        $monthlyRevenue = $this->getMonthlyRevenue();
+        $lastMonthRevenue = $this->getLastMonthRevenue();
+        $revenueChange = $this->getPercentageChange($lastMonthRevenue, $monthlyRevenue);
+        $revenueColor = $this->getStatColor($revenueChange);
+
         return [
-            Stat::make('Aylık Gelen Müşteri Sayısı', $this->getMonthlyCustomerCount())
-                ->color('success')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
-                ->description('%5 günlere göre daha fazla')
-                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            Stat::make('Aylık Gelen Müşteri Sayısı', $monthlyCustomerCount)
+                ->color($customerColor)
+                ->chart([$lastMonthCustomerCount, $monthlyCustomerCount])
+                ->description($customerChange === null ? 'Karşılaştırma yapılacak veri bulunamadı' : 'Geçen aya göre %' . $customerChange)
+                ->descriptionIcon($customerChange > 0 ? 'heroicon-m-arrow-trending-up' : ($customerChange < 0 ? 'heroicon-m-arrow-trending-down' : 'heroicon-m-minus')),
 
-            Stat::make('Aylık Gelen Sipariş Sayısı', $this->getMonthlyOrderCount())
-                ->color('warning')
-                ->chart([7, 2, 9, 3, 5, 4, 3])
-                ->description('%1 günlere göre daha düşük')
-                ->descriptionIcon('heroicon-m-arrow-trending-down'),
+            Stat::make('Aylık Gelen Sipariş Sayısı', $monthlyOrderCount)
+                ->color($orderColor)
+                ->chart([$lastMonthOrderCount, $monthlyOrderCount])
+                ->description($orderChange === null ? 'Karşılaştırma yapılacak veri bulunamadı' : 'Geçen aya göre %' . $orderChange)
+                ->descriptionIcon($orderChange > 0 ? 'heroicon-m-arrow-trending-up' : ($orderChange < 0 ? 'heroicon-m-arrow-trending-down' : 'heroicon-m-minus')),
 
-            Stat::make('Aylık Yapılan Ciro', number_format($this->getMonthlyRevenue(), 0, ',', '.') . ' ₺')
-                ->color('danger')
-                ->chart([17, 14, 15, 9, 10, 4, 1])
-                ->description('%3 günlere göre daha yüksek')
-                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            Stat::make('Aylık Yapılan Ciro', number_format($monthlyRevenue, 0, ',', '.') . ' ₺')
+                ->color($revenueColor)
+                ->chart([$lastMonthRevenue, $monthlyRevenue])
+                ->description($revenueChange === null ? 'Karşılaştırma yapılacak veri bulunamadı' : 'Geçen aya göre %' . $revenueChange)
+                ->descriptionIcon($revenueChange > 0 ? 'heroicon-m-arrow-trending-up' : ($revenueChange < 0 ? 'heroicon-m-arrow-trending-down' : 'heroicon-m-minus')),
         ];
+    }
+
+    protected function getPercentageChange($lastMonthValue, $currentMonthValue): ?int
+    {
+        if ($lastMonthValue == 0) {
+            return null; // Karşılaştırma yapılacak veri bulunamadı
+        }
+
+        return intval((($currentMonthValue - $lastMonthValue) / $lastMonthValue) * 100);
+    }
+
+    protected function getStatColor(?int $change): string
+    {
+        if ($change === null) {
+            return 'success'; // Yeşil, veri bulunamadığında
+        }
+
+        if ($change > 0) {
+            return 'success'; // Yeşil
+        } elseif ($change < 0) {
+            return 'danger'; // Kırmızı
+        } else {
+            return 'warning'; // Sarı
+        }
     }
 }

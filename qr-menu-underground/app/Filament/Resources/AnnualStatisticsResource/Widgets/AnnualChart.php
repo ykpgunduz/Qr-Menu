@@ -19,7 +19,7 @@ class AnnualChart extends ChartWidget
 
         $customers = PastOrder::select(
                 DB::raw('MONTH(created_at) as month'),
-                DB::raw('COUNT(DISTINCT session_id) as customer_count')
+                DB::raw('SUM(customer) as customer_count')
             )
             ->whereBetween('created_at', [$startOfYear, $endOfYear])
             ->groupBy(DB::raw('MONTH(created_at)'))

@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\PastOrder;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PastOrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -39,20 +42,19 @@ class PastOrderResource extends Resource
                 TextColumn::make('table_number')
                     ->suffix('. Masa')
                     ->label('Masa Numarası'),
-                TextColumn::make('session_id')
-                    ->label('Müşteri Numarası')
-                    ->formatStateUsing(function ($state) {
-                        // İlk 5 karakteri al
-                        return substr($state, 0, 11);
-                    }),
-                TextColumn::make('quantity')
-                    ->label('Miktar')->formatStateUsing(fn ($state) => $state . ' adet'),
-                TextColumn::make('product_name')
-                    ->label('Ürün Adı'),
-                TextColumn::make('price')
-                    ->label('Ürün Fiyatı')
-                    ->formatStateUsing(fn ($state) => number_format($state, 0, ',', '.'))
-                    ->suffix('₺'),
+                TextColumn::make('customer')
+                    ->label('Kişi Sayısı')
+                    ->suffix(' Kişi')
+                    ->summarize(Sum::make()),
+                TextColumn::make('products')
+                    ->label('Sipariş Bilgileri')
+                    ->formatStateUsing(fn ($state) => nl2br(implode("\n", explode(',', $state))))
+                    ->html(),
+                TextColumn::make('total_amount')
+                    ->label('Toplam Tutar')
+                    ->prefix('Hesap: ')
+                    ->suffix('₺')
+                    ->summarize(Sum::make()),
                 TextColumn::make('created_at')
                     ->label('Masanın Açılış Saati')
                     ->dateTime('H:i | d/m/y'),
@@ -61,7 +63,31 @@ class PastOrderResource extends Resource
                     ->dateTime('H:i | d/m/y'),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DateTimePicker::make('start')
+                            ->label('Başlangıç Tarihi ve Saati')
+                            ->default(Carbon::today()),
+                        Forms\Components\DateTimePicker::make('end')
+                            ->label('Bitiş Tarihi ve Saati')
+                            ->default(Carbon::tomorrow()->subSecond()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query
+                            ->whereBetween('created_at', [
+                                Carbon::parse($data['start'] ?? Carbon::today()),
+                                Carbon::parse($data['end'] ?? Carbon::tomorrow()->subSecond())
+                            ]);
+                    })
+                    ->default([
+                        'start' => Carbon::today(),
+                        'end' => Carbon::tomorrow()->subSecond(),
+                    ]),
+            ])
+            ->paginated([
+                30,
+                60,
+                90,
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make(),
