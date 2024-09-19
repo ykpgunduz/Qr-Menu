@@ -68,6 +68,33 @@
             z-index: 9999;
             transition: opacity 0.5s, visibility 0.5s;
         }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        .menu-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+        }
+        .menu-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .item-info h3 {
+            margin: 10px 0;
+            font-size: 19px;
+        }
+        .item-info h4 {
+            margin: 10px 0;
+            font-size: 17px;
+        }
     </style>
     <div class="container-fluid bg-white p-0">
         <!-- Spinner Start -->
@@ -86,11 +113,12 @@
                 {{-- <h2 class="text-nav mt-3">Underground</h2> --}}
             </div>
             <div>
-                <a href="{{ route('order', ['table' => $tableNumber]) }}"><i
-                        class="mt-3 me-4 fa-solid fa-xl fa-receipt text-nav"></i></a>
-
-                <a href="{{ route('sepet', ['table' => $tableNumber]) }}"><i
-                        class="mt-3 me-4 fa-solid fa-xl fa-cart-shopping text-nav"></i></a>
+                <a href="{{ route('order', ['table' => $tableNumber]) }}">
+                    <i class="mt-3 me-4 fa-solid fa-xl fa-receipt text-nav"></i>
+                </a>
+                <a href="{{ route('sepet', ['table' => $tableNumber]) }}">
+                    <i class="mt-3 me-4 fa-solid fa-xl fa-cart-shopping text-nav"></i>
+                </a>
             </div>
         </nav>
         <!-- Navbar End -->
@@ -120,41 +148,36 @@
                     @foreach ($categories as $category)
                         <div id="tab-{{ $category->id }}" class="tab-pane fade p-0">
                             <div class="row g-4">
+                                <div class="menu-grid">
                                 @foreach ($products->where('category_id', $category->id) as $product)
-                                    <div class="col-lg-6">
-                                        <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid" src="{{ $product->thumbnail }}"
-                                                alt="" style="width: 80px; border-radius: 8px;">
-                                            {{-- <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/' . $product->thumbnail) }}" alt="" style="width: 80px;"> --}}
-                                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                                <form class="add-to-cart-form" data-product-id="{{ $product->id }}"
-                                                    data-table-number="{{ request()->get('table') }}">
-                                                    @csrf
-                                                    <h6 class="d-flex justify-content-between border-bottom pb-2">
-                                                        <input type="hidden" name="table"
-                                                            value="{{ request()->get('table') }}">
-                                                        <input type="hidden" name="product_id"
-                                                            value="{{ $product->id }}">
-                                                        <span>{{ $product->title }}</span>
-                                                        <span class="text">{{ $product->price }}₺</span>
-                                                    </h6>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <small
-                                                            class="fst-italic text-black product-body">{{ Str::limit($product->body, 40) }}</small>
-                                                        <div class="containerr">
-                                                            <button type="button" onclick="minus(this)"> - </button>
-                                                            <input type="number" name="quantity" min="1"
-                                                                max="20" step="1" value="1" readonly>
-                                                            <button type="button" onclick="plus(this)"> + </button>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-dark button btn-sm"><i
-                                                                class="fa-solid fa-cart-plus"></i></button>
-                                                    </div>
-                                                </form>
+                                @if($product->active) <!-- 'active' alanı true ise ürün gösterilecek -->
+                                    <form class="add-to-cart-form" data-product-id=" {{ $product->id }} "  data-table-number="{{ request()->get('table') }}">
+                                        @csrf
+                                        <input type="hidden" name="table" value="{{ request()->get('table') }}">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <div class="menu-item">
+                                            {{-- <img class="flex-shrink-0 img-fluid" src="{{ asset('storage/' . $product->thumbnail) }}" alt="" style="width: 150px;"> --}}
+                                            {{-- <img class="flex-shrink-0 img-fluid" src="{{ $product->thumbnail }}"> --}}
+                                            <img class="flex-shrink-0 img-fluid" src="https://kahhve.com/blog/wp-content/uploads/2022/06/filtre-kahve-cekirdegi-scaled.jpg">
+                                            <div class="item-info">
+                                                <h3>{{ $product->title }}</h3>
+                                                <h4 class="text mb-4">{{ $product->price }}₺</h4>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-dark btn-sm" type="button" onclick="minus(this)"> - </button>
+                                                    <input type="number" name="quantity" min="1" max="20" step="1" value="1" readonly class="form-control text-center p-1 rounded-0" style="font-size: 14px;">
+                                                    <button class="btn btn-dark btn-sm" type="button" onclick="plus(this)"> + </button>
+                                                </div>
+                                                <button type="submit" class="btn btn-dark btn-sm ml-2">
+                                                    <i class="fa-solid fa-cart-plus"></i>
+                                                </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
+                                    @endif
                                 @endforeach
+                            </div>
                             </div>
                         </div>
                     @endforeach
@@ -204,15 +227,13 @@
                     <div class="col-md-12 text-center">
                         <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
                         <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B
-                            Bakirköy/İstanbul</p>
+                        <p class="mb-2">
+                            <i class="fa fa-map-marker-alt me-2"></i>
+                            Kartaltepe Mah. Gençler Cd. No: 2B<br>Bakirköy/İstanbul</p>
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/">
+                                <i class="fab fa-instagram"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
@@ -225,7 +246,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-12 text-center mb-3 mb-md-0">
-                            <a href="#">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                            <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
                         </div>
                     </div>
                 </div>
@@ -279,6 +300,35 @@
             });
         });
     </script>
+    {{-- <script>
+        $(document).ready(function() {
+            $('.add-to-cart-form').on('submit', function(event) {
+                event.preventDefault(); // Formun normal submit işlemini engelle
+
+                var form = $(this);
+                var url = '{{ route('addToCart') }}'; // Bu kısımda HTTPS kullanıldığından emin olun
+                url = url.replace('http://', 'https://'); // URL'yi güvenli hale getirme
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function(response) {
+                        $('#success-message').text(response.message).show();
+                        setTimeout(function() {
+                            $('#success-message').fadeOut();
+                        }, 3000);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#success-message').text('Bir hata oluştu.').show();
+                        setTimeout(function() {
+                            $('#success-message').fadeOut();
+                        }, 3000);
+                    }
+                });
+            });
+        });
+    </script> --}}
 </body>
 
 </html>

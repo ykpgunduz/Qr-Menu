@@ -81,7 +81,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Sipariş bulunamadı.');
         }
 
-        return view('order', compact('order', 'tableNumber'));
+        return view('qr-orders', compact('order', 'tableNumber'));
     }
 
     public function come(Calculation $order)

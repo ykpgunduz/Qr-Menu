@@ -14,9 +14,9 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['name' => 'Yakup', 'email' => 'yakup@admin.com', 'password' => 'asd'],
-            ['name' => 'Onur', 'email' => 'onur@admin.com', 'password' => 'asd'],
-            ['name' => 'Uzay', 'email' => 'uzay@admin.com', 'password' => 'asd'],
+            ['name' => 'Developer', 'email' => 'developer@harpysocial.com', 'password' => 'Yakup@Laravel44'],
+            ['name' => 'Developer', 'email' => 'argent@harpysocial.com', 'password' => 'OnurLaravel'],
+            ['name' => 'Underground', 'email' => 'underground@harpysocial.com', 'password' => 'uzay'],
         ];
 
         foreach ($users as $user) {

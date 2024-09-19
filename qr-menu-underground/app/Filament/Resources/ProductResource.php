@@ -62,7 +62,7 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('thumbnail')
-                    ->label('Ürün Fotoğrafı')
+                    ->label('Fotoğraf')
                     ->defaultImageUrl(url('storage/img/thumbnail.jpg')),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Ürün Adı')
@@ -77,7 +77,7 @@ class ProductResource extends Resource
                 })
                     ->boolean(),
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Ürün Fiyatı')
+                    ->label('Fiyat')
                     ->formatStateUsing(fn ($state) => number_format($state, 0, ',', '.'))
                     ->suffix('₺')
                     ->sortable(),
@@ -86,7 +86,6 @@ class ProductResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

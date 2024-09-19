@@ -84,13 +84,13 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('calculation.table_number')
+                    ->suffix('. Masa')
+                    ->label('Masa'),
                 TextColumn::make('quantity')
                     ->label('Miktar')->formatStateUsing(fn ($state) => $state . ' adet'),
                 TextColumn::make('product.title')
                     ->label('Ürün Adı'),
-                TextColumn::make('calculation.table_number')
-                    ->suffix('. Masa')
-                    ->label('Masa Numarası'),
                 BadgeColumn::make('status')
                     ->label('Sipariş Durumu')
                     ->colors([
@@ -117,6 +117,7 @@ class OrderResource extends Resource
                 TextColumn::make('calculation.note')
                     ->label('Sipariş Notu'),
             ])
+            ->poll('10s')
             ->filters([
                 //
             ])
@@ -136,25 +137,40 @@ class OrderResource extends Resource
                             Select::make('product_id')
                                 ->label('Ürün Seç')
                                 ->options(Product::all()->pluck('title', 'id'))
-                                ->required(),
+                                ->required()
+                                ->searchable(),
                         ])
                         ->action(function (OrderItem $record, array $data) {
                             $record->update($data);
                         }),
-                    Tables\Actions\DeleteAction::make()
+                        Tables\Actions\DeleteAction::make()
                         ->label('Bu Siparişi Sil')
                         ->action(function (OrderItem $record) {
-                            $amountToDeduct = $record->price;
-
-                            $calculation = Calculation::where('id', $record->order_id)->first();
+                            // Siparişin bağlı olduğu masayı buluyoruz.
+                            $calculation = Calculation::where('table_number', $record->calculation->table_number)->first();
 
                             if ($calculation) {
+                                // Siparişin toplam tutarını hesaplıyoruz.
+                                $amountToDeduct = $record->price * $record->quantity;
+
+                                // Masanın toplam tutarından siparişin tutarını eksiltiyoruz.
                                 $calculation->total_amount -= $amountToDeduct;
+
+                                // Tutar negatif olursa sıfırlıyoruz.
+                                if ($calculation->total_amount < 0) {
+                                    $calculation->total_amount = 0;
+                                }
+
+                                // Masayı kaydediyoruz.
                                 $calculation->save();
                             }
 
+                            // Siparişi siliyoruz.
                             $record->delete();
-                        }),
+                        })
+                        ->modalHeading('Bu siparişi silmek istiyor musunuz?')
+                        ->modalSubheading('Bu işlem geri alınamaz, sadece bu sipariş silinecektir.')
+                        ->modalButton('Evet, Sil'),
                 ]),
             ])
             ->bulkActions([

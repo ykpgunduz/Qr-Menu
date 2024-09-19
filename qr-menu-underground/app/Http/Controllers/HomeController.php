@@ -17,7 +17,7 @@ class HomeController extends Controller
         $products = Product::all();
         $tableNumber = $request->query('table');
 
-        return view('index', compact('products', 'categories', 'tableNumber'));
+        return view('qr-menu', compact('products', 'categories', 'tableNumber'));
     }
 
     public function addToCart(Request $request)
@@ -38,7 +38,7 @@ class HomeController extends Controller
 
         if ($cartItem) {
             $cartItem->quantity += $quantity;
-            $cartItem->price = $product->price * $cartItem->quantity;
+            $cartItem->price = $product->price;
             $cartItem->save();
         } else {
             $cartItem = new Cart();
@@ -46,8 +46,8 @@ class HomeController extends Controller
             $cartItem->table_number = $tableNumber;
             $cartItem->product_id = $product->id;
             $cartItem->quantity = $quantity;
-            $cartItem->price = $product->price * $quantity;
-            $cartItem->device_info = $deviceInfo; // Cihaz bilgisini ekle
+            $cartItem->price = $product->price;
+            $cartItem->device_info = $deviceInfo;
             $cartItem->save();
         }
 

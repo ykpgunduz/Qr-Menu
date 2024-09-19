@@ -133,15 +133,13 @@
                     <div class="col-md-12 text-center">
                         <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
                         <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B
-                            Bakirköy/İstanbul</p>
+                        <p class="mb-2">
+                            <i class="fa fa-map-marker-alt me-2"></i>
+                            Kartaltepe Mah. Gençler Cd. No: 2B<br>Bakirköy/İstanbul</p>
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/">
+                                <i class="fab fa-instagram"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
@@ -154,7 +152,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-12 text-center mb-3 mb-md-0">
-                            <a href="#">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                            <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
                         </div>
                     </div>
                 </div>

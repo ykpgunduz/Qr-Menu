@@ -97,34 +97,31 @@
                     @foreach ($cartItems as $cartItem)
                         <div class="col-lg-6 mb-3 cart-item" data-id="{{ $cartItem->id }}"
                             data-price="{{ $cartItem->price }}">
-                            <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="{{ $cartItem->product->thumbnail }}"
-                                    alt="" style="width: 80px;">
+                            <div class="d-flex align-items-center" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 15px;">
+                                <!-- <img class="flex-shrink-0 img-fluid" src="{{ asset('storage/' . $cartItem->product->thumbnail) }}" alt="" style="width: 120px; border-radius: 10px;"> -->
+                                <img class="flex-shrink-0 img-fluid" src="https://harpysocial.com/storage/img/underground.png" style="width: 120px; border-radius: 10px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
                                         <span>{{ $cartItem->product->title }}</span>
                                         <span class="text">{{ $cartItem->price }}₺</span>
                                     </h5>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <small class="fst-italic text-black product-body">{{ Str::limit($cartItem->product->body, 20) }}</small>
-
+                                    <div class="d-flex justify-content-between">
                                         <!-- Miktarı Artır/Azalt -->
                                         <div class="containerr">
                                             <form action="{{ route('cart.update', $cartItem->id) }}" method="POST" class="update-cart-form">
                                                 @csrf
-                                                <button type="submit" name="quantity_change" value="-1" class="quantity-change-btn"> - </button>
-                                                <input type="number" name="quantity" min="1" max="20" step="1" disabled
-                                                    value="{{ $cartItem->quantity }}" readonly>
-                                                <button type="submit" name="quantity_change" value="1" class="quantity-change-btn"> + </button>
+                                                <div class="d-flex btn-group">
+                                                    <button type="submit" name="quantity_change" value="-1" class="quantity-change-btn btn btn-dark btn-sm"> - </button>
+                                                    <input type="number" name="quantity" min="1" max="20" step="1" disabled value="{{ $cartItem->quantity }}" readonly class="form-control text-center py-0 rounded-0" style="font-size: 17px">
+                                                    <button type="submit" name="quantity_change" value="1" class="quantity-change-btn btn btn-dark btn-sm"> + </button>
+                                                </div>
                                             </form>
                                         </div>
-
                                         <!-- Ürünü Sil -->
                                         <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" name="remove" value="true" class="btn btn-danger btn-sm"
-                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                            <button type="submit" name="remove" value="true" class="btn btn-danger btn-sm">
                                                 <i class="fa-solid fa-close"></i>
                                             </button>
                                         </form>
@@ -135,7 +132,7 @@
                     @endforeach
                 </div>
                 <div class="text-end mt-5">
-                    <h5 class="mb-5" id="total-amount">Sepet Tutarı: {{ $totalAmount }}₺</h5>
+                    <h5 class="mb-4" id="total-amount">Sepet Tutarı: {{ $totalAmount }}₺</h5>
                 </div>
                 <div class="text-end">
                     <form action="{{ route('store') }}" method="POST">
@@ -168,15 +165,13 @@
                     <div class="col-md-12 text-center">
                         <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
                         <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Kartaltepe Mah. Gençler Cd. No: 2B
-                            Bakirköy/İstanbul</p>
+                        <p class="mb-2">
+                            <i class="fa fa-map-marker-alt me-2"></i>
+                            Kartaltepe Mah. Gençler Cd. No: 2B<br>Bakirköy/İstanbul</p>
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i
-                                    class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/">
+                                <i class="fab fa-instagram"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
@@ -189,7 +184,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-12 text-center mb-3 mb-md-0">
-                            <a href="#">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                            <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
                         </div>
                     </div>
                 </div>

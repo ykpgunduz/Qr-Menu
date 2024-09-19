@@ -41,7 +41,7 @@ class PastOrderResource extends Resource
             ->columns([
                 TextColumn::make('table_number')
                     ->suffix('. Masa')
-                    ->label('Masa Numarası'),
+                    ->label('Masa'),
                 TextColumn::make('customer')
                     ->label('Kişi Sayısı')
                     ->suffix(' Kişi')
@@ -55,6 +55,8 @@ class PastOrderResource extends Resource
                     ->prefix('Hesap: ')
                     ->suffix('₺')
                     ->summarize(Sum::make()),
+                TextColumn::make('payment')
+                    ->label('Ödeme'),
                 TextColumn::make('created_at')
                     ->label('Masanın Açılış Saati')
                     ->dateTime('H:i | d/m/y'),

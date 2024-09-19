@@ -6,19 +6,23 @@ use DB;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Product;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Calculation;
 use Illuminate\Validation\Rule;
+use Filament\Tables\Actions\EditAction;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Tables\Columns\Layout\Stack;
 use App\Filament\Resources\CalculationResource\Pages;
+use Illuminate\Support\HtmlString; // En üste ekleyin
 
 class CalculationResource extends Resource
 {
@@ -88,6 +92,7 @@ class CalculationResource extends Resource
                         ]),
                 ])->collapsible()
             ])
+            ->poll('10s')
             ->filters([
                 //
             ])
@@ -102,72 +107,87 @@ class CalculationResource extends Resource
                 'all',
             ])
             ->actions([
-                Action::make('viewDetails')
-                ->label('Detay')
-                ->icon('heroicon-o-eye')
-                ->action(function (Calculation $record, \Filament\Forms\ComponentContainer $form) {
-                    $items = $record->orderItems->map(function ($item) {
-                        return [
-                            'product_id' => $item->product_id, // Product ID direkt olarak gösterilecekse
-                            'quantity' => $item->quantity,
-                            'price' => $item->price,
-                        ];
-                    })->toArray();
-
-                    dd($items); // Verileri burada kontrol edin
-                    $form->fill([
-                        'items' => $items,
-                    ]);
-                })
-                ->form([
-                    Forms\Components\Repeater::make('items')
-                        ->schema([
-                            Forms\Components\Placeholder::make('product_id')
-                                ->label('Ürün ID')
-                                ->content(fn ($record) => $record['product_id']),
-                            Forms\Components\Placeholder::make('quantity')
-                                ->label('Miktar')
-                                ->content(fn ($record) => $record['quantity']),
-                            Forms\Components\Placeholder::make('price')
-                                ->label('Fiyat')
-                                ->content(fn ($record) => $record['price'] . '₺'),
-                        ])
-                        ->disableItemMovement()
-                        ->disableItemCreation()
-                        ->disableItemDeletion()
-                        ->columns(3),
-                ])
-                ->modalHeading('Masa Detayları')
-                ->modalButton('Kapat')
-                ->color('primary'),
-
-                Tables\Actions\Action::make('editCustomerCount')
-                    ->label('Kişi')
-                    ->icon('heroicon-o-user')
+                Tables\Actions\Action::make('editTableNumber')
+                    ->label('Masa Numarasını Düzenle')
+                    ->icon('heroicon-o-pencil')
                     ->form([
-                        Forms\Components\TextInput::make('customer')
-                            ->label('Kişi Sayısı')
+                        TextInput::make('table_number')
+                            ->label('Masa Numarası')
                             ->required()
                             ->numeric()
-                            ->minValue(1)
-                            ->maxValue(50)
+                            ->rules([
+                                Rule::unique('calculations', 'table_number')
+                                    ->ignore(request()->route('record')),
+                            ]),
                     ])
                     ->action(function (Calculation $record, array $data) {
-                        $record->customer = $data['customer'];
-                        $record->save();
-                    })
-                    ->color('primary')
-                    ->visible(fn (Calculation $record) => $record->status !== 'Ödendi'),
-                Tables\Actions\ActionGroup::make([
+                        $oldTableNumber = $record->table_number;
+                        $newTableNumber = $data['table_number'];
+
+                        DB::transaction(function () use ($oldTableNumber, $newTableNumber, $record) {
+                            // İlk olarak calculations tablosunu güncelle
+                            $record->update([
+                                'table_number' => $newTableNumber,
+                            ]);
+
+                            // Daha sonra order_items tablosundaki ilgili kayıtları güncelle
+                            OrderItem::where('table_number', $oldTableNumber)
+                                ->update(['table_number' => $newTableNumber]);
+                        });
+                    }),
+
+                    Tables\Actions\Action::make('editCustomerCount')
+                        ->label('Kişi')
+                        ->icon('heroicon-o-user')
+                        ->form([
+                            Forms\Components\TextInput::make('customer')
+                                ->label('Kişi Sayısı')
+                                ->required()
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(50)
+                        ])
+                        ->action(function (Calculation $record, array $data) {
+                            $record->customer = $data['customer'];
+                            $record->save();
+                        })
+                        ->color('primary')
+                        ->visible(fn (Calculation $record) => $record->status !== 'Ödendi'),
+
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Masayı Sil')
+                        ->icon('heroicon-o-x-circle')
+                        ->visible(fn ($record) => $record->total_amount == 0)
+                        ->modalHeading('Bu Masayı Silmek İstiyor musunuz?')
+                        ->modalSubheading('Bu işlem geri alınamaz, masa komple silinecektir.')
+                        ->modalButton('Evet, Sil'),
+
                     Tables\Actions\Action::make('markAsPaid')
-                        ->label('Ödendi İşaretle')
-                        ->action(function (Calculation $record) {
+                        ->label('Ödendi mi?')
+                        ->icon('heroicon-o-banknotes')
+                        ->color('warning')
+                        ->visible(fn ($record) => $record->total_amount > 0)
+                        ->requiresConfirmation()
+                        ->modalHeading('Ödeme İşlemini Onaylıyor musunuz?')
+                        ->modalSubheading('Onaylarsanız veriler ödenen siparişlere kaydedilecek')
+                        ->modalButton('Onayla')
+                        ->form([
+                            Forms\Components\Radio::make('payment_method')
+                                ->label('Ödeme Yöntemi:')
+                                ->required()
+                                ->options([
+                                    'POS' => 'POS',
+                                    'Nakit' => 'Nakit',
+                                ])
+                                ->inline(),
+                        ])
+                        ->action(function (Calculation $record, array $data) {
                             $productDetails = $record->orderItems->map(function ($item) {
                                 $productName = DB::table('products')
                                     ->where('id', $item->product_id)
                                     ->value('title');
 
-                                return $item->quantity . ' x ' . $productName . ' = ' . $item->price . '₺';
+                                return $item->quantity . ' x ' . $productName . ' - ' . $item->price . '₺';
                             })->implode(', ');
 
                             DB::table('past_orders')->insert([
@@ -179,6 +199,7 @@ class CalculationResource extends Resource
                                 'customer' => $record->customer,
                                 'products' => $productDetails,
                                 'quantity' => $record->orderItems->sum('quantity'),
+                                'payment' => $data['payment_method'],
                                 'created_at' => $record->created_at,
                                 'updated_at' => now(),
                             ]);
@@ -186,8 +207,8 @@ class CalculationResource extends Resource
                             $record->delete();
                         })
                         ->color('warning')
+                        ->visible(fn ($record) => $record->total_amount > 0)
                 ])
-            ])
             ->bulkActions([
                 //
             ]);

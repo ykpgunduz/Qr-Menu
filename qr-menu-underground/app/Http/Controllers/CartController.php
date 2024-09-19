@@ -29,7 +29,7 @@ class CartController extends Controller
             ->where('session_id', $sessionId)
             ->value('device_info');
 
-        return view('sepet', compact('cartItems', 'tableNumber', 'totalAmount', 'sessionId', 'deviceInfo'));
+        return view('qr-cart', compact('cartItems', 'tableNumber', 'totalAmount', 'sessionId', 'deviceInfo'));
     }
 
     public function removeFromCart($id)

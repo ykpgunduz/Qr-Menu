@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('products');
             $table->integer('quantity');
             $table->string('note')->default('-');
+            $table->string('payment');
             $table->string('device_info')->nullable();
             $table->timestamps();
         });
