@@ -91,8 +91,9 @@
         <div class="container py-5">
             @if ($order)
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text fw-normal">Siparişiniz Alındı!</h5>
-                    <h1 class="mb-5">Sipariş Bilgileriniz</h1>
+                    <h5 class="section-title ff-secondary text-center text fw-normal">Siparişiniz alındı!</h5>
+                    <h1 class="mb-3">Sipariş Bilgileriniz</h1>
+                    <p class="mb-3">Siparişiniz kısa bir süre içerisinde hazırlanıp masanıza servis edilecektir, lütfen bu sekmeyi kapatmayın.</p>
                 </div>
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                 <p><strong>Masa Numarası:</strong> {{ $order->table_number }}</p>

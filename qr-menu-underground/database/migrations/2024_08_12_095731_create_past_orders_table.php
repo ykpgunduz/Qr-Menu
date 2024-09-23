@@ -20,7 +20,8 @@ return new class extends Migration
             $table->text('products');
             $table->integer('quantity');
             $table->string('note')->default('-');
-            $table->string('payment');
+            $table->integer('cash_money');
+            $table->integer('credit_card');
             $table->string('device_info')->nullable();
             $table->timestamps();
         });

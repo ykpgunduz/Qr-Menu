@@ -14,7 +14,7 @@ class ListCalculations extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Yeni Masa Olutur'),
+                ->label('Yeni Masa Oluştur'),
         ];
     }
 }

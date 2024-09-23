@@ -16,6 +16,9 @@ class PastOrder extends Model
         'product_name',
         'quantity',
         'price',
+        'cash_money',
+        'credit_card',
+        'price',
         'device_info',
         'note'
     ];

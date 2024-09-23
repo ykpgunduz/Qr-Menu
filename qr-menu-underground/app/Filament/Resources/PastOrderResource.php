@@ -50,13 +50,19 @@ class PastOrderResource extends Resource
                     ->label('Sipariş Bilgileri')
                     ->formatStateUsing(fn ($state) => nl2br(implode("\n", explode(',', $state))))
                     ->html(),
-                TextColumn::make('total_amount')
-                    ->label('Toplam Tutar')
-                    ->prefix('Hesap: ')
+                TextColumn::make('credit_card')
+                    ->label('POS')
                     ->suffix('₺')
                     ->summarize(Sum::make()),
-                TextColumn::make('payment')
-                    ->label('Ödeme'),
+                TextColumn::make('cash_money')
+                    ->label('Nakit')
+                    ->suffix('₺')
+                    ->summarize(Sum::make()),
+                TextColumn::make('total_amount')
+                    ->label('Toplam Hesap')
+                    ->prefix('Toplam: ')
+                    ->suffix('₺')
+                    ->summarize(Sum::make()),
                 TextColumn::make('created_at')
                     ->label('Masanın Açılış Saati')
                     ->dateTime('H:i | d/m/y'),

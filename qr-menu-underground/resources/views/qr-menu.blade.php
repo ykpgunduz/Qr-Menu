@@ -163,14 +163,15 @@
                                                 <h3>{{ $product->title }}</h3>
                                                 <h4 class="text mb-4">{{ $product->price }}₺</h4>
                                             </div>
-                                            <div class="d-flex justify-content-between">
-                                                <div class="btn-group">
-                                                    <button class="btn btn-dark btn-sm" type="button" onclick="minus(this)"> - </button>
-                                                    <input type="number" name="quantity" min="1" max="20" step="1" value="1" readonly class="form-control text-center p-1 rounded-0" style="font-size: 14px;">
-                                                    <button class="btn btn-dark btn-sm" type="button" onclick="plus(this)"> + </button>
-                                                </div>
-                                                <button type="submit" class="btn btn-dark btn-sm ml-2">
+                                            <div class="btn-group mb-3">
+                                                <button class="btn btn-dark btn-sm" type="button" onclick="minus(this)"> - </button>
+                                                <input type="number" name="quantity" min="1" max="20" step="1" value="1" readonly class="form-control text-center px-2 rounded-0">
+                                                <button class="btn btn-dark btn-sm" type="button" onclick="plus(this)"> + </button>
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="btn btn-dark btn-sm p-2 ml-2">
                                                     <i class="fa-solid fa-cart-plus"></i>
+                                                    <span> Sepete Ekle</span>
                                                 </button>
                                             </div>
                                         </div>
