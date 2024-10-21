@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Calculation;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -13,18 +12,15 @@ class CartController extends Controller
         $tableNumber = $request->input('table');
         $sessionId = session()->getId();
 
-        // Sepet öğelerini al
         $cartItems = Cart::where('table_number', $tableNumber)
             ->where('session_id', $sessionId)
             ->with('product')
             ->get();
 
-        // Toplam miktarı hesapla
         $totalAmount = $cartItems->sum(function ($cartItem) {
             return $cartItem->quantity * $cartItem->price;
         });
 
-        // Cihaz bilgisini al
         $deviceInfo = Cart::where('table_number', $tableNumber)
             ->where('session_id', $sessionId)
             ->value('device_info');
@@ -59,7 +55,7 @@ class CartController extends Controller
                 return redirect()->back()->with('success', 'Ürün sepetten çıkarıldı.');
             } else {
                 $cartItem->quantity = $newQuantity;
-                $cartItem->price = $cartItem->product->price; // Fiyatı güncelle
+                $cartItem->price = $cartItem->product->price;
                 $cartItem->save();
             }
         }

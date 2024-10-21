@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateCalculation extends CreateRecord
 {
     protected static string $resource = CalculationResource::class;
+
+    public function getTitle(): string
+    {
+        return 'Yeni Masa Oluştur';
+    }
 }

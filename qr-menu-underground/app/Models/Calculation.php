@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Calculation extends Model
 {
@@ -13,9 +14,9 @@ class Calculation extends Model
         'table_number',
         'total_amount',
         'session_id',
+        'order_number',
         'device_info',
-        'status',
-        'note'
+        'status'
     ];
 
     public function orderItems()

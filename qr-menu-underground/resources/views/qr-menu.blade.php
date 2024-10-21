@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Menü | Underground</title>
+    <title>Menü | Underground</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -59,9 +59,7 @@
             top: 70px;
             right: 20px;
             background-color: #28a745;
-            /* Yeşil arka plan */
             color: white !important;
-            /* Beyaz yazı rengi */
             padding: 10px 20px;
             border-radius: 5px;
             display: none;
@@ -97,31 +95,16 @@
         }
     </style>
     <div class="container-fluid bg-white p-0">
-        <!-- Spinner Start -->
         <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Yükleniyor...</span>
             </div>
         </div>
-        <!-- Spinner End -->
 
-        <!-- Navbar Start -->
-        <nav class="navbar d-flex align-items-center">
-            <div class="d-flex justify-content-center align-items-center">
-                <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
-                {{-- <h2 class="text-nav mt-3">Underground</h2> --}}
-            </div>
-            <div>
-                <a href="{{ route('order', ['table' => $tableNumber]) }}">
-                    <i class="mt-3 me-4 fa-solid fa-xl fa-receipt text-nav"></i>
-                </a>
-                <a href="{{ route('sepet', ['table' => $tableNumber]) }}">
-                    <i class="mt-3 me-4 fa-solid fa-xl fa-cart-shopping text-nav"></i>
-                </a>
-            </div>
+        <nav class="navbar d-flex justify-content-center">
+            <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
         </nav>
-        <!-- Navbar End -->
 
         <!-- Menu Start -->
         <div class="container py-5">
@@ -150,7 +133,7 @@
                             <div class="row g-4">
                                 <div class="menu-grid">
                                 @foreach ($products->where('category_id', $category->id) as $product)
-                                @if($product->active) <!-- 'active' alanı true ise ürün gösterilecek -->
+                                @if($product->active)
                                     <form class="add-to-cart-form" data-product-id=" {{ $product->id }} "  data-table-number="{{ request()->get('table') }}">
                                         @csrf
                                         <input type="hidden" name="table" value="{{ request()->get('table') }}">
@@ -171,7 +154,7 @@
                                             <div>
                                                 <button type="submit" class="btn btn-dark btn-sm p-2 ml-2">
                                                     <i class="fa-solid fa-cart-plus"></i>
-                                                    <span> Sepete Ekle</span>
+                                                    <span> Siparişe Ekle</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -185,6 +168,7 @@
                 </div>
             </div>
         </div>
+
         <script>
             function plus(btn) {
                 let myInput = btn.parentElement.querySelector('input[type="number"]');
@@ -218,36 +202,40 @@
         </script>
         <!-- Menu End -->
 
-        <!-- Success Message -->
         <div id="success-message" class="text-center" style="display: none; color: green;"></div>
 
         <!-- Footer Start -->
-        <div class="container-fluid bg-black text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5">
                     <div class="col-md-12 text-center">
-                        <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
-                        <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
+                        <h4 class="section-title text-white fw-normal mb-4">İletişim Bilgilerimiz</h4>
                         <p class="mb-2">
-                            <i class="fa fa-map-marker-alt me-2"></i>
-                            Kartaltepe Mah. Gençler Cd. No: 2B<br>Bakirköy/İstanbul</p>
-                        <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/">
+                            <i class="fa fa-phone me-2"></i>
+                            <strong>Telefon:</strong>
+                            <a href="tel:+905442783543" class="text-white text-decoration-none">+90 (544) 278 35 43</a>
+                        </p>
+                        <p class="mb-2">
+                            <i class="fa fa-map-marker-alt"></i>
+                            <a href="https://g.co/kgs/xF1TGBg" target="_blank" class="text-white text-decoration-none">
+                                Kartaltepe Mah. Gençler Cd. No: 2B<br>
+                                Bakirköy/İstanbul
+                            </a>
+                        </p>
+                        <div class="d-flex justify-content-center mt-4">
+                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/" aria-label="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-12 text-center">
-                        <h4 class="section-title text-white fw-normal mb-4">Çalışma Saatlerimiz</h4>
-                        <h6 class="text-light fw-normal">Her gün | 10.00 - 22.00</h6>
-                    </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="copyright">
-                    <div class="row">
-                        <div class="col-md-12 text-center mb-3 mb-md-0">
-                            <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                <div class="container">
+                    <div class="copyright">
+                        <div class="row">
+                            <div class="col-md-12 text-center mb-1 mb-md-0">
+                                <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -268,18 +256,15 @@
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
-    <!-- Custom JavaScript -->
     <script>
         $(document).ready(function() {
             $('.add-to-cart-form').on('submit', function(event) {
-                event.preventDefault(); // Formun normal submit işlemini engelle
+                event.preventDefault();
 
                 var form = $(this);
-                var url = '{{ route('addToCart') }}'; // Route URL'sini burada belirleyin
+                var url = '{{ route('addToCart') }}';
 
                 $.ajax({
                     url: url,
@@ -301,35 +286,19 @@
             });
         });
     </script>
-    {{-- <script>
-        $(document).ready(function() {
-            $('.add-to-cart-form').on('submit', function(event) {
-                event.preventDefault(); // Formun normal submit işlemini engelle
 
-                var form = $(this);
-                var url = '{{ route('addToCart') }}'; // Bu kısımda HTTPS kullanıldığından emin olun
-                url = url.replace('http://', 'https://'); // URL'yi güvenli hale getirme
+    <nav class="navbar navbar-expand-lg fixed-bottom">
+        <div class="container d-flex justify-content-center">
+            <p class="my-2 text-light"><i class="fa-solid fa-circle-info"></i> Sipariş vermek için onaya gitmelisiniz.</p>
+            <div class="container d-flex justify-content-center mb-2">
+                @if($orderItem)
+                <a href="{{ route('order', ['table' => $tableNumber]) }}" class="btn btn-light btn-md me-2"><i class="fa-solid fa-receipt"></i> Siparişlerim</a>
+                @endif
+                <a href="{{ route('sepet', ['table' => $tableNumber]) }}" class="btn btn-primary btn-md ms-2"><i class="fa-solid fa-diamond-turn-right"></i> Sipariş Onayına Git</a>
+            </div>
+        </div>
+    </nav>
 
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: form.serialize(),
-                    success: function(response) {
-                        $('#success-message').text(response.message).show();
-                        setTimeout(function() {
-                            $('#success-message').fadeOut();
-                        }, 3000);
-                    },
-                    error: function(xhr, status, error) {
-                        $('#success-message').text('Bir hata oluştu.').show();
-                        setTimeout(function() {
-                            $('#success-message').fadeOut();
-                        }, 3000);
-                    }
-                });
-            });
-        });
-    </script> --}}
 </body>
 
 </html>

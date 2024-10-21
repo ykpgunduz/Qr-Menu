@@ -17,6 +17,7 @@ class OrderItem extends Model
         'price',
         'status',
         'table_number',
+        'note'
     ];
 
     protected static function booted()

@@ -18,8 +18,10 @@ class PastOrder extends Model
         'price',
         'cash_money',
         'credit_card',
+        'iban',
         'price',
         'device_info',
+        'order_number',
         'note'
     ];
 }

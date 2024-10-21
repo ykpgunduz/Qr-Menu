@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('calculations', function (Blueprint $table) {
             $table->id();
-            $table->integer('table_number')->unique();
-            $table->integer('total_amount')->default(0);
             $table->integer('customer')->nullable();
+            $table->string('order_number')->unique();
             $table->string('session_id')->nullable();
+            $table->integer('table_number')->unique();
             $table->string('device_info')->nullable();
-            $table->text('note')->nullable();
             $table->string('status')->default('Aktif');
+            $table->integer('total_amount')->default(0);
             $table->timestamps();
         });
     }

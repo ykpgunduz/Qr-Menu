@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\PastOrderResource\Pages;
 
-use App\Filament\Resources\PastOrderResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\PastOrderResource;
+use App\Filament\Resources\PastOrderResource\Widgets\PastOrderWidget;
 
 class ListPastOrders extends ListRecords
 {
@@ -16,4 +17,12 @@ class ListPastOrders extends ListRecords
             // Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            PastOrderWidget::class
+        ];
+    }
 }
+

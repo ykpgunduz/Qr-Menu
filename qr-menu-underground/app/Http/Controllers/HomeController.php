@@ -16,8 +16,9 @@ class HomeController extends Controller
         $categories = Category::all();
         $products = Product::all();
         $tableNumber = $request->query('table');
+        $orderItem = OrderItem::where('table_number', $tableNumber)->first();
 
-        return view('qr-menu', compact('products', 'categories', 'tableNumber'));
+        return view('qr-menu', compact('products', 'categories', 'tableNumber', 'orderItem'));
     }
 
     public function addToCart(Request $request)
@@ -56,7 +57,7 @@ class HomeController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Ürün sepete eklendi!',
+            'message' => 'Ürün siparişe eklendi!',
             'cartCount' => $cartCount,
             'totalAmount' => $totalAmount
         ]);

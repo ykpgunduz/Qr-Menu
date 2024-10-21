@@ -15,7 +15,7 @@ class ListOrders extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Yeni Sipariş Oluştur')
+            ->label('Masaya Sipariş Ekle')
         ];
     }
 

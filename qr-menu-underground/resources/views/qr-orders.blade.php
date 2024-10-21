@@ -79,80 +79,117 @@
         <!-- Spinner End -->
 
         <!-- Navbar Start -->
-        <nav class="navbar d-flex align-items-center">
-            <div class="d-flex justify-content-center align-items-center">
-                <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
-                {{-- <h2 class="text-nav mt-3">Underground</h2> --}}
-            </div>
-            <a href="{{ route('index', ['table' => $tableNumber]) }}"><i
-                class="mt-3 me-4 fa-solid fa-xl fa-book-open text-nav"></i></a>
+        <nav class="navbar d-flex justify-content-center">
+            <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
         </nav>
         <!-- Navbar End -->
-        <div class="container py-5">
-            @if ($order)
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text fw-normal">Siparişiniz alındı!</h5>
-                    <h1 class="mb-3">Sipariş Bilgileriniz</h1>
-                    <p class="mb-3">Siparişiniz kısa bir süre içerisinde hazırlanıp masanıza servis edilecektir, lütfen bu sekmeyi kapatmayın.</p>
-                </div>
-                <div class="wow fadeInUp" data-wow-delay="0.1s">
-                <p><strong>Masa Numarası:</strong> {{ $order->table_number }}</p>
-                <h3>Sipariş Ürünleri:</h3>
-                <ul>
-                    @foreach ($order->orderItems as $item)
-                        <li>{{ $item->quantity }} x {{ $item->product->title }} - {{ $item->price }}₺</li>
-                    @endforeach
-                </ul>
-                <p><strong>Toplam Tutar:</strong> {{ $order->total_amount }}₺</p>
-                @if ($order->note)
-                    <p><strong>Sipariş Notu:</strong> {{ $order->note }}</p>
-                @endif
 
-                <div class="container">
+        <div class="container py-5">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-3 text-success">
                     @if ($order->status === 'Hesap')
-                        <p>Hesap İstendi</p>
+                    <h1 class="mb-3 badge bg-primary" style="font-size: 25px">
+                        <i class="fa-solid fa-credit-card"></i> Hesabınız İstendi!
+                    </h1>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Hesabı istediğinizi gördük hesabı masanıza getiriyoruz</p>
+                    @elseif ($order->orderItems->where('status', 'Yeni Sipariş')->count() > 0)
+                    <h1 class="mb-3 badge bg-success" style="font-size: 25px">
+                        <i class="fa-regular fa-circle-check"></i> Siparişinizi Aldık!
+                    </h1>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişiniz onay bekliyor...</p>
+                    @elseif ($order->orderItems->where('status', 'Hazırlanıyor')->count() > 0)
+                    <h1 class="mb-3 badge text-dark bg-warning" style="font-size: 25px">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Siparişiniz Hazırlanıyor...
+                    </h1>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişinizi hazırlıyoruz masanıza servis edeceğiz</p>
+                    @elseif ($order->orderItems->where('status', 'Teslim Edildi')->count() > 0)
+                    <h1 class="mb-3 badge bg-primary" style="font-size: 25px">
+                        <i class="fa-solid fa-cookie-bite"></i> Afiyet Olsun!
+                    </h1>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Farklı bir sipariş vermek için menüye dönebilirsiniz</p>
                     @else
-                        <form action="{{ route('order.come', $order->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-dark btn-sm">Hesabı İste</button>
-                        </form>
+                    <h1 class="mb-3 text-success">
+                        <i class="fa-solid fa-info-circle"></i> Sipariş Durumunuz Belirsiz!
+                    </h1>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişiniz onay bekliyor...</p>
                     @endif
+            </div>
+            <div class="wow fadeInUp" data-wow-delay="0.1s">
+
+            <div class="container text-dark">
+                <div class="d-flex justify-content-between">
+                    <p>Masa No: {{ $order->table_number }}</p>
+                    <p>Saat: {{ $order->updated_at->format('H:i') }}</p>
                 </div>
-            @else
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text fw-normal">Siparişlerim</h5>
-                    <h1 class="mb-5">Henüz Sipariş Vermediniz</h1>
-                </div>
-            @endif
+                <table class="table text-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Durum</th>
+                            <th scope="col">Ürün</th>
+                            <th scope="col">Fiyat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($order->orderItems as $item)
+                            <tr>
+                                <td>
+                                    @if ($item->status === 'Yeni Sipariş')
+                                        <span class="badge bg-primary"><i class="fa-regular fa-star"></i> {{ $item->status }}</span>
+                                    @elseif ($item->status === 'Hazırlanıyor')
+                                        <span class="badge bg-warning text-dark"><i class="fa-solid fa-clock-rotate-left"></i> {{ $item->status }}</span>
+                                    @elseif ($item->status === 'Teslim Edildi')
+                                        <span class="badge bg-success"><i class="fa-regular fa-circle-check"></i> {{ $item->status }}</span>
+                                    @else
+                                        <span class="badge bg-secondary">{{ $item->status }}</span>
+                                    @endif
+                                </td>
+                                <td>{{ $item->quantity }} x {{ $item->product->title }}</td>
+                                <td>{{ $item->price }}₺</td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="2" class="text-end"><strong>Toplam Tutar:</strong></td>
+                            <td colspan="3"><strong>{{ $order->total_amount }}₺</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                @if ($order->note)
+                <p class="text-dark">Not: {{ $order->note }}</p>
+                @endif
             </div>
         </div>
+    </div>
 
-        <!-- Footer Start -->
-        <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
-            <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-md-12 text-center">
-                        <h4 class="section-title text-center text-white text fw-normal mb-4">İletişim Bilgilerimiz</h4>
-                        <p class="mb-2"><i class="fa fa-phone me-2"></i>+90 (544) 278 35 43</p>
-                        <p class="mb-2">
-                            <i class="fa fa-map-marker-alt me-2"></i>
-                            Kartaltepe Mah. Gençler Cd. No: 2B<br>Bakirköy/İstanbul</p>
-                        <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <h4 class="section-title text-white fw-normal mb-4">Çalışma Saatlerimiz</h4>
-                        <h6 class="text-light fw-normal">Her gün | 10.00 - 22.00</h6>
+    <!-- Footer Start -->
+    <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-12 text-center">
+                    <h4 class="section-title text-white fw-normal mb-4">İletişim Bilgilerimiz</h4>
+                    <p class="mb-2">
+                        <i class="fa fa-phone me-2"></i>
+                        <strong>Telefon:</strong>
+                        <a href="tel:+905442783543" class="text-white text-decoration-none">+90 (544) 278 35 43</a>
+                    </p>
+                    <p class="mb-2">
+                        <i class="fa fa-map-marker-alt"></i>
+                        <a href="https://g.co/kgs/xF1TGBg" target="_blank" class="text-white text-decoration-none">
+                            Kartaltepe Mah. Gençler Cd. No: 2B<br>
+                            Bakirköy/İstanbul
+                        </a>
+                    </p>
+                    <div class="d-flex justify-content-center mt-4">
+                        <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
                     </div>
                 </div>
             </div>
+        </div>
             <div class="container">
                 <div class="copyright">
                     <div class="row">
-                        <div class="col-md-12 text-center mb-3 mb-md-0">
+                        <div class="col-md-12 text-center mb-1 mb-md-0">
                             <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
                         </div>
                     </div>
@@ -161,6 +198,39 @@
         </div>
     </div>
     <!-- Footer End -->
+
+    <nav class="navbar navbar-expand-lg fixed-bottom">
+        <div class="container d-flex justify-content-center">
+            <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Masanızdan kalkmadan hesabı isteyebilirsiniz.</p>
+            <div class="container d-flex justify-content-center mb-2">
+            @if ($order->status === 'Hesap')
+                <a class="btn btn-warning btn-md ms-2"><i class="fa-solid fa-clock"></i> Hesap İstendi</a>
+            @else
+            <form action="{{ route('order.come') }}" method="POST" onsubmit="return confirmSubmit();">
+                @csrf
+                <input type="hidden" name="table_number" value="{{ $order->table_number }}">
+                <button type="submit" class="btn btn-light btn-md ms-2">
+                    <i class="fa-solid fa-credit-card"></i> Hesabı İste
+                </button>
+            </form>
+
+            <script>
+                function confirmSubmit() {
+                    return confirm("Hesabı istediğinize emin misiniz?");
+                }
+            </script>
+
+            @endif
+                <a href="{{ route('index', ['table' => $tableNumber]) }}" class="btn btn-light btn-md ms-2"><i class="fa-solid fa-book-open"></i> Menüye Dön</a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        setInterval(function() {
+            location.reload();
+        }, 30000);
+    </script>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

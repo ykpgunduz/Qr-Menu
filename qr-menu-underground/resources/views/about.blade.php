@@ -177,7 +177,7 @@
                     <p class="mb-0">Ekibimiz, her biri kendi alanında uzman olan profesyonellerden oluşmaktadır. Sektördeki en son trendleri takip ederek, projeleriniz için yenilikçi çözümler sunuyoruz. Alanında yetkin ve deneyimli ekip üyelerimizle, yüksek kaliteli hizmetler sunmayı hedefliyoruz.</p>
                 </div>
                 <div class="row g-4">
-                    <div class="col-md-4 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
                                 <img src="img/yakup-gunduz.jpg" class="img-fluid rounded-top w-100 team-h" alt="Yakup Gündüz">
@@ -187,11 +187,25 @@
                             </div>
                             <div class="team-title p-4 mt-auto">
                                 <h4 class="mb-0">Yakup Gündüz</h4>
-                                <p class="mb-0">Founder | Marketing Director</p>
+                                <p class="mb-0">Founder | Software Developer</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="team-item d-flex flex-column h-100">
+                            <div class="team-img">
+                                <img src="img/eren-atasoy.jpg" class="img-fluid rounded-top w-100 team-h" alt="Eren Atasoy">
+                                <div class="team-icon">
+                                    <a class="btn btn-primary btn-md-square rounded-pill mb-2" target="_blank" href="https://www.linkedin.com/in/eren-atasoy-91b704215/"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                                </div>
+                            </div>
+                            <div class="team-title p-4 mt-auto">
+                                <h4 class="mb-0">Eren Atasoy</h4>
+                                <p class="mb-0">Software Engineer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
                                 <img src="img/kadir-kutludogmus.jpg" class="img-fluid rounded-top w-100 team-h" alt="Kadir Kutludoğmuş">
@@ -205,7 +219,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
+                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
                                 <img src="img/aysegul-bulut.jpg" class="img-fluid rounded-top w-100 team-h" alt="Ayşegül Bulut">
@@ -215,7 +229,7 @@
                             </div>
                             <div class="team-title p-4 mt-auto">
                                 <h4 class="mb-0">Ayşegül Bulut</h4>
-                                <p class="mb-0">Digital Media Manager</p>
+                                <p class="mb-0">Social Media Manager</p>
                             </div>
                         </div>
                     </div>

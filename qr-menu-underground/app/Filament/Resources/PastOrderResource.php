@@ -58,13 +58,20 @@ class PastOrderResource extends Resource
                     ->label('Nakit')
                     ->suffix('₺')
                     ->summarize(Sum::make()),
+                TextColumn::make('iban')
+                    ->label('IBAN')
+                    ->suffix('₺')
+                    ->summarize(Sum::make()),
                 TextColumn::make('total_amount')
-                    ->label('Toplam Hesap')
-                    ->prefix('Toplam: ')
+                    ->label('Brüt')
+                    ->suffix('₺')
+                    ->summarize(Sum::make()),
+                TextColumn::make('net_amount')
+                    ->label('Net Satış')
                     ->suffix('₺')
                     ->summarize(Sum::make()),
                 TextColumn::make('created_at')
-                    ->label('Masanın Açılış Saati')
+                    ->label('Masa Açılış Saati')
                     ->dateTime('H:i | d/m/y'),
                 TextColumn::make('updated_at')
                     ->label('Ödenme Saati')
@@ -75,27 +82,27 @@ class PastOrderResource extends Resource
                     ->form([
                         Forms\Components\DateTimePicker::make('start')
                             ->label('Başlangıç Tarihi ve Saati')
-                            ->default(Carbon::today()),
+                            ->default(Carbon::today()->addHours(7)),
                         Forms\Components\DateTimePicker::make('end')
                             ->label('Bitiş Tarihi ve Saati')
-                            ->default(Carbon::tomorrow()->subSecond()),
+                            ->default(Carbon::tomorrow()->addHours(3)->subSecond()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
                             ->whereBetween('created_at', [
-                                Carbon::parse($data['start'] ?? Carbon::today()),
-                                Carbon::parse($data['end'] ?? Carbon::tomorrow()->subSecond())
+                                Carbon::parse($data['start'] ?? Carbon::today()->addHours(7)),
+                                Carbon::parse($data['end'] ?? Carbon::tomorrow()->addHours(3)->subSecond())
                             ]);
                     })
                     ->default([
-                        'start' => Carbon::today(),
-                        'end' => Carbon::tomorrow()->subSecond(),
+                        'start' => Carbon::today()->addHours(7),
+                        'end' => Carbon::tomorrow()->addHours(3)->subSecond(),
                     ]),
             ])
             ->paginated([
-                30,
                 60,
                 90,
+                120,
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make(),
