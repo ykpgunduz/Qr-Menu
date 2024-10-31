@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('calculations', function (Blueprint $table) {
             $table->id();
             $table->integer('customer')->nullable();
-            $table->string('order_number')->unique();
+            $table->string('order_number');
             $table->string('session_id')->nullable();
             $table->integer('table_number')->unique();
             $table->string('device_info')->nullable();

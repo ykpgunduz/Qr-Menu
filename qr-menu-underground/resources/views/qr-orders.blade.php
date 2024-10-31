@@ -91,7 +91,7 @@
                     <h1 class="mb-3 badge bg-primary" style="font-size: 25px">
                         <i class="fa-solid fa-credit-card"></i> Hesabınız İstendi!
                     </h1>
-                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Hesabı istediğinizi gördük hesabı masanıza getiriyoruz</p>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Hesap isteğiniz alındı. Lüften bekleyiniz...</p>
                     @elseif ($order->orderItems->where('status', 'Yeni Sipariş')->count() > 0)
                     <h1 class="mb-3 badge bg-success" style="font-size: 25px">
                         <i class="fa-regular fa-circle-check"></i> Siparişinizi Aldık!
@@ -229,7 +229,7 @@
     <script>
         setInterval(function() {
             location.reload();
-        }, 30000);
+        }, 15000);
     </script>
 
     <!-- JavaScript Libraries -->

@@ -27,14 +27,6 @@ class PastOrderResource extends Resource
 
     protected static ?string $pluralModelLabel = "Ödenen Siparişler";
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -69,6 +61,13 @@ class PastOrderResource extends Resource
                 TextColumn::make('net_amount')
                     ->label('Net Satış')
                     ->suffix('₺')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->summarize(Sum::make()),
+                TextColumn::make('ikram')
+                    ->label('İkram')
+                    ->prefix('-')
+                    ->suffix('₺')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->summarize(Sum::make()),
                 TextColumn::make('created_at')
                     ->label('Masa Açılış Saati')
@@ -105,7 +104,7 @@ class PastOrderResource extends Resource
                 120,
             ])
             ->actions([
-                // Tables\Actions\ViewAction::make(),
+                //
             ])
             ->bulkActions([
                 //

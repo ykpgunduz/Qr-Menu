@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Calculation;
 use Illuminate\Http\Request;
+use App\Events\CalculationCreated;
+use Illuminate\Support\Facades\Log;
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 
 class OrderController extends Controller
 {
@@ -35,15 +40,18 @@ class OrderController extends Controller
             $existingOrder->save();
             $orderId = $existingOrder->id;
         } else {
-            $order = Calculation::create([
+            $calculation = Calculation::create([
                 'table_number' => $tableNumber,
                 'total_amount' => $totalAmount,
                 'session_id' => $sessionId,
                 'device_info' => $deviceInfo,
                 'order_number' => $orderNumber,
             ]);
-            $orderId = $order->id;
+
+
+            $orderId = $calculation->id;
         }
+
 
         $notes = $request->input('notes', []);
 
@@ -57,11 +65,20 @@ class OrderController extends Controller
             ]);
         }
 
+        $notification = "Yeni Sipariş Geldi!";
+
+        Notification::make()
+            ->title($notification)
+            ->success()
+            ->duration(5000)
+            ->send();
+
         DB::table('carts')->where('table_number', $tableNumber)->delete();
         $request->session()->flash('clearCart', true);
 
         return redirect()->route('order', ['table' => $tableNumber]);
     }
+
 
     public function show(Request $request)
     {

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('customer')->nullable();
             $table->integer('total_amount');
             $table->decimal('net_amount');
+            $table->integer('ikram')->nullable();
             $table->text('products');
             $table->integer('quantity');
             $table->string('note')->default('-');

@@ -79,6 +79,12 @@
         </nav>
         <!-- Navbar End -->
 
+        <form action="{{ route('store') }}" method="POST" id="form1">
+            @csrf
+            <input type="hidden" name="cart_items" value="{{ json_encode($cartItems) }}">
+            <input type="hidden" name="table_number" value="{{ $tableNumber }}" class="form-control" required>
+            <input type="hidden" name="session_id" value="{{ $sessionId }}" class="form-control" required>
+            <input type="hidden" name="device_info" value="{{ $deviceInfo }}" class="form-control" required>
         <!-- Menu Start -->
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -117,12 +123,6 @@
                                             </button>
                                         </form>
                                     </div>
-                                    <form action="{{ route('store') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="cart_items" value="{{ json_encode($cartItems) }}">
-                                        <input type="hidden" name="table_number" value="{{ $tableNumber }}" class="form-control" required>
-                                        <input type="hidden" name="session_id" value="{{ $sessionId }}" class="form-control" required>
-                                        <input type="hidden" name="device_info" value="{{ $deviceInfo }}" class="form-control" required>
                                     <!-- Sipariş Notu Girişi Burada -->
                                     <div class="mt-2">
                                         <input type="text" name="notes[{{ $cartItem->id }}]" placeholder="Sipariş Notu (opsiyonel)" class="form-control mb-2" value="{{ $cartItem->note ?? '' }}">
@@ -147,10 +147,11 @@
     <nav class="navbar navbar-expand-lg fixed-bottom">
         <div class="container d-flex justify-content-center my-2">
             <a href="{{ route('index', ['table' => $tableNumber]) }}" class="btn btn-light btn-md ms-2"><i class="fa-solid fa-book-open"></i> Menüye Dön</a>
-                <button type="submit" class="btn btn-success ms-3"><i class="fa-solid fa-circle-check"></i> Siparişi Onayla</button>
-        </form>
+            <button type="submit" form="form1" value="Submit" class="btn btn-success ms-3"><i class="fa-solid fa-circle-check"></i> Siparişi Onayla</button>
         </div>
     </nav>
+
+</form>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

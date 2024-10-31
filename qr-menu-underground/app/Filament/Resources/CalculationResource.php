@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
 use App\Models\Category;
+use App\Events\CalculationCreated;
 use Filament\Forms\Form;
 use App\Models\OrderItem;
 use Filament\Tables\Table;
@@ -39,6 +40,12 @@ class CalculationResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
     protected static ?string $pluralModelLabel = "Hesaplar";
+
+    public static function getNavigationBadge(): ?string
+    {
+        $count = Calculation::where('status', 'Hesap')->count();
+        return $count > 0 ? (string) $count . ' Hesap İsteği' : null;
+    }
 
     public static function form(Form $form): Form
     {
@@ -119,11 +126,19 @@ class CalculationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->header(new HtmlString('
+                <div style="display: flex; margin: 15px;">
+                    <div style="width: 70px; box-shadow: 0px 0px 5px 5px rgba(255, 0, 255, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Hesap</div>
+                    <div style="width: 70px; box-shadow: 0px 0px 5px 5px rgba(0, 255, 0, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center; ">Aktif</div>
+                    <div style="width: 70px; box-shadow: 0px 0px 5px 5px rgba(255, 193, 7, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Durgun</div>
+                    <div style="width: 70px; box-shadow: 0px 0px 5px 5px rgba(128, 128, 128, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Pasif</div>
+                </div>
+            '))
             ->query(Calculation::query()->orderBy('table_number'))
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     TextColumn::make('table_number')
-                        ->url(fn (Calculation $record) => 'https://harpysocial/admin/orders?tableFilters[table_number][value]=' . $record->table_number)
+                        ->url(fn (Calculation $record) => 'https://harpysocial.com/admin/orders?tableFilters[table_number][value]=' . $record->table_number)
                         ->weight(FontWeight::Bold)
                         ->html()
                         ->formatStateUsing(fn ($state) => '<span style="font-size: 20px; font-weight: bold;">' . $state . '. Masa</span>'),
@@ -199,116 +214,134 @@ class CalculationResource extends Resource
                         ->modalSubheading('Bu işlem geri alınamaz, masa komple silinecektir.')
                         ->modalButton('Evet, Sil'),
 
-                    Action::make('payment')
-                        ->label('Hesap')
-                        ->icon('heroicon-o-banknotes')
-                        ->visible(fn ($record) => $record->total_amount > 0)
-                        ->requiresConfirmation()
-                        ->modalHeading('Ödeme İşlemini Onaylıyor musunuz?')
-                        ->modalSubheading('Onaylarsanız veriler ödenen siparişlere kaydedilecek')
-                        ->modalButton('Onayla')
-                        ->form(function (Calculation $record) {
-                            $formFields = [
-                                Forms\Components\Radio::make('payment_method')
-                                    ->label('Ödeme Yöntemi')
-                                    ->required()
-                                    ->options([
-                                        'POS' => 'POS',
-                                        'Nakit' => 'Nakit',
-                                        'IBAN' => 'IBAN',
-                                    ])
-                                    ->inline(),
+                        Action::make('payment')
+                            ->label('Hesap')
+                            ->icon('heroicon-o-banknotes')
+                            ->visible(fn ($record) => $record->total_amount > 0)
+                            ->requiresConfirmation()
+                            ->modalHeading('Ödeme İşlemini Onaylıyor musunuz?')
+                            ->modalSubheading('Onaylarsanız veriler ödenen siparişlere kaydedilecek')
+                            ->modalButton('Onayla')
+                            ->form(function (Calculation $record) {
+                                $formFields = [
+                                    Forms\Components\Radio::make('payment_method')
+                                        ->label('Ödeme Yöntemi')
+                                        ->required()
+                                        ->options([
+                                            'POS' => 'POS',
+                                            'Nakit' => 'Nakit',
+                                            'IBAN' => 'IBAN',
+                                        ])
+                                        ->inline(),
 
-                                TextInput::make('payment_amount')
-                                    ->label('Ödenecek Hesap Tutarı: ' . number_format($record->total_amount) . '₺')
-                                    ->required()
-                                    ->numeric()
-                                    ->suffix('₺')
-                                    ->minValue(1)
-                                    ->maxValue($record->total_amount),
+                                    TextInput::make('payment_amount')
+                                        ->label('Ödenecek Hesap Tutarı: ' . number_format($record->total_amount) . '₺')
+                                        ->required()
+                                        ->numeric()
+                                        ->suffix('₺')
+                                        ->minValue(1)
+                                        ->maxValue($record->total_amount),
 
-                                Forms\Components\Toggle::make('pay_full')
-                                    ->label('Hesabın Tamamını Seç')
-                                    ->default(false)
-                                    ->reactive()
-                                    ->afterStateUpdated(function ($state, callable $set) use ($record) {
-                                        if ($state) {
-                                            $set('payment_amount', $record->total_amount);
-                                        } else {
-                                            $set('payment_amount', null);
-                                        }
-                                    }),
-                            ];
+                                    Forms\Components\Toggle::make('pay_full')
+                                        ->label('Hesabın Tamamını Seç')
+                                        ->default(false)
+                                        ->reactive()
+                                        ->afterStateUpdated(function ($state, callable $set) use ($record) {
+                                            if ($state) {
+                                                $set('payment_amount', $record->total_amount);
+                                                $set('ikram_amount', 0);
+                                            } else {
+                                                $set('payment_amount', null);
+                                            }
+                                        }),
 
-                            if (is_null($record->customer)) {
-                                $formFields[] = TextInput::make('customer_count')
-                                    ->label('Kişi Sayısı')
-                                    ->required()
-                                    ->numeric()
-                                    ->minValue(1)
-                                    ->maxValue(20);
-                            }
+                                    Forms\Components\Grid::make(2)
+                                        ->schema(array_filter([
+                                            is_null($record->customer) ? TextInput::make('customer_count')
+                                                ->label('Kişi Sayısı')
+                                                ->required()
+                                                ->numeric()
+                                                ->minValue(1)
+                                                ->maxValue(20) : null,
 
-                            return $formFields;
-                        })
-                        ->action(function (Calculation $record, array $data) {
-                            $paymentAmount = $data['payment_amount'];
-                            $paymentMethod = $data['payment_method'];
-                            $customerCount = $data['customer_count'] ?? $record->customer; // Mevcut müşteri sayısını al veya kullanıcıdan alınan değeri kullan
+                                            TextInput::make('ikram_amount')
+                                                ->label('İkram Tutarı')
+                                                ->numeric()
+                                                ->minValue(0)
+                                                ->maxValue($record->total_amount),
+                                        ])),
+                                ];
 
-                            if ($paymentAmount > $record->total_amount) {
-                                Notification::make()
-                                    ->title('Hata')
-                                    ->body('Ödeme tutarı mevcut hesap tutarından fazla olamaz.')
-                                    ->danger()
-                                    ->send();
-                                return;
-                            }
+                                return $formFields;
+                            })
+                            ->action(function (Calculation $record, array $data) {
+                                $paymentAmount = $data['payment_amount'];
+                                $ikramAmount = $data['ikram_amount'] ?? 0;
+                                $paymentMethod = $data['payment_method'];
+                                $customerCount = $data['customer_count'] ?? $record->customer;
 
-                            if (is_null($record->customer)) {
+                                if ($paymentAmount + $ikramAmount > $record->total_amount) {
+                                    Notification::make()
+                                        ->title('Hata')
+                                        ->body('Ödeme tutarı ve ikram toplamı mevcut hesap tutarından fazla olamaz.')
+                                        ->danger()
+                                        ->send();
+                                    return;
+                                }
+
+                                if ($paymentAmount > $record->total_amount) {
+                                    Notification::make()
+                                        ->title('Hata')
+                                        ->body('Ödeme tutarı mevcut hesap tutarından fazla olamaz.')
+                                        ->danger()
+                                        ->send();
+                                    return;
+                                }
+
+                                $totalPaid = $paymentAmount + $ikramAmount;
                                 $record->customer = $customerCount;
                                 $record->save();
-                            }
 
-                            DB::table('past_orders')->updateOrInsert(
-                                [
-                                    'order_number' => $record->order_number,
-                                ],
-                                [
-                                    'table_number' => $record->table_number,
-                                    'session_id' => $record->session_id,
-                                    'total_amount' => DB::raw('IFNULL(total_amount, 0) + ' . $paymentAmount),
-                                    'net_amount' => DB::raw('IFNULL(net_amount, 0) + (' . $paymentAmount . ' * 0.92)'),
-                                    'device_info' => $record->device_info,
-                                    'note' => $record->note ?? '-',
-                                    'customer' => $customerCount,
-                                    'products' => $record->orderItems->map(function ($item) {
-                                        return $item->quantity . ' x ' . Product::find($item->product_id)->title . ' - ' . $item->price . '₺';
-                                    })->implode(', '),
-                                    'quantity' => $record->orderItems->sum('quantity'),
-                                    'credit_card' => $paymentMethod === 'POS' ? DB::raw('IFNULL(credit_card, 0) + ' . $paymentAmount) : DB::raw('IFNULL(credit_card, 0)'),
-                                    'cash_money' => $paymentMethod === 'Nakit' ? DB::raw('IFNULL(cash_money, 0) + ' . $paymentAmount) : DB::raw('IFNULL(cash_money, 0)'),
-                                    'iban' => $paymentMethod === 'IBAN' ? DB::raw('IFNULL(iban, 0) + ' . $paymentAmount) : DB::raw('IFNULL(iban, 0)'),
-                                    'created_at' => now(),
-                                    'updated_at' => now(),
-                                ]
-                            );
+                                DB::table('past_orders')->updateOrInsert(
+                                    [
+                                        'order_number' => $record->order_number,
+                                    ],
+                                    [
+                                        'table_number' => $record->table_number,
+                                        'session_id' => $record->session_id,
+                                        'total_amount' => DB::raw('IFNULL(total_amount, 0) + ' . $paymentAmount),
+                                        'net_amount' => DB::raw('IFNULL(net_amount, 0) + (' . $paymentAmount . ' * 0.92)'),
+                                        'ikram' => DB::raw('IFNULL(ikram, 0) + ' . $ikramAmount),
+                                        'device_info' => $record->device_info,
+                                        'note' => $record->note ?? '-',
+                                        'customer' => $customerCount,
+                                        'products' => $record->orderItems->map(function ($item) {
+                                            return $item->quantity . ' x ' . Product::find($item->product_id)->title . ' - ' . $item->price . '₺';
+                                        })->implode(', '),
+                                        'quantity' => $record->orderItems->sum('quantity'),
+                                        'credit_card' => $paymentMethod === 'POS' ? DB::raw('IFNULL(credit_card, 0) + ' . $paymentAmount) : DB::raw('IFNULL(credit_card, 0)'),
+                                        'cash_money' => $paymentMethod === 'Nakit' ? DB::raw('IFNULL(cash_money, 0) + ' . $paymentAmount) : DB::raw('IFNULL(cash_money, 0)'),
+                                        'iban' => $paymentMethod === 'IBAN' ? DB::raw('IFNULL(iban, 0) + ' . $paymentAmount) : DB::raw('IFNULL(iban, 0)'),
+                                        'created_at' => $record->created_at,
+                                        'updated_at' => now(),
+                                    ]
+                                );
 
-                            $record->total_amount -= $paymentAmount;
-                            $record->save();
+                                $record->total_amount -= ($paymentAmount + $ikramAmount);
+                                $record->save();
 
-                            if ($record->total_amount <= 0) {
-                                $record->delete();
-                            }
+                                if ($record->total_amount <= 0) {
+                                    $record->delete();
+                                }
 
-                            Notification::make()
-                                ->title('Ödeme Başarılı')
-                                ->body($paymentAmount . '₺ ödeme alındı. Kalan hesap tutarı: ' . $record->total_amount . '₺')
-                                ->success()
-                                ->send();
-                        })
-                        ->modalButton('Ödemeyi Kaydet')
-                        ->color('success'),
+                                Notification::make()
+                                    ->title('Ödeme Başarılı')
+                                    ->body($paymentAmount . '₺ ödeme alındı. Kalan hesap tutarı: ' . $record->total_amount . '₺')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->modalButton('Ödemeyi Kaydet')
+                            ->color('success'),
 
                         ActionGroup::make([
                             Action::make('editTableNumber')
@@ -339,6 +372,7 @@ class CalculationResource extends Resource
                                             'table_number' => $newTableNumber,
                                             'total_amount' => $oldRecord->total_amount,
                                             'customer' => $oldRecord->customer,
+                                            'order_number' => $oldRecord->order_number,
                                             'status' => $oldRecord->status,
                                             'session_id' => $oldRecord->session_id,
                                             'device_info' => $oldRecord->device_info,
@@ -354,6 +388,7 @@ class CalculationResource extends Resource
                                                 'table_number' => $newTableNumber,
                                                 'product_id' => $item->product_id,
                                                 'quantity' => $item->quantity,
+                                                'status' => $item->status,
                                                 'price' => $item->price,
                                                 'created_at' => $item->created_at,
                                                 'updated_at' => now(),
@@ -368,63 +403,91 @@ class CalculationResource extends Resource
                                 ->modalButton('Onayla')
                                 ->color('primary'),
 
-                            Action::make('suspendTableNumber')
-                                ->label('Masayı Askıya Al')
-                                ->icon('heroicon-o-arrow-down-tray')
-                                ->form([
-                                    TextInput::make('table_number')
-                                        ->label('Askıya almak istediğiniz masayı 50 den büyük bir masa sayısına taşıyınız.')
-                                        ->required()
-                                        ->numeric()
-                                        ->minValue(50)
-                                        ->rules([
-                                            Rule::unique('calculations', 'table_number')
-                                                ->ignore(request()->route('record')),
-                                        ]),
-                                ])
-                                ->action(function (Calculation $record, array $data) {
-                                    $oldTableNumber = $record->table_number;
-                                    $newTableNumber = $data['table_number'];
+                                Action::make('suspendTableNumber')
+                                    ->label('Masayı Askıya Al')
+                                    ->icon('heroicon-o-arrow-down-tray')
+                                    ->form([
+                                        TextInput::make('table_number')
+                                            ->label('Askıya almak istediğiniz masayı 50 den büyük bir masa sayısına taşıyınız.')
+                                            ->required()
+                                            ->numeric()
+                                            ->minValue(50)
+                                            ->rules([
+                                                Rule::unique('calculations', 'table_number')
+                                                    ->ignore(request()->route('record')),
+                                            ]),
+                                    ])
+                                    ->action(function (Calculation $record, array $data) {
+                                        $oldTableNumber = $record->table_number;
+                                        $newTableNumber = $data['table_number'];
 
-                                    DB::transaction(function () use ($oldTableNumber, $newTableNumber) {
-                                        $oldRecord = Calculation::where('table_number', $oldTableNumber)->first();
+                                        DB::transaction(function () use ($oldTableNumber, $newTableNumber) {
+                                            $oldRecord = Calculation::where('table_number', $oldTableNumber)->first();
 
-                                        if (!$oldRecord) {
-                                            throw new \Exception("Masa $oldTableNumber bulunamadı.");
-                                        }
+                                            if (!$oldRecord) {
+                                                throw new \Exception("Masa $oldTableNumber bulunamadı.");
+                                            }
 
-                                        $newRecord = Calculation::create([
-                                            'table_number' => $newTableNumber,
-                                            'total_amount' => $oldRecord->total_amount,
-                                            'customer' => $oldRecord->customer,
-                                            'status' => 'Pasif',
-                                            'session_id' => $oldRecord->session_id,
-                                            'device_info' => $oldRecord->device_info,
-                                            'note' => $oldRecord->note,
-                                            'created_at' => $oldRecord->created_at,
-                                            'updated_at' => now(),
-                                        ]);
-
-                                        $orderItems = OrderItem::where('table_number', $oldTableNumber)->get();
-
-                                        foreach ($orderItems as $item) {
-                                            OrderItem::create([
+                                            $newRecord = Calculation::create([
                                                 'table_number' => $newTableNumber,
-                                                'product_id' => $item->product_id,
-                                                'quantity' => $item->quantity,
-                                                'price' => $item->price,
-                                                'created_at' => $item->created_at,
+                                                'total_amount' => $oldRecord->total_amount,
+                                                'customer' => $oldRecord->customer,
+                                                'order_number' => $oldRecord->order_number,
+                                                'status' => 'Pasif',
+                                                'session_id' => $oldRecord->session_id,
+                                                'device_info' => $oldRecord->device_info,
+                                                'note' => $oldRecord->note,
+                                                'created_at' => $oldRecord->created_at,
                                                 'updated_at' => now(),
                                             ]);
-                                        }
 
-                                        OrderItem::where('table_number', $oldTableNumber)->delete();
+                                            $orderItems = OrderItem::where('table_number', $oldTableNumber)->get();
 
-                                        $oldRecord->delete();
-                                    });
-                                })
-                                ->modalButton('Onayla')
-                                ->color('warning'),
+                                            foreach ($orderItems as $item) {
+                                                OrderItem::create([
+                                                    'table_number' => $newTableNumber,
+                                                    'product_id' => $item->product_id,
+                                                    'quantity' => $item->quantity,
+                                                    'status' => $item->status,
+                                                    'price' => $item->price,
+                                                    'created_at' => $item->created_at,
+                                                    'updated_at' => now(),
+                                                ]);
+                                            }
+
+                                            OrderItem::where('table_number', $oldTableNumber)->delete();
+                                            $oldRecord->delete();
+                                        });
+                                    })
+                                    ->modalButton('Onayla')
+                                    ->color('warning')
+                                    ->visible(fn (Calculation $record) => $record->status !== 'Pasif'),
+
+                                Action::make('resumeTableNumber')
+                                    ->label('Masayı Askıdan Çıkar')
+                                    ->icon('heroicon-o-arrow-up-tray')
+                                    ->action(function (Calculation $record) {
+                                        DB::transaction(function () use ($record) {
+                                            if ($record->status === 'Pasif') {
+                                                $record->update(['status' => 'Aktif']);
+
+                                                Notification::make()
+                                                    ->title('Askıda ki masa aktif duruma getirildi.')
+                                                    ->success()
+                                                    ->duration(5000)
+                                                    ->send();
+                                            } else {
+                                                Notification::make()
+                                                    ->title('Masa zaten aktif durumda')
+                                                    ->warning()
+                                                    ->duration(5000)
+                                                    ->send();
+                                            }
+                                        });
+                                    })
+                                    ->modalButton('Onayla')
+                                    ->color('success')
+                                    ->visible(fn (Calculation $record) => $record->status === 'Pasif'),
                         ])
                 ])
             ->bulkActions([

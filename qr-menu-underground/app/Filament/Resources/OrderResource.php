@@ -120,6 +120,10 @@ class OrderResource extends Resource
                     ->suffix(' adet'),
                 TextColumn::make('product.title')
                     ->label('Ürün Adı'),
+                TextColumn::make('product.price')
+                    ->label('Ürün Fiyatı')
+                    ->suffix('₺')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 BadgeColumn::make('status')
                     ->label('Sipariş Durumu')
                     ->colors([
@@ -196,6 +200,8 @@ class OrderResource extends Resource
                                 ->options(Product::all()->pluck('title', 'id'))
                                 ->required()
                                 ->searchable(),
+                            TextInput::make('note')
+                                ->label('Sipariş Notu')
                         ])
                         ->action(function (OrderItem $record, array $data) {
                             $record->update($data);
