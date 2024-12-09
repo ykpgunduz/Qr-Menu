@@ -37,12 +37,13 @@ class OrderController extends Controller
         $existingOrder = Calculation::where('table_number', $tableNumber)->first();
 
         if ($existingOrder) {
-            $existingOrder->total_amount += $totalAmount * 0.95;
             if ($status == 'Self') {
                 $existingOrder->total_amount += $totalAmount * 0.95;
                 $existingOrder->ikram += $totalAmount * 0.05;
+                $existingOrder->status = $status;
             } else {
                 $existingOrder->total_amount += $totalAmount;
+                $existingOrder->status = $status;
             }
             $existingOrder->save();
             $orderId = $existingOrder->id;
