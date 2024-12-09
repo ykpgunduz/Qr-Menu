@@ -8,9 +8,6 @@ use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $products = [
@@ -76,7 +73,8 @@ class ProductSeeder extends Seeder
             ['title' => 'Maden Suyu Soda', 'price' => 50.00, 'category' => 'Soğuk İçecekler'],
             ['title' => 'Churchill', 'price' => 70.00, 'category' => 'Soğuk İçecekler'],
             ['title' => 'Enerji Monster', 'price' => 90.00, 'category' => 'Soğuk İçecekler'],
-            ['title' => 'Cheesecake Limon/Frambuaz', 'price' => 130.00, 'category' => 'Atıştırmalıklar'],
+            ['title' => 'Limonlu Cheesecake', 'price' => 130.00, 'category' => 'Atıştırmalıklar'],
+            ['title' => 'Frambuazlı Cheesecake', 'price' => 130.00, 'category' => 'Atıştırmalıklar'],
             ['title' => 'Tiramisu', 'price' => 140.00, 'category' => 'Atıştırmalıklar'],
             ['title' => 'Çikolatalı Tatlı', 'price' => 145.00, 'category' => 'Atıştırmalıklar'],
             ['title' => 'Bardak Kurabiye', 'price' => 80.00, 'category' => 'Atıştırmalıklar'],

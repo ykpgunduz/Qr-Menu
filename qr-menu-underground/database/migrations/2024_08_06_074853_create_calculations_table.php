@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('device_info')->nullable();
             $table->string('status')->default('Aktif');
             $table->integer('total_amount')->default(0);
+            $table->integer('ikram')->nullable();
             $table->timestamps();
         });
     }

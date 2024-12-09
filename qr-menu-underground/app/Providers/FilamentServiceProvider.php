@@ -8,17 +8,6 @@ use Filament\Navigation\NavigationGroup;
 
 class FilamentServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
         Filament::registerNavigationGroups([

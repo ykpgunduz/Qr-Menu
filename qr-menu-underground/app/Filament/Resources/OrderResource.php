@@ -121,9 +121,8 @@ class OrderResource extends Resource
                 TextColumn::make('product.title')
                     ->label('Ürün Adı'),
                 TextColumn::make('product.price')
-                    ->label('Ürün Fiyatı')
-                    ->suffix('₺')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Fiyat')
+                    ->suffix('₺'),
                 BadgeColumn::make('status')
                     ->label('Sipariş Durumu')
                     ->colors([
@@ -151,7 +150,7 @@ class OrderResource extends Resource
             ->poll('10s')
             ->groups([
                 Group::make('table_number')
-                ->label('Masa')
+                    ->label('Masa')
             ])
             ->defaultGroup('table_number')
             ->groupingSettingsHidden()
@@ -225,10 +224,7 @@ class OrderResource extends Resource
                         ->modalButton('Evet, Sil'),
                 ]),
             ])
-            ->paginated(['all'])
-            ->bulkActions([
-                //
-            ]);
+            ->paginated(['all']);
     }
 
     public static function getPages(): array

@@ -8,15 +8,11 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Spatie\Permission\Models\Role;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\UserResource\RelationManagers;
-use Filament\Resources\UserResource as BaseUserResource;
-use Filament\Forms\Components\Select;
-use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
@@ -49,12 +45,7 @@ class UserResource extends Resource
                 ->required()
                 ->maxLength(50)
                 ->reactive(),
-            Select::make('roles')
-                ->label('Kullanıcı Rolü')
-                ->multiple()
-                ->relationship('roles', 'name')
-                ->options(Role::all()->pluck('name', 'id'))
-                ->preload(),
+            // Select::make('roles')
         ]);
     }
 
@@ -63,29 +54,12 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->label('İsim'),
+                    ->label('İsim'),
                 TextColumn::make('email')
-                ->label('E-Posta'),
+                    ->label('E-Posta')
             ])
-            ->filters([
-                //
-            ])
-            ->paginated([
-                'all'
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                //
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ->paginated(['all'])
+            ->actions([Tables\Actions\EditAction::make()]);
     }
 
     public static function getPages(): array

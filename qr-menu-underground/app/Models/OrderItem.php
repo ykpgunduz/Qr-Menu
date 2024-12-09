@@ -20,19 +20,6 @@ class OrderItem extends Model
         'note'
     ];
 
-    protected static function booted()
-    {
-        static::saved(function ($orderItem) {
-            $totalAmount = DB::table('order_items')
-                ->where('table_number', $orderItem->table_number)
-                ->sum(DB::raw('quantity * price'));
-
-            DB::table('calculations')
-                ->where('table_number', $orderItem->table_number)
-                ->update(['total_amount' => $totalAmount]);
-        });
-    }
-
     public function calculation()
     {
         return $this->belongsTo(Calculation::class, 'table_number', 'table_number');

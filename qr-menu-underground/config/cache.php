@@ -39,6 +39,7 @@ return [
         ],
 
         'database' => [
+            'enabled' => true,
             'driver' => 'database',
             'connection' => env('DB_CACHE_CONNECTION'),
             'table' => env('DB_CACHE_TABLE', 'cache'),

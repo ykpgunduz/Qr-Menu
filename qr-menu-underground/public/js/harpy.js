@@ -1,7 +1,6 @@
 (function ($) {
     "use strict";
 
-    // Spinner
     var spinner = function () {
         setTimeout(function () {
             if ($('#spinner').length > 0) {
@@ -11,12 +10,8 @@
     };
     spinner(0);
 
-
-    // Initiate the wowjs
     new WOW().init();
 
-
-    // Sticky Navbar
     $(window).scroll(function () {
         if ($(this).scrollTop() > 45) {
             $('.nav-bar').addClass('sticky-top shadow-sm').css('top', '0px');
@@ -25,7 +20,6 @@
         }
     });
 
-    // testimonial carousel
     $(".testimonial-carousel").owlCarousel({
         autoplay: true,
         smartSpeed: 1500,
@@ -71,14 +65,11 @@
         });
     });
 
-    // Facts counter
     $('[data-toggle="counter-up"]').counterUp({
         delay: 5,
         time: 2000
     });
 
-
-   // Back to top button
    $(window).scroll(function () {
     if ($(this).scrollTop() > 300) {
         $('.back-to-top').fadeIn('slow');

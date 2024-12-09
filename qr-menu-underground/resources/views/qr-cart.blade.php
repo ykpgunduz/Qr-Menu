@@ -60,6 +60,32 @@
             z-index: 9999;
             transition: opacity 0.5s, visibility 0.5s;
         }
+
+        .option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 150px;
+            height: 120px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .option i {
+            margin-bottom: 10px;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -79,18 +105,85 @@
         </nav>
         <!-- Navbar End -->
 
+        <style>
+            #error-message {
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background-color: #a72828;
+                color: white !important;
+                padding: 10px 20px;
+                border-radius: 5px;
+                display: none;
+                z-index: 9999;
+                transition: opacity 0.5s, visibility 0.5s;
+            }
+        </style>
+
+        <div id="error-message" class="text-center" style="display: none; color: red;">Lütfen bir servis türü seçiniz!</div>
+
+
         <form action="{{ route('store') }}" method="POST" id="form1">
             @csrf
             <input type="hidden" name="cart_items" value="{{ json_encode($cartItems) }}">
             <input type="hidden" name="table_number" value="{{ $tableNumber }}" class="form-control" required>
             <input type="hidden" name="session_id" value="{{ $sessionId }}" class="form-control" required>
             <input type="hidden" name="device_info" value="{{ $deviceInfo }}" class="form-control" required>
+            <input type="hidden" name="status" id="status" value="service">
         <!-- Menu Start -->
+
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h5 class="section-title ff-secondary text-center text fw-normal">Coffee Shop</h5>
                 <h1 class="mb-5">Siparişinizdeki Ürünler</h1>
 
+                <div class="mb-3 d-flex justify-content-center">
+                    <div class="option me-2" id="Masa">
+                        <i class="fas mb-3 fa-2xl fa-concierge-bell"></i>
+                        <span>Masaya Servis</span>
+                    </div>
+                    <div class="option ms-2" id="Self">
+                        <i class="fas fa-2xl mt-2 mb-4 fa-shopping-bag"></i>
+                        <span>Self Servis</span>
+                        <small>%5 İndirimli</small>
+                    </div>
+                </div>
+
+                <script>
+                    const options = document.querySelectorAll('.option');
+                    const status = document.getElementById('status');
+
+                    options.forEach(option => {
+                        option.addEventListener('click', () => {
+                            options.forEach(o => o.classList.remove('selected'));
+                            option.classList.add('selected');
+                            status.value = option.id;
+                        });
+                    });
+
+                    document.getElementById('form1').addEventListener('submit', function (event) {
+                        const status = document.getElementById('status').value;
+
+                        if (!status || (status !== 'Masa' && status !== 'Self')) {
+                            event.preventDefault();
+                            const errorMessage = document.getElementById('error-message');
+                            errorMessage.style.display = 'block';
+                            errorMessage.innerText = 'Lütfen bir servis türü seçiniz!';
+                        }
+                    });
+
+                    options.forEach(option => {
+                        option.addEventListener('click', () => {
+                            options.forEach(o => o.classList.remove('selected'));
+                            option.classList.add('selected');
+                            status.value = option.id;
+
+                            const errorMessage = document.getElementById('error-message');
+                            errorMessage.style.display = 'none';
+                        });
+                    });
+
+                </script>
                 <!-- Ana formu buraya ekliyoruz -->
                     <div id="cart-items">
                         @foreach ($cartItems as $cartItem)

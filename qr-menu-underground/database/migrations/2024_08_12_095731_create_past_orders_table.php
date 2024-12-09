@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('past_orders', function (Blueprint $table) {
@@ -19,6 +16,7 @@ return new class extends Migration
             $table->integer('total_amount');
             $table->decimal('net_amount');
             $table->integer('ikram')->nullable();
+            $table->integer('selfikram')->nullable();
             $table->text('products');
             $table->integer('quantity');
             $table->string('note')->default('-');
@@ -31,9 +29,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('past_orders');

@@ -11,11 +11,9 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\PastOrderResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PastOrderResource\RelationManagers;
 
 class PastOrderResource extends Resource
 {
@@ -61,13 +59,16 @@ class PastOrderResource extends Resource
                 TextColumn::make('net_amount')
                     ->label('Net Satış')
                     ->suffix('₺')
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->summarize(Sum::make()),
                 TextColumn::make('ikram')
                     ->label('İkram')
                     ->prefix('-')
                     ->suffix('₺')
-                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->summarize(Sum::make()),
+                TextColumn::make('selfikram')
+                    ->label('Self İkram')
+                    ->prefix('-')
+                    ->suffix('₺')
                     ->summarize(Sum::make()),
                 TextColumn::make('created_at')
                     ->label('Masa Açılış Saati')
@@ -98,24 +99,7 @@ class PastOrderResource extends Resource
                         'end' => Carbon::tomorrow()->addHours(3)->subSecond(),
                     ]),
             ])
-            ->paginated([
-                60,
-                90,
-                120,
-            ])
-            ->actions([
-                //
-            ])
-            ->bulkActions([
-                //
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ->paginated([60, 90, 120]);
     }
 
     public static function getPages(): array

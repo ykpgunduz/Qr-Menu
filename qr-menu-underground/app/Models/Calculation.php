@@ -13,6 +13,7 @@ class Calculation extends Model
     protected $fillable = [
         'table_number',
         'total_amount',
+        'ikram',
         'session_id',
         'order_number',
         'device_info',
@@ -22,12 +23,5 @@ class Calculation extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'table_number', 'table_number');
-    }
-
-    public function updateTotalAmount()
-    {
-        $totalAmount = $this->orderItems()->sum(DB::raw('quantity * price'));
-        $this->total_amount = $totalAmount;
-        $this->save();
     }
 }

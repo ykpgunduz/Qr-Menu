@@ -95,6 +95,23 @@
                         </div>
                     </div>
                     <div class="col-md-4 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="service-item bg-white" id="qr-code">
+                            <div class="service-img p-4">
+                                <img src="img/qr-code.svg" class="img-fluid rounded-top w-100" alt="QR Kod Menü Yazılımı">
+                            </div>
+                            <div class="service-content p-4 bg-white">
+                                <div class="service-content-inner">
+                                    <h4 class="d-inline-block h4 mb-4">QR Menü Otomasyon Sistemleri</h4>
+                                    <p class="mb-4">Tasarladığımız QR Menü Yazılımı ile iş süreçlerinizi optimize eden özelleştirilmiş otomasyon yazılımları geliştiriyoruz.</p>
+                                    <p>İhtiyaca yönelik olarak cafe ve restaurantlar için en uygun sistemi kuruyoruz. İşlerinizin gidişatını her türlü cihazdan görüntüleme imkanı sağlıyoruz.</p>
+                                    <p>Güvenlik önlemleri ve veri şifreleme ile bilgilerinizin korunmasını sağlıyor, entegre sistemler ile mevcut altyapınızla uyumlu çözümler sunuyoruz.</p>
+                                    <p>Teknik destek ve bakım hizmetleri ile yazılımınızın sorunsuz çalışmasını sağlıyoruz.</p>
+                                    <p>Bu hizmet hakkında daha fazla bilgi almak için iletişime geçebilirsiniz.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="service-item bg-white" id="medya">
                             <div class="service-img p-4">
                                 <img src="img/social-media-service-2.svg" class="img-fluid rounded-top w-100" alt="Sosyal Medya Hizmetleri">
@@ -111,7 +128,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.8s">
+                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.4s">
                         <div class="service-item bg-white" id="ticaret">
                             <div class="service-img p-4">
                                 <img src="img/ecommerce-service-2.svg" class="img-fluid w-100" alt="E-Ticaret Hizmetleri">
@@ -128,7 +145,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay="1.0s">
+                    {{-- <div class="col-md-4 wow fadeInUp" data-wow-delay="1.0s">
                         <div class="service-item bg-white" id="yazilim">
                             <div class="service-img p-4">
                                 <img src="img/software-service.svg" class="img-fluid rounded-top w-100" alt="Yazılım Hizmetleri">
@@ -143,8 +160,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay="1.2s">
+                    </div> --}}
+                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="service-item bg-white" id="danismanlik">
                             <div class="service-img p-4">
                                 <img src="img/learning-service.svg" class="img-fluid rounded-top w-100" alt="Eğitim ve Danışmanlık Hizmetleri">

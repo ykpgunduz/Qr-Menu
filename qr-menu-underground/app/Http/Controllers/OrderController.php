@@ -30,15 +30,33 @@ class OrderController extends Controller
         $tableNumber = $request->input('table_number');
         $sessionId = $request->session()->getId();
         $deviceInfo = $request->input('device_info');
+        $status = $request->input('status');
 
         $orderNumber = 'ORD-' . strtoupper(uniqid());
 
         $existingOrder = Calculation::where('table_number', $tableNumber)->first();
 
         if ($existingOrder) {
-            $existingOrder->total_amount += $totalAmount;
+            $existingOrder->total_amount += $totalAmount * 0.95;
+            if ($status == 'Self') {
+                $existingOrder->total_amount += $totalAmount * 0.95;
+                $existingOrder->ikram += $totalAmount * 0.05;
+            } else {
+                $existingOrder->total_amount += $totalAmount;
+            }
             $existingOrder->save();
             $orderId = $existingOrder->id;
+        } elseif ($status == 'Self') {
+            $calculation = Calculation::create([
+                'table_number' => $tableNumber,
+                'total_amount' => $totalAmount * 0.95,
+                'ikram' => $totalAmount * 0.05,
+                'session_id' => $sessionId,
+                'device_info' => $deviceInfo,
+                'order_number' => $orderNumber,
+                'status' => $status,
+            ]);
+            $orderId = $calculation->id;
         } else {
             $calculation = Calculation::create([
                 'table_number' => $tableNumber,
@@ -46,12 +64,10 @@ class OrderController extends Controller
                 'session_id' => $sessionId,
                 'device_info' => $deviceInfo,
                 'order_number' => $orderNumber,
+                'status' => $status,
             ]);
-
-
             $orderId = $calculation->id;
         }
-
 
         $notes = $request->input('notes', []);
 
@@ -65,13 +81,15 @@ class OrderController extends Controller
             ]);
         }
 
-        $notification = "Yeni Sipariş Geldi!";
+        $notification = $tableNumber . ". Masa Sipariş Verdi!";
 
-        Notification::make()
-            ->title($notification)
-            ->success()
-            ->duration(5000)
-            ->send();
+        foreach (User::all() as $user) {
+            Notification::make()
+                ->title($notification)
+                ->success()
+                ->duration(5000)
+                ->sendToDatabase($user);
+        }
 
         DB::table('carts')->where('table_number', $tableNumber)->delete();
         $request->session()->flash('clearCart', true);
@@ -79,11 +97,10 @@ class OrderController extends Controller
         return redirect()->route('order', ['table' => $tableNumber]);
     }
 
-
     public function show(Request $request)
     {
         $tableNumber = $request->query('table');
-
+        $status = Calculation::where('table_number', $tableNumber)->value('status');
         $order = Calculation::with('orderItems.product')
             ->where('table_number', $tableNumber)
             ->first();
@@ -92,18 +109,26 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Sipariş bulunamadı.');
         }
 
-        return view('qr-orders', compact('order', 'tableNumber'));
+        return view('qr-orders', compact('order', 'tableNumber', 'status'));
     }
 
     public function come(Request $request)
     {
         $tableNumber = $request->input('table_number');
-
         $order = Calculation::where('table_number', $tableNumber)->first();
 
         if ($order) {
             $order->status = 'Hesap';
             $order->save();
+        }
+
+        $notification = $tableNumber . ". Masa Hesabı İstiyor!";
+
+        foreach (User::all() as $user) {
+            Notification::make()
+                ->title($notification)
+                ->success()
+                ->sendToDatabase($user);
         }
 
         return redirect()->back();

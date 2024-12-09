@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $users = [
@@ -20,11 +17,19 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            User::create([
+            // Kullanıcıyı oluşturuyoruz
+            $createdUser = User::create([
                 'name' => $user['name'],
                 'email' => $user['email'],
                 'password' => Hash::make($user['password']),
             ]);
+
+            // Bildirim ilişkisinin oluşturulması
+            // notifiable_type'ı 'App\Models\User' olarak ayarlıyoruz ve notifiable_id olarak kullanıcının id'sini veriyoruz
+            // $createdUser->notifiable()->create([
+            //     'notifiable_type' => 'App\Models\User',
+            //     'notifiable_id' => $createdUser->id,
+            // ]);
         }
     }
 }

@@ -106,7 +106,7 @@
                         <div class="about-item-content bg-white rounded p-5 h-100">
                             <h4 class="text-primary">Harpy Social Hakkında</h4>
                             <h1 class="display-4 mb-4">Dijital Dünyaya Açılan Kapı</h1>
-                            <p>Harpy Social, Yakup Gündüz tarafından kurulmuş olup, dijital dünyada önemli bir boşluğu doldurmayı amaçlayan yenilikçi bir teknoloji firmasıdır. Günümüzde birçok işletme, dijital dönüşüm sürecinde çeşitli yetersizlikler ve zorluklarla karşı karşıya kalmaktadır. Bu yetersizlikler, işletmelerin rekabet gücünü azaltmakta ve büyüme potansiyellerini sınırlamaktadır. İşte bu noktada Harpy Social devreye giriyor ve işletmelerin dijital dünyada en güçlü müttefiki olmayı hedefliyor.</p>
+                            <p>Harpy Social, {{-- Yakup Gündüz tarafından kurulmuş olup, --}} dijital dünyada önemli bir boşluğu doldurmayı amaçlayan yenilikçi bir teknoloji firmasıdır. Günümüzde birçok işletme, dijital dönüşüm sürecinde çeşitli yetersizlikler ve zorluklarla karşı karşıya kalmaktadır. Bu yetersizlikler, işletmelerin rekabet gücünü azaltmakta ve büyüme potansiyellerini sınırlamaktadır. İşte bu noktada Harpy Social devreye giriyor ve işletmelerin dijital dünyada en güçlü müttefiki olmayı hedefliyor.</p>
                             <p>Uzman ekibimiz; web ve mobil yazılımlar geliştirerek, müşterilerimizin dijital dünyada fark yaratmasını sağlamaktadır. Amacımız, dijital yetersizlikleri ortadan kaldırarak, iş süreçlerini daha verimli ve etkili hale getirmektir. Her işletmenin kendine özgü ihtiyaçları olduğunu biliyoruz ve bu nedenle, özel çözümler sunuyoruz.</p>
                             <p>Harpy Social olarak, müşteri memnuniyeti ve yenilikçilik üzerine inşa ettiğimiz sektördeki yerimizle, dijital çağın getirdiği zorlukları fırsata dönüştürmek için buradayız. Müşterilerimizin ihtiyaçlarına yönelik en uygun çözümleri geliştirerek, onların büyüme ve gelişme yolculuklarında sürekli yanlarında olmayı hedefliyoruz. Dijital dünyanın hızla değişen dinamiklerine ayak uydurmak ve bu değişimin bir parçası olmak için sürekli kendimizi geliştiriyoruz. Teknolojinin sınırlarını zorlayarak, müşterilerimize en güncel ve etkili çözümleri sunmayı amaçlıyoruz. İşletmelerin dijital dünyada başarılı olmaları için gereken tüm araçları ve desteği sağlıyoruz.</p>
                         </div>
@@ -169,7 +169,7 @@
         <!-- Feature Sonu -->
 
         <!-- Team Başlangıcı -->
-        <div class="container-fluid team pb-5 py-5">
+        {{-- <div class="container-fluid team pb-5 py-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
                     <h4 class="text-primary">Ekibimiz</h4>
@@ -177,6 +177,7 @@
                     <p class="mb-0">Ekibimiz, her biri kendi alanında uzman olan profesyonellerden oluşmaktadır. Sektördeki en son trendleri takip ederek, projeleriniz için yenilikçi çözümler sunuyoruz. Alanında yetkin ve deneyimli ekip üyelerimizle, yüksek kaliteli hizmetler sunmayı hedefliyoruz.</p>
                 </div>
                 <div class="row g-4">
+                    <!-- Team Member Card Start -->
                     <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
@@ -191,6 +192,9 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Team Member Card End -->
+
+                    <!-- Team Member Card Start -->
                     <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
@@ -205,7 +209,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
+                    <!-- Team Member Card End -->
+
+                    <!-- Team Member Card Start -->
+                    <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
                                 <img src="img/kadir-kutludogmus.jpg" class="img-fluid rounded-top w-100 team-h" alt="Kadir Kutludoğmuş">
@@ -219,6 +226,9 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Team Member Card End -->
+
+                    <!-- Team Member Card Start -->
                     <div class="col-md-3 col-lg-3 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="team-item d-flex flex-column h-100">
                             <div class="team-img">
@@ -233,9 +243,10 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Team Member Card End -->
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Team Sonu -->
 
         <!-- Footer Başlangıcı -->

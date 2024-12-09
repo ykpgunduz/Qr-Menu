@@ -1,0 +1,130 @@
+.containerr {
+    display: inline-block;
+}
+
+input[type="number"] {
+    text-align: center;
+    font-size: 15px;
+    border: none;
+    color: #202030;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+button {
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    font-size: 17px;
+    cursor: pointer;
+    padding: 0px;
+}
+
+#search-bar {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    outline: none;
+}
+
+#search-bar:focus {
+    border-color: #007bff;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.menu-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+}
+
+.menu-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.item-info h3 {
+    margin: 10px 0;
+    font-size: 19px;
+}
+
+.item-info h4 {
+    margin: 10px 0;
+    font-size: 17px;
+}
+
+.result-count {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+#success-message {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: #28a745;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 9999;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+#error-message {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: #a72828;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 9999;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+.menu-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+}
+.menu-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.item-info h3 {
+    margin: 10px 0;
+    font-size: 19px;
+}
+.item-info h4 {
+    margin: 10px 0;
+    font-size: 17px;
+}

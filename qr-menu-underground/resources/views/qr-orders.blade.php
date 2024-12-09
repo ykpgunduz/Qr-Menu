@@ -30,7 +30,6 @@
             border-radius: 45px;
             display: inline-block;
         }
-
         input[type="number"] {
             -moz-appearance: textfield;
             text-align: center;
@@ -39,13 +38,11 @@
             background-color: #ffffff;
             color: #202030;
         }
-
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-
         button {
             color: #FEA116;
             background-color: #ffffff;
@@ -53,7 +50,6 @@
             font-size: 20px;
             cursor: pointer;
         }
-
         #success-message {
             position: fixed;
             top: 70px;
@@ -96,12 +92,17 @@
                     <h1 class="mb-3 badge bg-success" style="font-size: 25px">
                         <i class="fa-regular fa-circle-check"></i> Siparişinizi Aldık!
                     </h1>
-                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişiniz onay bekliyor...</p>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişiniz bize ulaştı bir sonraki süreç için bu sekmeyi açık bırakınız.</p>
                     @elseif ($order->orderItems->where('status', 'Hazırlanıyor')->count() > 0)
                     <h1 class="mb-3 badge text-dark bg-warning" style="font-size: 25px">
-                        <i class="fa-solid fa-spinner fa-spin"></i> Siparişiniz Hazırlanıyor...
+                        <i class="fa-solid fa-spinner fa-spin"></i> Siparişiniz Hazırlanıyor
                     </h1>
-                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişinizi hazırlıyoruz masanıza servis edeceğiz</p>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Siparişiniz şu an da hazırlanıyor...</p>
+                    @elseif ($order->status === 'Self' && $order->orderItems->where('status', 'Teslim Edildi')->count() > 0)
+                    <h1 class="mb-3 badge bg-success" style="font-size: 25px">
+                        <i class="fa-solid fa-cookie-bite"></i> Siparişiniz Hazırlandı!
+                    </h1>
+                    <p class="mb-5"><i class="fa-solid fa-circle-info"></i> Kasaya gelip self servis olarak siparişinizi alabilirsiniz.</p>
                     @elseif ($order->orderItems->where('status', 'Teslim Edildi')->count() > 0)
                     <h1 class="mb-3 badge bg-primary" style="font-size: 25px">
                         <i class="fa-solid fa-cookie-bite"></i> Afiyet Olsun!
@@ -148,14 +149,16 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="2" class="text-end"><strong>Toplam Tutar:</strong></td>
-                            <td colspan="3"><strong>{{ $order->total_amount }}₺</strong></td>
+                            @if ($order->ikram > 0)
+                                <td colspan="2" class="text-end"><strong>Self Servis İndirimli Tutarı:</strong></td>
+                                <td colspan="3"><strong><span class="text-success">{{ $order->total_amount }}₺</span></strong></td>
+                            @else
+                                <td colspan="2" class="text-end"><strong>Toplam Tutar:</strong></td>
+                                <td><strong>{{ $order->total_amount }}₺</strong></td>
+                            @endif
                         </tr>
                     </tbody>
                 </table>
-                @if ($order->note)
-                <p class="text-dark">Not: {{ $order->note }}</p>
-                @endif
             </div>
         </div>
     </div>
@@ -201,7 +204,11 @@
 
     <nav class="navbar navbar-expand-lg fixed-bottom">
         <div class="container d-flex justify-content-center">
+            @if ($order->status === 'Hesap')
+            <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Hesap isteğiniz bize ulaştı teşekkür ederiz.</p>
+            @else
             <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Masanızdan kalkmadan hesabı isteyebilirsiniz.</p>
+            @endif
             <div class="container d-flex justify-content-center mb-2">
             @if ($order->status === 'Hesap')
                 <a class="btn btn-warning btn-md ms-2"><i class="fa-solid fa-clock"></i> Hesap İstendi</a>
