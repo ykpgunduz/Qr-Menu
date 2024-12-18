@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: qrmenu
     ports:
-      - "80:80"
+      - "9090:80"
     volumes:
       - .:/var/www
     depends_on:
