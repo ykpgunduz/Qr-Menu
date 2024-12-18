@@ -25,9 +25,9 @@ services:
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: qrmenu-db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root_password
+      MYSQL_DATABASE: qrmenu
+      MYSQL_USER: qrmenu_user
+      MYSQL_PASSWORD: qrmenu_password
       MYSQL_CHARSET: utf8mb4
       MYSQL_COLLATION: utf8mb4_unicode_ci
     ports:
