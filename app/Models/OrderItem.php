@@ -78,6 +78,8 @@ class OrderItem extends Model
                 ->where('table_number', $this->table_number)
                 ->sum(DB::raw('quantity * price'));
 
+            $totalAmount -= $calculation->ikram ?? 0;
+
             $calculation->update(['total_amount' => $totalAmount]);
         }
     }
