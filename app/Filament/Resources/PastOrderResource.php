@@ -129,7 +129,6 @@ class PastOrderResource extends Resource
                     ]),
             ])
             ->paginated([60, 90, 120])
-            ->recordAction('view')
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     EditAction::make()
