@@ -113,8 +113,8 @@
                 }, t.duration),
                 this.isShown = !0;
 
-                const audio = new Audio('/sound/ses.mp3'); // Ses dosyasının yolu
-                audio.play(); // Ses dosyasını otomatik olarak çal
+                const audio = new Audio('/sound/ses.mp3');
+                audio.play();
             },
             configureTransitions: function() {
                 let e = this.computedStyle.display, s = () => {
@@ -237,8 +237,6 @@
             return window.dispatchEvent(new CustomEvent("notificationSent", { detail: { notification: this } })), this;
         }
     };
-
-    // Diğer sınıflar devam eder...
 
     window.FilamentNotification = p;
     document.addEventListener("alpine:init", () => {
