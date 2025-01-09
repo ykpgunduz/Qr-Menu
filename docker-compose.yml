@@ -19,13 +19,13 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: underground-db
+    container_name: qrmenu-db
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: underground-db
+      MYSQL_DATABASE: qrmenu-db
       MYSQL_USER: laravel_user
       MYSQL_PASSWORD: root
       MYSQL_CHARSET: utf8mb4
