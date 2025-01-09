@@ -45,7 +45,10 @@ class UserResource extends Resource
                 ->required()
                 ->maxLength(50)
                 ->reactive(),
-            // Select::make('roles')
+            Select::make('roles')
+                ->label('Kullanıcı Rolü')
+                ->relationship('roles', 'name')
+                ->required()
         ]);
     }
 
@@ -56,7 +59,11 @@ class UserResource extends Resource
                 TextColumn::make('name')
                     ->label('İsim'),
                 TextColumn::make('email')
-                    ->label('E-Posta')
+                    ->label('E-Posta'),
+                TextColumn::make('roles')
+                    ->label('Roller')
+                    ->getStateUsing(fn ($record) => $record->roles->pluck('name')->join(', ')),
+
             ])
             ->paginated(['all'])
             ->actions([Tables\Actions\EditAction::make()]);

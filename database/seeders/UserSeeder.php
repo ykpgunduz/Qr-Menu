@@ -11,13 +11,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['name' => 'Developer', 'email' => 'developer@harpysocial.com', 'password' => 'Yakup@Laravel44'],
-            ['name' => 'Developer', 'email' => 'argent@harpysocial.com', 'password' => 'OnurLaravel'],
-            ['name' => 'Underground', 'email' => 'underground@harpysocial.com', 'password' => 'uzay'],
+            ['name' => 'Developer', 'email' => 'developer@harpysocial.com', 'password' => 'asd'],
+            ['name' => 'Kasa', 'email' => 'kasa@harpysocial.com', 'password' => 'Kasa123',  ],
+            ['name' => 'Patron', 'email' => 'patron@harpysocial.com', 'password' => 'Patron123'],
+            ['name' => 'Garson', 'email' => 'garson@harpysocial.com', 'password' => 'Garson123'],
         ];
 
         foreach ($users as $user) {
-            // Kullanıcıyı oluşturuyoruz
             $createdUser = User::create([
                 'name' => $user['name'],
                 'email' => $user['email'],
