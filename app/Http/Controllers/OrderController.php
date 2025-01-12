@@ -84,13 +84,11 @@ class OrderController extends Controller
 
         $notification = $tableNumber . ". Masa Sipariş Verdi!";
 
-        foreach (User::all() as $user) {
-            Notification::make()
-                ->title($notification)
-                ->success()
-                ->duration(5000)
-                ->sendToDatabase($user);
-        }
+        Notification::make()
+            ->title($notification)
+            ->success()
+            ->duration(5000)
+            ->sendToDatabase(User::all());
 
         DB::table('carts')->where('table_number', $tableNumber)->delete();
         $request->session()->flash('clearCart', true);
@@ -125,12 +123,10 @@ class OrderController extends Controller
 
         $notification = $tableNumber . ". Masa Hesabı İstiyor!";
 
-        foreach (User::all() as $user) {
-            Notification::make()
-                ->title($notification)
-                ->success()
-                ->sendToDatabase($user);
-        }
+        Notification::make()
+            ->title($notification)
+            ->success()
+            ->sendToDatabase(User::all());
 
         return redirect()->back();
     }
