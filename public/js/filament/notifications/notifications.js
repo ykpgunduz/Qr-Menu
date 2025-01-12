@@ -116,10 +116,13 @@
                 if (!window.notificationPlayed) {
                     window.notificationPlayed = true;
                     const audio = new Audio('/sound/notification.mp3');
-                    audio.play().finally(() => {
+                    audio.play().then(() => {
                         setTimeout(() => {
                             window.notificationPlayed = false;
-                        }, 1000); // Sesin tamamlanmasını beklemek için süre
+                        }, 1000);
+                    }).catch((error) => {
+                        console.error("Ses dosyası çalınamadı:", error);
+                        window.notificationPlayed = false;
                     });
                 }
             },
