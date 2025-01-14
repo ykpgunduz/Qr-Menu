@@ -7,14 +7,10 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function boot()
     {
-        // if ($this->app->environment('production')) {
-        //     URL::forceScheme('https');
-        // } elseif ($this->app->environment('local')) {
-        //     logger('Yerel geliştirme ortamı algılandı.');
-        // } else {
-        //     abort(500, 'Bilinmeyen ortam algılandı. Lütfen geliştirici ile iletişime geçin.');
-        // }
+        if (env('FORCE_HTTPS', false)) {
+            URL::forceScheme('https');
+        }
     }
 }
