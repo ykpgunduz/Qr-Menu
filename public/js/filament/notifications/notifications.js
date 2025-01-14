@@ -115,7 +115,7 @@
 
                 if (!window.notificationPlayed) {
                     window.notificationPlayed = true;
-                    const audio = new Audio('/sound/notification.mp3');
+                    const audio = new Audio('/sounds/notification.mp3');
                     audio.play().then(() => {
                         setTimeout(() => {
                             window.notificationPlayed = false;
