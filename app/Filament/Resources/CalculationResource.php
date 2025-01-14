@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use DB;
-use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
@@ -15,10 +13,10 @@ use App\Models\Calculation;
 use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -26,7 +24,6 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Columns\Layout\Stack;
 use App\Filament\Resources\CalculationResource\Pages;
 
 class CalculationResource extends Resource

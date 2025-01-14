@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\MonthlyStatisticsResource\Pages;
 
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\MonthlyStatisticsResource;
 use App\Filament\Resources\MonthlyStatisticsResource\Widgets\MonthlyChart;

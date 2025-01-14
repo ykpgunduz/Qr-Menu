@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\PastOrderResource\Pages;
 
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\PastOrderResource;
 use App\Filament\Resources\PastOrderResource\Widgets\PastOrderWidget;

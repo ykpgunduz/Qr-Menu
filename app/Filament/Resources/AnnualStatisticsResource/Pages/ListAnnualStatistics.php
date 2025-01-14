@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\AnnualStatisticsResource\Pages;
 
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\AnnualStatisticsResource;
 use App\Filament\Resources\AnnualStatisticsResource\Widgets\AnnualChart;

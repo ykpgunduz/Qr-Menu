@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Models\User;
-use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Calculation;
 use Illuminate\Http\Request;
-use App\Events\CalculationCreated;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Filament\Notifications\Notification;
-use Filament\Notifications\Actions\Action;
 
 class OrderController extends Controller
 {
@@ -91,7 +88,7 @@ class OrderController extends Controller
             ->sendToDatabase(User::all());
 
         DB::table('carts')->where('table_number', $tableNumber)->delete();
-        $request->session()->flash('clearCart', true);
+        Session::flash('clearCart', true);
 
         return redirect()->route('order', ['table' => $tableNumber]);
     }

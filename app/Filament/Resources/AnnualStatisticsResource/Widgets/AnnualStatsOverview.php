@@ -6,7 +6,6 @@ use App\Models\PastOrder;
 use Illuminate\Support\Facades\DB;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Carbon\Carbon;
 
 class AnnualStatsOverview extends BaseWidget
 {
