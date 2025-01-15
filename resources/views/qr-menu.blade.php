@@ -32,13 +32,16 @@
         </nav>
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h5 class="section-title ff-secondary text-center text fw-normal">Hoşgeldiniz</h5>
-                <h1 class="mb-5">Ne İçmek İstersiniz?</h1>
                 <div class="mb-4">
-                    <input type="text" id="search-bar" class="form-control" placeholder="Ürün ara..." onkeyup="debouncedSearch()">
-                    <div class="result-count" id="result-count"></div>
+                    <div class="search-container">
+                        <input type="text"
+                               id="search-bar"
+                               class="form-control"
+                               placeholder="Menüde ara..."
+                               onkeyup="debouncedSearch()">
+                        <div class="result-count" id="result-count"></div>
+                    </div>
                 </div>
-
             </div>
             <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
                 <ul class="nav nav-pills d-inline-flex justify-content-center">

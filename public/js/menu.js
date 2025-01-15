@@ -8,25 +8,32 @@ function debouncedSearch() {
 }
 
 function searchProducts() {
-    const input = document.getElementById("search-bar").value.toLowerCase();
+    const input = document.getElementById("search-bar").value.toLowerCase().trim();
     const menuItems = document.querySelectorAll(".menu-item");
     const categories = document.querySelectorAll(".tab-pane");
+    const categoryPills = document.querySelectorAll('.nav-pills .nav-item a');
 
     const categoryCount = {};
-
-    menuItems.forEach(item => {
-        item.style.display = "none";
-    });
-
     let totalVisibleItems = 0;
 
+    // Önce tüm menü öğelerini gizle
+    menuItems.forEach(item => {
+        const parentForm = item.closest('form');
+        if (parentForm) {
+            parentForm.style.display = "none";
+        }
+    });
+
+    // Her menü öğesini kontrol et
     menuItems.forEach(item => {
         const title = item.querySelector("h3").textContent.toLowerCase();
-        const description = item.querySelector("p")?.textContent.toLowerCase() || '';
+        const parentForm = item.closest('form');
         const categoryId = item.closest(".tab-pane").getAttribute("id");
 
-        if (title.includes(input) || description.includes(input)) {
-            item.style.display = "block";
+        if (title.includes(input)) {
+            if (parentForm) {
+                parentForm.style.display = "block";
+            }
             totalVisibleItems++;
 
             if (!categoryCount[categoryId]) {
@@ -36,21 +43,44 @@ function searchProducts() {
         }
     });
 
-    const mostMatchedCategory = Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b, null);
+    // En çok eşleşen kategoriyi bul ve göster
+    const mostMatchedCategory = Object.entries(categoryCount)
+        .reduce((max, current) => current[1] > max[1] ? current : max, ['', 0])[0];
 
     categories.forEach(category => {
-        if (category.getAttribute("id") === mostMatchedCategory) {
-            category.style.display = "block";
-            category.classList.add("active", "show");
+        const categoryId = category.getAttribute("id");
+        if (input === '') {
+            // Arama boşsa ilk kategoriyi göster
+            if (categoryId === 'tab-1') {
+                category.classList.add("show", "active");
+            } else {
+                category.classList.remove("show", "active");
+            }
         } else {
-            category.style.display = "none";
-            category.classList.remove("active", "show");
+            if (categoryId === mostMatchedCategory) {
+                category.classList.add("show", "active");
+                // İlgili kategori sekmesini aktif et
+                categoryPills.forEach(pill => {
+                    if (pill.getAttribute('href') === '#' + categoryId) {
+                        pill.classList.add('active');
+                    } else {
+                        pill.classList.remove('active');
+                    }
+                });
+            } else {
+                category.classList.remove("show", "active");
+            }
         }
     });
 
+    // Sonuç sayısını güncelle
     const resultCount = document.getElementById('result-count');
-    resultCount.textContent = `${totalVisibleItems} sonuç bulundu`;
-    resultCount.style.display = totalVisibleItems > 0 ? "block" : "none";
+    if (input === '') {
+        resultCount.style.display = "none";
+    } else {
+        resultCount.textContent = `${totalVisibleItems} sonuç bulundu`;
+        resultCount.style.display = totalVisibleItems > 0 ? "block" : "none";
+    }
 }
 
 
