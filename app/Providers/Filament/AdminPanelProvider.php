@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->databaseNotifications()
-            ->databaseNotificationsPolling('5s')
+            ->databaseNotificationsPolling('10s')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
