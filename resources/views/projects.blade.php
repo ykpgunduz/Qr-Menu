@@ -193,7 +193,7 @@
             <div class="container">
                 <div class="row g-4 align-items-center">
                     <div class="text-center">
-                        <span class="text-white">Harpy Social <i class="fas fa-copyright text-light me-1"></i>2024  | Tüm hakları saklıdır.</span>
+                        <span class="text-white">Harpy Social <i class="fas fa-copyright text-light me-1"></i>2025  | Tüm hakları saklıdır.</span>
                     </div>
                 </div>
             </div>

@@ -193,7 +193,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-12 text-center mb-1 mb-md-0">
-                            <a href="https://harpysocial.com/" target="_blank">Harpy Social &copy; 2024</a> | Tüm hakları saklıdır.
+                            <a href="https://harpysocial.com" target="_blank">Harpy Social &copy; 2025</a> | Tüm hakları saklıdır.
                         </div>
                     </div>
                 </div>
