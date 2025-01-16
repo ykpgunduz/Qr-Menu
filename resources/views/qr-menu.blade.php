@@ -111,43 +111,39 @@
         </div>
 
         <!-- Footer Start -->
-        <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
-            <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-md-12 text-center">
-                        <h4 class="section-title text-white fw-normal mb-4">İletişim Bilgilerimiz</h4>
-                        <p class="mb-2">
-                            <i class="fa fa-phone me-2"></i>
-                            <strong>Telefon:</strong>
-                            <a href="tel:+905442783543" class="text-white text-decoration-none">+90 (544) 278 35 43</a>
-                        </p>
-                        <p class="mb-2">
-                            <i class="fa fa-map-marker-alt"></i>
-                            <a href="https://g.co/kgs/xF1TGBg" target="_blank" class="text-white text-decoration-none">
-                                Kartaltepe Mah. Gençler Cd. No: 2B<br>
-                                Bakirköy/İstanbul
-                            </a>
-                        </p>
-                        <div class="d-flex justify-content-center mt-4">
-                            <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/" aria-label="Instagram">
+        <div class="container-fluid bg-black footer pt-4 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="contact-card">
+                    <div class="contact-header">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="footer-logo">
+                        <h4 class="contact-title">Underground Coffee</h4>
+                    </div>
+                    <div class="contact-info">
+                        <a href="tel:+905442783543" class="contact-link">
+                            <i class="fa fa-phone contact-icon"></i>
+                            <span>+90 (544) 278 35 43</span>
+                        </a>
+                        <a href="https://g.co/kgs/xF1TGBg" target="_blank" class="contact-link">
+                            <i class="fa fa-map-marker-alt contact-icon"></i>
+                            <span>Kartaltepe Mah. Gençler Cd. No: 2B Bakirköy/İstanbul</span>
+                        </a>
+                        <div class="social-links">
+                            <a class="social-link" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/" aria-label="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="container">
                 <div class="copyright">
-                    <div class="row">
-                        <div class="col-md-12 text-center mb-1 mb-md-0">
-                            <a href="https://harpysocial.com" target="_blank">Harpy Social &copy; 2025</a> | Tüm hakları saklıdır.
-                        </div>
-                    </div>
+                    <a href="https://harpysocial.com" target="_blank" class="copyright-link">
+                        Harpy Social &copy; 2025
+                    </a>
+                    <span class="copyright-divider">|</span>
+                    <span>Tüm hakları saklıdır.</span>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Footer End -->
+        <!-- Footer End -->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
