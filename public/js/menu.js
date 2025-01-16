@@ -114,7 +114,7 @@ $(document).ready(function() {
                 currentCount++;
                 counter.text(currentCount).show();
                 removeBtn.show();
-                showToast('success', 'Ürün sepete eklendi');
+                showToast('success', 'Ürün eklendi.');
             },
             error: function(xhr) {
                 let errorMessage = 'Bir hata oluştu';
@@ -155,7 +155,7 @@ function decreaseQuantity(productId) {
                 counter.text(currentCount);
             }
 
-            showToast('success', 'Ürün sepetten çıkarıldı');
+            showToast('error', 'Ürün çıkarıldı.');
         },
         error: function(xhr) {
             let errorMessage = 'Bir hata oluştu';

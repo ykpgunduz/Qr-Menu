@@ -94,7 +94,6 @@
                                                     <div class="loading-spinner"></div>
                                                     <div class="button-content">
                                                         <i class="fa-solid fa-cart-plus"></i>
-                                                        <span>Ekle</span>
                                                     </div>
                                                 </button>
                                             </div>
