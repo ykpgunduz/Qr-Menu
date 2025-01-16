@@ -538,3 +538,95 @@ button {
     margin: 0 8px;
     color: rgba(255, 255, 255, 0.4);
 }
+
+/* Kategori navigasyon stilleri */
+.nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    justify-content: center;
+}
+
+.nav-item {
+    flex: 0 0 calc(50% - 4px); /* İki sütun için genişlik ayarı */
+    max-width: calc(50% - 4px);
+}
+
+.nav-pills .nav-item a {
+    background: white;
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin: 0;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    height: 44px;
+    width: 100%;
+}
+
+.nav-pills .nav-item a i {
+    font-size: 1.1rem;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.nav-pills .nav-item a h6 {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-pills .nav-item a.active {
+    background: #1a1a1a;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-pills .nav-item a.active i {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-pills .nav-item a.active h6 {
+    color: white;
+}
+
+/* Kategori ayırıcı çizgi */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
+    margin: 20px 0;
+}
+
+.tab-content {
+    position: relative;
+    padding-top: 20px;
+}
+
+.tab-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #1a1a1a;
+    border-radius: 3px;
+}

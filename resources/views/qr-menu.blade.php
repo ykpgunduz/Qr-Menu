@@ -49,11 +49,11 @@
                 <ul class="nav nav-pills d-inline-flex justify-content-center">
                     @foreach ($categories as $category)
                         <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 mt-4 pb-3" data-bs-toggle="pill"
+                            <a class="d-flex align-items-center text-start" data-bs-toggle="pill"
                                 href="#tab-{{ $category->id }}">
-                                <i class="{{ $category->icon }} fa-xl" style="color: {{ $category->color }};"></i>
-                                <div class="ps-2 pt-1">
-                                    <h6 class="mt-n1 mb-0">{{ $category->name }}</h6>
+                                <i class="{{ $category->icon }}" style="color: {{ $category->color }};"></i>
+                                <div class="">
+                                    <h6>{{ $category->name }}</h6>
                                 </div>
                             </a>
                         </li>
