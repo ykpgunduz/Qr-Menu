@@ -104,4 +104,96 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    public function ajaxUpdate(Request $request, $id)
+    {
+        try {
+            $cartItem = Cart::where('id', $id)
+                ->where('session_id', session()->getId())
+                ->first();
+
+            if (!$cartItem) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ürün bulunamadı'
+                ], 404);
+            }
+
+            $newQuantity = $cartItem->quantity + $request->quantity_change;
+
+            if ($newQuantity <= 0) {
+                $cartItem->delete();
+            } else {
+                $cartItem->quantity = $newQuantity;
+                $cartItem->save();
+            }
+
+            // Toplam tutarı doğru şekilde hesapla
+            $totalAmount = Cart::where('session_id', session()->getId())
+                ->where('table_number', $request->table)
+                ->get()
+                ->sum(function($item) {
+                    return $item->quantity * $item->price;
+                });
+
+            return response()->json([
+                'success' => true,
+                'totalAmount' => number_format($totalAmount, 2)
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bir hata oluştu: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function ajaxRemove($id)
+    {
+        $cartItem = Cart::find($id);
+        if (!$cartItem) {
+            return response()->json(['success' => false], 404);
+        }
+
+        $cartItem->delete();
+
+        // Toplam tutarı hesapla
+        $totalAmount = Cart::sum('price');
+
+        return response()->json([
+            'success' => true,
+            'totalAmount' => number_format($totalAmount, 2)
+        ]);
+    }
+
+    public function getCartItems(Request $request)
+    {
+        try {
+            $cartItems = Cart::where('table_number', $request->table)
+                ->where('session_id', $request->session_id)
+                ->with('product')
+                ->get()
+                ->map(function($item) {
+                    return [
+                        'id' => $item->id,
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'price' => $item->price,
+                        'note' => $item->note,
+                        'product' => $item->product
+                    ];
+                });
+
+            return response()->json([
+                'success' => true,
+                'cartItems' => $cartItems
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sepet öğeleri alınamadı'
+            ], 500);
+        }
+    }
 }

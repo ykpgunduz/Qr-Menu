@@ -20,3 +20,6 @@ Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.
 Route::get('/order', [OrderController::class, 'show'])->name('order');
 Route::post('/order', [OrderController::class, 'come'])->name('order.come');
 Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease');
+Route::post('/cart/update/{id}', [CartController::class, 'ajaxUpdate'])->name('cart.ajaxUpdate');
+Route::post('/cart/remove/{id}', [CartController::class, 'ajaxRemove'])->name('cart.ajaxRemove');
+Route::get('/cart/get-items', [CartController::class, 'getCartItems'])->name('cart.getItems');
