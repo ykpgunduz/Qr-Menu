@@ -46,10 +46,11 @@
         }
 
         .option {
+            position: relative;
             width: 160px;
-            height: 130px;
+            height: 110px;
             background: #fff;
-            border: 1px solid #e5e5e5;
+            border: 2px solid #e5e5e5;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
@@ -57,26 +58,26 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            padding: 15px;
+            padding: 12px;
             opacity: 0.7;
         }
 
         .option i {
-            font-size: 24px;
+            font-size: 22px;
             color: #666;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .option span {
             font-weight: 500;
             color: #666;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .option small {
             color: #888;
-            margin-top: 4px;
-            font-size: 0.8rem;
+            margin-top: 3px;
+            font-size: 0.75rem;
         }
 
         .option.selected {
@@ -351,7 +352,7 @@
             background: #f8f9fa;
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             border: 1px dashed #ddd;
             position: relative;
         }
@@ -386,23 +387,6 @@
             color: #dc3545;
             font-size: 0.8rem;
             margin-left: 5px;
-        }
-
-        .option {
-            position: relative;
-            width: 160px;
-            height: 130px;
-            background: #fff;
-            border: 2px solid #e5e5e5;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 15px;
-            opacity: 0.7;
         }
 
         .option::before {
