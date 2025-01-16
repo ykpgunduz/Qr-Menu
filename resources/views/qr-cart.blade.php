@@ -346,6 +346,97 @@
                 padding: 6px 10px;
             }
         }
+
+        .service-selection-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px dashed #ddd;
+            position: relative;
+        }
+
+        .service-selection-container.required::after {
+            content: '*';
+            color: #dc3545;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+        }
+
+        .service-header {
+            margin-bottom: 20px;
+        }
+
+        .service-title {
+            color: #1a1a1a;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .service-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .service-subtitle .required-text {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .option {
+            position: relative;
+            width: 160px;
+            height: 130px;
+            background: #fff;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 15px;
+            opacity: 0.7;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .option.selected::before {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .option.selected::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -392,18 +483,26 @@
             <input type="hidden" name="status" id="status" value="service">
         <!-- Menu Start -->
 
-        <div class="container py-5">
+        <div class="container py-3">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-
-                <div class="mb-3 d-flex justify-content-center">
-                    <div class="option me-2" id="Masa">
-                        <i class="fas mb-3 fa-2xl fa-concierge-bell"></i>
-                        <span>Masaya Servis</span>
+                <div class="service-selection-container required">
+                    <div class="service-header">
+                        <h6 class="service-title">Servis Türü Seçiniz</h6>
+                        <p class="service-subtitle">
+                            Siparişinizi nasıl almak istersiniz?
+                        </p>
                     </div>
-                    <div class="option ms-2" id="Self">
-                        <i class="fas fa-2xl mt-2 mb-4 fa-shopping-bag"></i>
-                        <span>Self Servis</span>
-                        <small>%5 İndirimli</small>
+
+                    <div class="mb-3 d-flex justify-content-center">
+                        <div class="option me-2" id="Masa">
+                            <i class="fas mb-3 fa-2xl fa-concierge-bell"></i>
+                            <span>Masaya Servis</span>
+                        </div>
+                        <div class="option ms-2" id="Self">
+                            <i class="fas fa-2xl mt-2 mb-4 fa-shopping-bag"></i>
+                            <span>Self Servis</span>
+                            <small>%5 İndirimli</small>
+                        </div>
                     </div>
                 </div>
 
@@ -550,12 +649,30 @@
             }
         });
 
-        // Form submit olmadan önce cart items'ı güncelle
+        // Form submit kontrolü
         $('#form1').on('submit', function(e) {
             e.preventDefault();
+
+            // Servis türü kontrolü
+            const selectedService = document.querySelector('.option.selected');
+            if (!selectedService) {
+                showToast('error', 'Servis türü seçiniz!');
+                // Sayfanın üst kısmına smooth scroll
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return false;
+            }
+
+            // Cart items güncelleme
             updateCartItems().then(() => {
                 this.submit();
             });
+        });
+
+        // Servis seçenekleri için click handler
+        $('.option').on('click', function() {
+            $('.option').removeClass('selected');
+            $(this).addClass('selected');
+            $('#status').val($(this).attr('id'));
         });
 
         // Cart items'ı güncelleyen fonksiyon
