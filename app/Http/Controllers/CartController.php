@@ -128,7 +128,7 @@ class CartController extends Controller
                 $cartItem->save();
             }
 
-            // Toplam tutarı doğru şekilde hesapla
+            // Toplam tutarı doğru şekilde hesapla ve kuruş kısmını kaldır
             $totalAmount = Cart::where('session_id', session()->getId())
                 ->where('table_number', $request->table)
                 ->get()
@@ -138,7 +138,7 @@ class CartController extends Controller
 
             return response()->json([
                 'success' => true,
-                'totalAmount' => number_format($totalAmount, 2)
+                'totalAmount' => number_format($totalAmount, 0) // 0 decimal places
             ]);
 
         } catch (\Exception $e) {
