@@ -62,4 +62,46 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Sepet güncellendi.');
     }
+
+    public function decreaseQuantity($id, Request $request)
+    {
+        try {
+            $sessionId = session()->getId();
+            $tableNumber = $request->input('table');
+
+            $cartItem = Cart::where('product_id', $id)
+                ->where('session_id', $sessionId)
+                ->where('table_number', $tableNumber)
+                ->first();
+
+            if ($cartItem) {
+                if ($cartItem->quantity > 1) {
+                    $cartItem->quantity -= 1;
+                    $cartItem->save();
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Ürün miktarı azaltıldı',
+                        'quantity' => $cartItem->quantity
+                    ]);
+                } else {
+                    $cartItem->delete();
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Ürün sepetten çıkarıldı'
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Ürün bulunamadı'
+            ], 404);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bir hata oluştu'
+            ], 500);
+        }
+    }
 }

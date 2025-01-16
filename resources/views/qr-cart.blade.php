@@ -210,7 +210,6 @@
                                         <!-- Ürünü Sil -->
                                         <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST">
                                             @csrf
-                                            @method('DELETE')
                                             <button type="submit" name="remove" value="true" class="btn btn-danger btn-sm">
                                                 <i class="fa-solid fa-close"></i>
                                             </button>

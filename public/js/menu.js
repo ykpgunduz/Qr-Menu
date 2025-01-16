@@ -83,33 +83,172 @@ function searchProducts() {
     }
 }
 
+$(document).ready(function() {
+    // AJAX URL'ini meta tag'den alıyoruz
+    const addToCartUrl = $('meta[name="add-to-cart-url"]').attr('content');
 
-function plus(btn) {
-    let myInput = btn.parentElement.querySelector('input[type="number"]');
-    let id = btn.getAttribute("id");
-    let min = myInput.getAttribute("min");
-    let max = myInput.getAttribute("max");
-    let step = myInput.getAttribute("step");
-    let val = myInput.getAttribute("value");
-    let calcStep = (step * 1);
-    let newValue = parseInt(val) + calcStep;
+    $('.add-to-cart-form').on('submit', function(event) {
+        event.preventDefault();
 
-    if (newValue >= min && newValue <= max) {
-        myInput.setAttribute("value", newValue);
+        var form = $(this);
+        var productId = form.data('product-id');
+        var tableNumber = form.data('table-number');
+        var button = form.find('.btn-add-cart');
+        var counter = $(`#counter-${productId}`);
+        var removeBtn = form.find('.remove-btn');
+        var currentCount = parseInt(counter.text()) || 0;
+
+        button.addClass('loading');
+        button.prop('disabled', true);
+
+        $.ajax({
+            url: addToCartUrl,
+            type: 'POST',
+            data: {
+                product_id: productId,
+                table: tableNumber,
+                quantity: 1,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                currentCount++;
+                counter.text(currentCount).show();
+                removeBtn.show();
+                showToast('success', 'Ürün sepete eklendi');
+            },
+            error: function(xhr) {
+                let errorMessage = 'Bir hata oluştu';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                showToast('error', errorMessage);
+            },
+            complete: function() {
+                button.removeClass('loading');
+                button.prop('disabled', false);
+            }
+        });
+    });
+});
+
+function decreaseQuantity(productId) {
+    const counter = $(`#counter-${productId}`);
+    const removeBtn = $(`.add-to-cart-form[data-product-id="${productId}"] .remove-btn`);
+    const tableNumber = $(`.add-to-cart-form[data-product-id="${productId}"]`).data('table-number');
+    let currentCount = parseInt(counter.text());
+
+    $.ajax({
+        url: '/cart/decrease/' + productId,
+        type: 'POST',
+        data: {
+            table: tableNumber,
+            quantity: 1,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            currentCount--;
+
+            if (currentCount <= 0) {
+                counter.hide();
+                removeBtn.hide();
+            } else {
+                counter.text(currentCount);
+            }
+
+            showToast('success', 'Ürün sepetten çıkarıldı');
+        },
+        error: function(xhr) {
+            let errorMessage = 'Bir hata oluştu';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+            showToast('error', errorMessage);
+        }
+    });
+}
+
+function updateProductUI(productId, increment = true) {
+    const actionsDiv = $(`#actions-${productId}`);
+    const addBtn = actionsDiv.find('.add-btn');
+    const quantityControls = actionsDiv.find('.quantity-controls');
+    const quantityBadge = actionsDiv.find('.quantity-badge');
+
+    let quantity = parseInt(quantityBadge.text() || 0);
+
+    if (increment) {
+        quantity++;
+    } else {
+        quantity--;
+    }
+
+    if (quantity > 0) {
+        addBtn.hide();
+        quantityControls.show();
+        quantityBadge.text(quantity);
+    } else {
+        addBtn.show();
+        quantityControls.hide();
     }
 }
 
-function minus(btn) {
-    let myInput = btn.parentElement.querySelector('input[type="number"]');
-    let id = btn.getAttribute("id");
-    let min = myInput.getAttribute("min");
-    let max = myInput.getAttribute("max");
-    let step = myInput.getAttribute("step");
-    let val = myInput.getAttribute("value");
-    let calcStep = (step * -1);
-    let newValue = parseInt(val) + calcStep;
+function removeFromCart(productId) {
+    // Sepetten ürün silme AJAX isteği
+    $.ajax({
+        url: '/cart/remove', // Bu endpoint'i backend'de oluşturmanız gerekecek
+        type: 'POST',
+        data: {
+            product_id: productId,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            updateProductUI(productId, false);
+            $('#success-message').text('Ürün sepetten çıkarıldı').show();
+            setTimeout(function() {
+                $('#success-message').fadeOut();
+            }, 3000);
+        },
+        error: function(xhr, status, error) {
+            $('#error-message').text('Bir hata oluştu!').show();
+            setTimeout(function() {
+                $('#error-message').fadeOut();
+            }, 3000);
+        }
+    });
+}
 
-    if (newValue >= min && newValue <= max) {
-        myInput.setAttribute("value", newValue);
+// AJAX error handler'ı güncelliyoruz
+$.ajaxSetup({
+    error: function(xhr, status, error) {
+        if (xhr.status === 419) { // CSRF token hatası
+            showToast('error', 'Oturum süreniz doldu. Lütfen sayfayı yenileyiniz.');
+        } else {
+            showToast('error', 'Bir hata oluştu. Lütfen tekrar deneyiniz.');
+        }
     }
+});
+
+// Yeni toast mesaj sistemi
+function showToast(type, message) {
+    // Önce eski toast'ları temizle
+    $('.toast-message').remove();
+
+    // Yeni toast oluştur
+    const toast = $(`
+        <div class="toast-message toast-${type}">
+            <div class="toast-content">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+            </div>
+        </div>
+    `);
+
+    // Toast'u ekle ve animasyonla göster
+    $('body').append(toast);
+    setTimeout(() => toast.addClass('show'), 100);
+
+    // 3 saniye sonra kaldır
+    setTimeout(() => {
+        toast.removeClass('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }

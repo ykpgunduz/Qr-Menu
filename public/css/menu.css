@@ -103,53 +103,41 @@ button {
 
 .menu-item {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     padding: 15px;
     text-align: center;
+    position: relative;
+}
+
+.menu-item:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .menu-item img {
     width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
 }
 
 .item-info h3 {
-    margin: 10px 0;
-    font-size: 19px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 8px 0;
+    line-height: 1.3;
 }
 
 .item-info h4 {
-    margin: 10px 0;
-    font-size: 17px;
+    color: #2980b9;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 8px 0 15px 0;
 }
 
-#success-message {
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    background-color: #28a745;
-    color: white !important;
-    padding: 10px 20px;
-    border-radius: 5px;
-    display: none;
-    z-index: 9999;
-    transition: opacity 0.5s, visibility 0.5s;
-}
-#error-message {
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    background-color: #a72828;
-    color: white !important;
-    padding: 10px 20px;
-    border-radius: 5px;
-    display: none;
-    z-index: 9999;
-    transition: opacity 0.5s, visibility 0.5s;
-}
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -176,4 +164,256 @@ button {
 .item-info h4 {
     margin: 10px 0;
     font-size: 17px;
+}
+
+.cart-counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.cart-counter .badge {
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 5px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantity-badge {
+    background: #007bff;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 15px;
+    font-weight: bold;
+    min-width: 25px;
+    text-align: center;
+}
+
+.remove-btn {
+    background-color: #fff;
+    border: 2px solid #1a1a1a;
+    color: #1a1a1a;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.remove-btn:hover {
+    background-color: #fff;
+    color: #1a1a1a;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.remove-btn:active {
+    opacity: 0.9;
+}
+
+.product-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #1a1a1a;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    animation: scaleIn 0.3s ease;
+    z-index: 2;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.btn-add-cart {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    border: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    min-width: 120px;
+    min-height: 40px;
+    overflow: hidden;
+}
+
+.btn-add-cart:active {
+    transform: scale(0.95);
+    opacity: 0.9;
+}
+
+.btn-add-cart.clicked {
+    animation: addToCart 0.4s ease;
+}
+
+@keyframes addToCart {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+        background-color: #000000;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.btn-add-cart .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: scale(1);
+}
+
+.btn-add-cart .loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-add-cart.loading {
+    pointer-events: none;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.btn-add-cart.loading .button-content {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.btn-add-cart.loading .loading-spinner {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+/* Toast mesaj stilleri */
+.toast-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    background: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.toast-message.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast-success {
+    border-left: 4px solid #28a745;
+}
+
+.toast-error {
+    border-left: 4px solid #dc3545;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast-success i {
+    color: #28a745;
+}
+
+.toast-error i {
+    color: #dc3545;
+}
+
+.toast-message span {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
 }

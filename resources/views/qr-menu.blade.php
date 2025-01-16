@@ -17,6 +17,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/menu.css" rel="stylesheet">
+    <meta name="add-to-cart-url" content="{{ route('addToCart') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="text-nav">
@@ -65,27 +67,35 @@
                                 <div class="menu-grid">
                                 @foreach ($products->where('category_id', $category->id) as $product)
                                 @if($product->active)
-                                    <form class="add-to-cart-form" data-product-id=" {{ $product->id }} "  data-table-number="{{ request()->get('table') }}">
+                                    <form class="add-to-cart-form"
+                                          data-product-id="{{ $product->id }}"
+                                          data-table-number="{{ request()->get('table') }}">
                                         @csrf
-                                        <input type="hidden" name="table" value="{{ request()->get('table') }}">
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         <div class="menu-item">
-                                            {{-- <img class="flex-shrink-0 img-fluid" src="{{ asset('storage/' . $product->thumbnail) }}" alt="" style="width: 150px;"> --}}
-                                            {{-- <img class="flex-shrink-0 img-fluid" src="{{ $product->thumbnail }}"> --}}
-                                            <img class="flex-shrink-0 img-fluid" src="https://kahhve.com/blog/wp-content/uploads/2022/06/filtre-kahve-cekirdegi-scaled.jpg">
+                                            <div class="position-relative">
+                                                <span class="product-counter"
+                                                      id="counter-{{ $product->id }}"
+                                                      style="display: none;">0</span>
+                                                <img class="flex-shrink-0 img-fluid"
+                                                     src="https://kahhve.com/blog/wp-content/uploads/2022/06/filtre-kahve-cekirdegi-scaled.jpg">
+                                            </div>
                                             <div class="item-info">
                                                 <h3>{{ $product->title }}</h3>
-                                                <h4 class="text mb-4">{{ $product->price }}₺</h4>
+                                                <h4>{{ $product->price }}₺</h4>
                                             </div>
-                                            <div class="btn-group mb-3">
-                                                <button class="btn btn-dark btn-sm" type="button" onclick="minus(this)"> - </button>
-                                                <input type="number" name="quantity" min="1" max="20" step="1" value="1" readonly class="form-control text-center px-2 rounded-0">
-                                                <button class="btn btn-dark btn-sm" type="button" onclick="plus(this)"> + </button>
-                                            </div>
-                                            <div>
-                                                <button type="submit" class="btn btn-dark btn-sm p-2 ml-2">
-                                                    <i class="fa-solid fa-cart-plus"></i>
-                                                    <span> Siparişe Ekle</span>
+                                            <div class="product-actions">
+                                                <button type="button"
+                                                        class="remove-btn"
+                                                        onclick="decreaseQuantity({{ $product->id }})"
+                                                        style="display: none;">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+                                                <button type="submit" class="btn-add-cart">
+                                                    <div class="loading-spinner"></div>
+                                                    <div class="button-content">
+                                                        <i class="fa-solid fa-cart-plus"></i>
+                                                        <span>Ekle</span>
+                                                    </div>
                                                 </button>
                                             </div>
                                         </div>
@@ -99,9 +109,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="success-message" class="text-center" style="display: none; color: green;"></div>
-        <div id="error-message" class="text-center" style="display: none; color: red;"></div>
 
         <!-- Footer Start -->
         <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
