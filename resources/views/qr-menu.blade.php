@@ -41,6 +41,12 @@
                                class="form-control"
                                placeholder="Menüde ara..."
                                onkeyup="debouncedSearch()">
+                        <button type="button"
+                                class="clear-search"
+                                onclick="clearSearch()"
+                                aria-label="Aramayı temizle">
+                            <i class="fas fa-times"></i>
+                        </button>
                         <div class="result-count" id="result-count"></div>
                     </div>
                 </div>

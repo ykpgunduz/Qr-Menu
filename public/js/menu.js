@@ -2,6 +2,7 @@ let debounceTimeout;
 
 function debouncedSearch() {
     clearTimeout(debounceTimeout);
+    showClearButton();
     debounceTimeout = setTimeout(() => {
         searchProducts();
     }, 300);
@@ -251,4 +252,24 @@ function showToast(type, message) {
         toast.removeClass('show');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
+}
+
+// Arama çubuğu temizleme fonksiyonları
+function showClearButton() {
+    const searchInput = document.getElementById("search-bar");
+    const clearButton = document.querySelector(".clear-search");
+
+    if (searchInput.value.length > 0) {
+        clearButton.style.display = "block";
+    } else {
+        clearButton.style.display = "none";
+    }
+}
+
+function clearSearch() {
+    const searchInput = document.getElementById("search-bar");
+    searchInput.value = "";
+    showClearButton();
+    searchProducts(); // Mevcut arama fonksiyonunu çağır
+    searchInput.focus(); // Input'a tekrar odaklan
 }

@@ -67,7 +67,7 @@ button {
 /* Arama sonuç sayısı */
 .result-count {
     position: absolute;
-    right: 15px;
+    right: 45px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
@@ -741,4 +741,25 @@ hr {
 
 .navbar p {
     font-size: 0.85rem;
+}
+
+/* Arama çubuğu temizleme butonu */
+.clear-search {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+    font-size: 14px;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: none; /* Başlangıçta gizli */
+    z-index: 2;
+    transition: color 0.2s ease;
+}
+
+.clear-search:hover {
+    color: #1a1a1a;
 }
