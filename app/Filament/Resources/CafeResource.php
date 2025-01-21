@@ -27,20 +27,28 @@ class CafeResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Kafe Adı')
                     ->required(),
+                Forms\Components\TextInput::make('phone')
+                    ->label('Telefon')
+                    ->required(),
+                Forms\Components\TextInput::make('opening_time')
+                    ->label('Açılış Saati')
+                    ->required(),
+                Forms\Components\TextInput::make('closing_time')
+                    ->label('Kapanış Saati')
+                    ->required(),
                 Forms\Components\TextInput::make('address')
                     ->label('Adres')
                     ->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->label('Telefon')
-                    ->tel()
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->label('E-posta')
-                    ->email()
-                    ->required(),
+                Forms\Components\TextInput::make('address_link')
+                    ->label('Adres Linki')
+                    ->required()
+                    ->url(),
                 Forms\Components\Textarea::make('description')
                     ->label('Açıklama')
                     ->rows(3),
+                Forms\Components\TextInput::make('instagram')
+                    ->label('Instagram Linki')
+                    ->url(),
             ]);
     }
 

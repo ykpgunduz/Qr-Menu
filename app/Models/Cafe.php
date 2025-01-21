@@ -20,20 +20,8 @@ class Cafe extends Model
         'address',
         'address_link',
         'instagram',
-        'email',
         'description',
-        'website',
         'opening_time',
         'closing_time',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'opening_time' => 'datetime:H:i',
-        'closing_time' => 'datetime:H:i',
     ];
 }
