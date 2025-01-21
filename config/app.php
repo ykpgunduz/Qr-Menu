@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Underground'),
+    'name' => env('APP_NAME', 'Harpy QR Otomasyon'),
 
     /*
     |--------------------------------------------------------------------------
