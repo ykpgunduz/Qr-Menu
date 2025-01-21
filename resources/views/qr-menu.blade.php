@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Menü | Underground</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="{{ asset('images/favicon.png') }}" rel="icon">
+    <link href="{{ asset('img/favicon.png') }}" rel="icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
             </div>
         </div>
         <nav class="navbar d-flex justify-content-center">
-            <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
+            <img class="logo-underground" src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 80px">
         </nav>
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -120,20 +120,20 @@
             <div class="container">
                 <div class="contact-card">
                     <div class="contact-header">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="footer-logo">
-                        <h4 class="contact-title">Underground Coffee</h4>
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="footer-logo">
+                        <h4 class="contact-title">{{ $cafe->name }}</h4>
                     </div>
                     <div class="contact-info">
-                        <a href="tel:+905442783543" class="contact-link">
+                        <a href="tel:{{ $cafe->phone }}" class="contact-link">
                             <i class="fa fa-phone contact-icon"></i>
-                            <span>+90 (544) 278 35 43</span>
+                            <span>{{ $cafe->phone }}</span>
                         </a>
-                        <a href="https://g.co/kgs/xF1TGBg" target="_blank" class="contact-link">
+                        <a href="{{ $cafe->address_link }}" target="_blank" class="contact-link">
                             <i class="fa fa-map-marker-alt contact-icon"></i>
-                            <span>Kartaltepe Mah. Gençler Cd. No: 2B Bakirköy/İstanbul</span>
+                            <span>{{ $cafe->address }}</span>
                         </a>
                         <div class="social-links">
-                            <a class="social-link" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/" aria-label="Instagram">
+                            <a class="social-link" target="_blank" href="{{ $cafe->instagram }}" aria-label="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>

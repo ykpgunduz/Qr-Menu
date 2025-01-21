@@ -17,7 +17,7 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="{{ asset('images/favicon.png') }}" rel="icon">
+    <link href="{{ asset('img/favicon.png') }}" rel="icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .cart-container {
@@ -436,7 +436,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar d-flex justify-content-center">
-            <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
+            <img class="logo-underground" src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 80px">
         </nav>
         <!-- Navbar End -->
 

@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-    <link href="{{ asset('images/favicon.png') }}" rel="icon">
+    <link href="{{ asset('img/favicon.png') }}" rel="icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -20,6 +20,7 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/order.css') }}" rel="stylesheet">
     <title>Siparişler | Underground</title>
 </head>
 
@@ -76,7 +77,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar d-flex justify-content-center">
-            <img class="logo-underground" src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 80px">
+            <img class="logo-underground" src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 80px">
         </nav>
         <!-- Navbar End -->
 
@@ -164,39 +165,35 @@
     </div>
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-black text-light footer pt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-md-12 text-center">
-                    <h4 class="section-title text-white fw-normal mb-4">İletişim Bilgilerimiz</h4>
-                    <p class="mb-2">
-                        <i class="fa fa-phone me-2"></i>
-                        <strong>Telefon:</strong>
-                        <a href="tel:+905442783543" class="text-white text-decoration-none">+90 (544) 278 35 43</a>
-                    </p>
-                    <p class="mb-2">
-                        <i class="fa fa-map-marker-alt"></i>
-                        <a href="https://g.co/kgs/xF1TGBg" target="_blank" class="text-white text-decoration-none">
-                            Kartaltepe Mah. Gençler Cd. No: 2B<br>
-                            Bakirköy/İstanbul
-                        </a>
-                    </p>
-                    <div class="d-flex justify-content-center mt-4">
-                        <a class="btn btn-outline-light btn-social" target="_blank" href="https://www.instagram.com/undergroundcoffee.shop/" aria-label="Instagram">
+    <div class="container-fluid bg-black footer pt-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="contact-card">
+                <div class="contact-header">
+                    <img src="{{ asset('img/logo.png') }}" alt="Logo" class="footer-logo">
+                    <h4 class="contact-title">{{ $cafe->name }}</h4>
+                </div>
+                <div class="contact-info">
+                    <a href="tel:{{ $cafe->phone }}" class="contact-link">
+                        <i class="fa fa-phone contact-icon"></i>
+                        <span>{{ $cafe->phone }}</span>
+                    </a>
+                    <a href="{{ $cafe->address_link }}" target="_blank" class="contact-link">
+                        <i class="fa fa-map-marker-alt contact-icon"></i>
+                        <span>{{ $cafe->address }}</span>
+                    </a>
+                    <div class="social-links">
+                        <a class="social-link" target="_blank" href="{{ $cafe->instagram }}" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
-            <div class="container">
-                <div class="copyright">
-                    <div class="row">
-                        <div class="col-md-12 text-center mb-1 mb-md-0">
-                            <a href="https://harpysocial.com" target="_blank">Harpy Social &copy; 2025</a> | Tüm hakları saklıdır.
-                        </div>
-                    </div>
-                </div>
+            <div class="copyright">
+                <a href="https://harpysocial.com" target="_blank" class="copyright-link">
+                    Harpy Social &copy; 2025
+                </a>
+                <span class="copyright-divider">|</span>
+                <span>Tüm hakları saklıdır.</span>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cafe;
 use App\Models\User;
 use App\Models\OrderItem;
 use App\Models\Calculation;
@@ -96,6 +97,7 @@ class OrderController extends Controller
     public function show(Request $request)
     {
         $tableNumber = $request->query('table');
+        $cafe = Cafe::first();
         $status = Calculation::where('table_number', $tableNumber)->value('status');
         $order = Calculation::with('orderItems.product')
             ->where('table_number', $tableNumber)
@@ -105,7 +107,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Sipariş bulunamadı.');
         }
 
-        return view('qr-orders', compact('order', 'tableNumber', 'status'));
+        return view('qr-orders', compact('order', 'tableNumber', 'status', 'cafe'));
     }
 
     public function come(Request $request)

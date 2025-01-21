@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cafe;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
@@ -15,10 +16,11 @@ class HomeController extends Controller
     {
         $categories = Category::all();
         $products = Product::all();
+        $cafe = Cafe::first();
         $tableNumber = $request->query('table');
         $orderItem = OrderItem::where('table_number', $tableNumber)->first();
 
-        return view('qr-menu', compact('products', 'categories', 'tableNumber', 'orderItem'));
+        return view('qr-menu', compact('products', 'categories', 'cafe', 'tableNumber', 'orderItem'));
     }
 
     public function addToCart(Request $request)
