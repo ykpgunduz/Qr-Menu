@@ -17,11 +17,11 @@ class CancelResource extends Resource
 {
     protected static ?string $model = Cancel::class;
 
-    protected static ?string $pluralModelLabel = "İptal / İade İşlemleri";
+    protected static ?string $pluralModelLabel = "İptal - İade İşlemleri";
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
 
-    protected static ?string $navigationGroup = 'Masalar ve Siparişler';
+    protected static ?string $navigationGroup = 'Masalar ve Sipariş Yönetimi';
     protected static ?int $navigationSort = 4;
 
     public static function table(Table $table): Table

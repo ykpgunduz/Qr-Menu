@@ -14,7 +14,7 @@ class CafeResource extends Resource
 {
     protected static ?string $model = Cafe::class;
 
-    protected static ?string $navigationGroup = 'İçerik ve Kullanıcı Yönetimi';
+    protected static ?string $navigationGroup = 'Kafe ve Menü İçerik Yönetimi';
 
     protected static ?string $pluralModelLabel = "Kafe Yönetimi";
 

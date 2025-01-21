@@ -21,7 +21,7 @@ class PastOrderResource extends Resource
 {
     protected static ?string $model = PastOrder::class;
 
-    protected static ?string $navigationGroup = 'Masalar ve Siparişler';
+    protected static ?string $navigationGroup = 'Masalar ve Sipariş Yönetimi';
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 

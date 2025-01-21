@@ -27,17 +27,16 @@ use Filament\Tables\Actions\DeleteAction;
 use App\Filament\Resources\CalculationResource\Pages;
 use Filament\Actions\Action as FilamentAction;
 use Filament\Tables\Actions\Action as TableAction;
-use Filament\Support\Enums\MaxWidth;
 
 class CalculationResource extends Resource
 {
     protected static ?string $model = Calculation::class;
 
-    protected static ?string $navigationGroup = 'Masalar ve Siparişler';
+    protected static ?string $navigationGroup = 'Masalar ve Sipariş Yönetimi';
 
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
-    protected static ?string $pluralModelLabel = "Hesaplar";
+    protected static ?string $pluralModelLabel = "Masalar";
 
     public static function getNavigationBadge(): ?string
     {
@@ -129,7 +128,7 @@ class CalculationResource extends Resource
                     <div style="width: 120px; box-shadow: 0px 0px 5px 5px rgba(255, 0, 255, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Hesabı İstiyor</div>
                     <div style="width: 120px; box-shadow: 0px 0px 5px 5px rgba(0, 255, 0, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center; ">Masa Servisi</div>
                     <div style="width: 120px; box-shadow: 0px 0px 5px 5px rgba(0, 190, 255, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Self Servis</div>
-                    <div style="width: 120px; box-shadow: 0px 0px 5px 5px rgba(255, 193, 7, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Durgun Masa</div>
+                    <!-- <div style="width: 120px; box-shadow: 0px 0px 5px 5px rgba(255, 193, 7, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Durgun Masa</div> -->
                     <div style="width: 120px; box-shadow: 0px 0px 5px 5px rgba(128, 128, 128, 0.7); opacity: 0.7; padding: 5px; margin: 0 15px 0 15px; text-align: center;">Masa Askıda</div>
                 </div>
             '))

@@ -27,11 +27,11 @@ class OrderResource extends Resource
 {
     protected static ?string $model = OrderItem::class;
 
-    protected static ?string $navigationGroup = 'Masalar ve Siparişler';
+    protected static ?string $navigationGroup = 'Masalar ve Sipariş Yönetimi';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
-    protected static ?string $pluralModelLabel = "Açık Masalar";
+    protected static ?string $pluralModelLabel = "Aktif Siparişler";
 
     public static function getNavigationBadge(): ?string
     {
