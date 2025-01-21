@@ -26,3 +26,4 @@ Route::post('/cart/remove/{id}', [CartController::class, 'ajaxRemove'])->name('c
 Route::get('/cart/get-items', [CartController::class, 'getCartItems'])->name('cart.getItems');
 Route::get('/admin/adisyon/{table_number}', [ReceiptController::class, 'show'])->name('receipt.show');
 Route::get('/print-receipt/{calculation}', [ReceiptController::class, 'print'])->name('print.receipt');
+Route::get('/past-order/{orderNumber}', [OrderController::class, 'showPastOrder'])->name('past.order.show');
