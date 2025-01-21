@@ -25,6 +25,9 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Tables\Actions\DeleteAction;
 use App\Filament\Resources\CalculationResource\Pages;
+use Filament\Actions\Action as FilamentAction;
+use Filament\Tables\Actions\Action as TableAction;
+use Filament\Support\Enums\MaxWidth;
 
 class CalculationResource extends Resource
 {
@@ -181,6 +184,13 @@ class CalculationResource extends Resource
             ])
             ->paginated(['all'])
             ->actions([
+                TableAction::make('print_receipt')
+                    ->label('')
+                    ->tooltip('Fiş Yazdır')
+                    ->icon('heroicon-o-receipt-percent')
+                    ->color('success')
+                    ->url(fn (Calculation $record): string => route('print.receipt', $record))
+                    ->openUrlInNewTab(),
                 Action::make('editCustomerCount')
                     ->label('Kişi')
                     ->color('primary')

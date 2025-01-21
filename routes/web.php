@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReceiptController;
 
 Route::get('/', function () { return view('home'); });
 Route::get('/about-us', function () { return view('about'); });
@@ -23,3 +24,5 @@ Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])-
 Route::post('/cart/update/{id}', [CartController::class, 'ajaxUpdate'])->name('cart.ajaxUpdate');
 Route::post('/cart/remove/{id}', [CartController::class, 'ajaxRemove'])->name('cart.ajaxRemove');
 Route::get('/cart/get-items', [CartController::class, 'getCartItems'])->name('cart.getItems');
+Route::get('/admin/adisyon/{table_number}', [ReceiptController::class, 'show'])->name('receipt.show');
+Route::get('/print-receipt/{calculation}', [ReceiptController::class, 'print'])->name('print.receipt');
