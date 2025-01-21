@@ -187,11 +187,12 @@ class CalculationResource extends Resource
                     ->label('')
                     ->tooltip('Fiş Yazdır')
                     ->icon('heroicon-o-receipt-percent')
-                    ->color('success')
+                    ->color('primary')
                     ->url(fn (Calculation $record): string => route('print.receipt', $record))
                     ->openUrlInNewTab(),
                 Action::make('editCustomerCount')
-                    ->label('Kişi')
+                    ->label('')
+                    ->tooltip('Kişi Sayısı')
                     ->color('primary')
                     ->icon('heroicon-o-user')
                     ->form([

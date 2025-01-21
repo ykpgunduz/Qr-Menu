@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cafe;
 use App\Models\Calculation;
 use Illuminate\Http\Request;
 
@@ -19,11 +20,16 @@ class ReceiptController extends Controller
             ];
         });
 
+        $cafe = Cafe::first();
+
         $data = [
             'table_number' => $calculation->table_number,
             'order_number' => $calculation->order_number,
             'order_items' => $orderItems,
             'total_amount' => $calculation->total_amount,
+            'cafe_name' => $cafe->name ?? 'Cafe Adı',
+            'cafe_address' => $cafe->address ?? 'Adres Bilgisi',
+            'cafe_phone' => $cafe->phone ?? 'Telefon Bilgisi',
         ];
 
         return view('receipt', $data);
@@ -39,11 +45,16 @@ class ReceiptController extends Controller
             ];
         });
 
+        $cafe = Cafe::first();
+
         $data = [
             'table_number' => $calculation->table_number,
             'order_number' => $calculation->order_number,
             'order_items' => $orderItems,
             'total_amount' => $calculation->total_amount,
+            'cafe_name' => $cafe->name ?? 'Cafe Adı',
+            'cafe_address' => $cafe->address ?? 'Adres Bilgisi',
+            'cafe_phone' => $cafe->phone ?? 'Telefon Bilgisi',
         ];
 
         return view('receipt', $data);

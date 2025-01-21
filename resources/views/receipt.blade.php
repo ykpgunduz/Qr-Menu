@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=72mm, initial-scale=1.0">
@@ -11,174 +11,153 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
-            padding: 4mm;
+            padding: 0;
             width: 72mm;
             font-size: 12px;
-            line-height: 1.3;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            padding: 4mm;
+            box-sizing: border-box;
         }
 
         .header {
-            text-align: center;
-            margin-bottom: 4mm;
-            border-bottom: 2px solid #000;
-            padding-bottom: 3mm;
+            margin-bottom: 5mm;
         }
 
         .header h1 {
-            font-size: 20px;
+            font-size: 18px;
             margin: 0 0 3mm 0;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-weight: bold;
         }
 
         .header-info {
-            font-size: 11px;
-            line-height: 1.4;
-            font-weight: 500;
+            font-size: 10px;
+            line-height: 1.5;
         }
 
         .info {
-            margin: 4mm 0;
-            border-bottom: 1px solid #000;
-            padding-bottom: 3mm;
-        }
-
-        .info-row {
+            margin: 5mm 0;
+            border-top: 1px dashed #000;
+            border-bottom: 1px dashed #000;
+            padding: 4mm 0;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2mm;
-            font-size: 12px;
         }
 
-        .info-row span:first-child {
+        .info span {
+            font-size: 12px;
             font-weight: bold;
-            color: #000;
         }
 
         .items {
-            margin: 4mm 0;
+            margin: 5mm 0;
         }
 
         .item-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2.5mm;
+            margin-bottom: 3mm;
             font-size: 12px;
-            line-height: 1.2;
         }
 
         .item-name {
             flex: 1;
-            padding-right: 3mm;
-            font-weight: 500;
+            text-align: left;
         }
 
         .item-quantity {
             font-weight: bold;
-            margin-right: 2mm;
+            margin-right: 4mm;
         }
 
         .item-price {
             text-align: right;
             white-space: nowrap;
-            font-weight: 600;
         }
 
         .total {
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 16px;
-            margin-top: 4mm;
-            padding: 3mm 0;
-            border-top: 2px solid #000;
-            border-bottom: 2px solid #000;
-            letter-spacing: 0.5px;
+            font-size: 14px;
+            margin-top: 5mm;
+            padding: 4mm 0;
+            border-top: 1px dashed #000;
+            border-bottom: 1px dashed #000;
         }
 
         .footer {
-            text-align: center;
             margin-top: 5mm;
-            font-size: 11px;
-            font-weight: 500;
+            font-size: 10px;
         }
 
         .footer-text {
-            margin-bottom: 1.5mm;
-            line-height: 1.3;
-        }
-
-        .stars {
-            font-size: 14px;
-            margin-bottom: 3mm;
-            letter-spacing: 1px;
+            margin-bottom: 2mm;
         }
 
         @media print {
-            @page {
-                margin: 0;
-            }
             body {
                 margin: 0;
-                padding: 4mm;
+                padding: 0;
             }
         }
     </style>
     <script>
         window.onload = function() {
-            window.print();
-        }
+        window.print();
+
+        // Yazdırma işleminden sonra sayfayı kapat
+        setTimeout(function() {
+            window.close();
+        }, 2000);
+    }
     </script>
 </head>
 <body>
-    <div class="header">
-        <h1>CAFE ADI</h1>
-        <div class="header-info">
-            <div>Örnek Mahallesi, Örnek Sokak No:1</div>
-            <div>Tel: 0555 555 55 55</div>
-            <div>www.cafeadi.com</div>
-        </div>
-    </div>
-
-    <div class="info">
-        <div class="info-row">
-            <span>Masa No:</span>
-            <span>#{{ $table_number }}</span>
-        </div>
-        <div class="info-row">
-            <span>Fiş No:</span>
-            <span>{{ $order_number }}</span>
-        </div>
-        <div class="info-row">
-            <span>Tarih:</span>
-            <span>{{ date('d.m.Y H:i') }}</span>
-        </div>
-    </div>
-
-    <div class="items">
-        @foreach($order_items as $item)
-        <div class="item-row">
-            <div class="item-name">
-                <span class="item-quantity">{{ $item['quantity'] }}x</span>
-                {{ $item['product_name'] }}
+    <div class="container">
+        <div class="header">
+            <h1>{{ $cafe_name }}</h1>
+            <div class="header-info">
+                <div>{{ $cafe_address }}</div>
+                <div>Tel: {{ $cafe_phone }}</div>
             </div>
-            <div class="item-price">{{ number_format($item['price'], 2) }}₺</div>
         </div>
-        @endforeach
-    </div>
 
-    <div class="total">
-        <span>TOPLAM</span>
-        <span>{{ number_format($total_amount, 2) }}₺</span>
-    </div>
+        <div class="info">
+            <span>Masa No: {{ $table_number }}</span>
+            <span>{{ date('H:i | d.m.Y') }}</span>
+        </div>
 
-    <div class="footer">
-        <div class="stars">★ ★ ★ ★ ★</div>
-        <div class="footer-text">Bizi Tercih Ettiğiniz İçin</div>
-        <div class="footer-text">Teşekkür Ederiz</div>
-        <div class="footer-text">Yine Bekleriz</div>
+        <div class="items">
+            @foreach($order_items as $item)
+            <div class="item-row">
+                <div class="item-name">
+                    <span class="item-quantity">{{ $item['quantity'] }}x</span>
+                    {{ $item['product_name'] }}
+                </div>
+                <div class="item-price">{{ $item['price'] }}₺</div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="total">
+            <span>TOPLAM</span>
+            <span>{{ $total_amount }}₺</span>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">Bizi Tercih Ettiğiniz İçin Teşekkür Ederiz :)</div>
+        </div>
     </div>
 </body>
 </html>
