@@ -15,7 +15,7 @@ class CafePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_Cafe');
+        return $user->can('view_any_cafe');
     }
 
     /**
@@ -23,7 +23,7 @@ class CafePolicy
      */
     public function view(User $user, Cafe $cafe): bool
     {
-        return $user->can('view_Cafe');
+        return $user->can('view_cafe');
     }
 
     /**
@@ -31,7 +31,7 @@ class CafePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_Cafe');
+        return $user->can('create_cafe');
     }
 
     /**
@@ -39,7 +39,7 @@ class CafePolicy
      */
     public function update(User $user, Cafe $cafe): bool
     {
-        return $user->can('update_Cafe');
+        return $user->can('update_cafe');
     }
 
     /**
@@ -47,7 +47,7 @@ class CafePolicy
      */
     public function delete(User $user, Cafe $cafe): bool
     {
-        return $user->can('delete_Cafe');
+        return $user->can('delete_cafe');
     }
 
     /**
@@ -55,7 +55,7 @@ class CafePolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_Cafe');
+        return $user->can('delete_any_cafe');
     }
 
     /**
@@ -63,7 +63,7 @@ class CafePolicy
      */
     public function forceDelete(User $user, Cafe $cafe): bool
     {
-        return $user->can('force_delete_Cafe');
+        return $user->can('force_delete_cafe');
     }
 
     /**
@@ -71,7 +71,7 @@ class CafePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_Cafe');
+        return $user->can('force_delete_any_cafe');
     }
 
     /**
@@ -79,7 +79,7 @@ class CafePolicy
      */
     public function restore(User $user, Cafe $cafe): bool
     {
-        return $user->can('restore_Cafe');
+        return $user->can('restore_cafe');
     }
 
     /**
@@ -87,7 +87,7 @@ class CafePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_Cafe');
+        return $user->can('restore_any_cafe');
     }
 
     /**
@@ -95,7 +95,7 @@ class CafePolicy
      */
     public function replicate(User $user, Cafe $cafe): bool
     {
-        return $user->can('replicate_Cafe');
+        return $user->can('replicate_cafe');
     }
 
     /**
@@ -103,6 +103,6 @@ class CafePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_Cafe');
+        return $user->can('reorder_cafe');
     }
 }
