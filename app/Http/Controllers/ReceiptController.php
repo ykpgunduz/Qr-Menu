@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Cafe;
 use App\Models\Calculation;
-use Illuminate\Http\Request;
 
 class ReceiptController extends Controller
 {

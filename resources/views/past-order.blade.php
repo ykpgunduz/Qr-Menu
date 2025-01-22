@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <title>Geçmiş Sipariş</title>
     <style>
         body {
@@ -83,6 +84,23 @@
             color: #555;
             margin-top: 20px;
         }
+
+        .survey {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+            text-align: center;
+        }
+
+        .survey a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .survey a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -107,6 +125,14 @@
         <div class="total">Toplam: {{ $order->total_amount }}₺</div>
         <div class="divider"></div>
         <p class="thank-you">Bizi Tercih Ettiğiniz İçin Teşekkür Ederiz :)</p>
+        <div class="survey">
+            @if($rating)
+                <p style="color: green; font-weight: 600; ">Anketimize katıldığınız için teşekkür ederiz!</p>
+            @else
+                <p>Lütfen <a href="{{ route('rating.show', $order->order_number) }}">buraya tıklayarak</a> anketimize katılın.</p>
+                <p>Katılımınız bizim için çok değerli!</p>
+            @endif
+        </div>
     </div>
 </body>
 </html>

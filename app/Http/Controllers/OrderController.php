@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cafe;
 use App\Models\User;
+use App\Models\Rating;
 use App\Models\OrderItem;
 use App\Models\Calculation;
 use Illuminate\Http\Request;
@@ -148,11 +149,12 @@ class OrderController extends Controller
     {
         $order = DB::table('past_orders')->where('order_number', $orderNumber)->first();
         $cafe = Cafe::first();
+        $rating = Rating::where('order_number', $orderNumber)->first();
 
         if (!$order) {
             return redirect()->back()->with('error', 'Geçmiş sipariş bulunamadı.');
         }
 
-        return view('past-order', compact('order', 'cafe'));
+        return view('past-order', compact('order', 'cafe', 'rating'));
     }
 }
