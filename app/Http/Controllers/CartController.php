@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -25,7 +26,9 @@ class CartController extends Controller
             ->where('session_id', $sessionId)
             ->value('device_info');
 
-        return view('qr-cart', compact('cartItems', 'tableNumber', 'totalAmount', 'sessionId', 'deviceInfo'));
+        $products = Product::all();
+
+        return view('qr-cart', compact('cartItems', 'tableNumber', 'totalAmount', 'sessionId', 'deviceInfo', 'products'));
     }
 
     public function removeFromCart($id)

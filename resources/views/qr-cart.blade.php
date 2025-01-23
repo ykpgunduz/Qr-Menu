@@ -421,6 +421,96 @@
             align-items: center;
             justify-content: center;
         }
+
+        .recommended-carousel {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+        }
+
+        .recommended-product-card {
+            min-width: 150px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #eee;
+        }
+
+        .recommended-product-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recommended-product-card .info {
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .product-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .price-add {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .product-price {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .add-to-cart-btn {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        @media (max-width: 480px) {
+            .recommended-product-card {
+                min-width: 120px;
+            }
+
+            .recommended-product-card img {
+                height: 80px;
+            }
+
+            .product-title {
+                font-size: 0.8rem;
+            }
+
+            .product-price {
+                font-size: 0.75rem;
+            }
+
+            .add-to-cart-btn {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
     </style>
 </head>
 
@@ -587,6 +677,26 @@
                                 </div>
                             </div>
                         @endif
+
+                        @if($products->where('star', true)->isNotEmpty())
+                        <div class="recommended-products my-4">
+                            <h5 class="text-center mb-3">Yıldızlı Ürünler</h5>
+                            <div class="recommended-carousel">
+                                @foreach ($products->where('star', true) as $product)
+                                <div class="recommended-product-card">
+                                    <img src="https://kahhve.com/blog/wp-content/uploads/2022/06/filtre-kahve-cekirdegi-scaled.jpg" alt="{{ $product->title }}">
+                                    <div class="info">
+                                        <h6 class="product-title">{{ $product->title }}</h6>
+                                        <div class="price-add">
+                                            <span class="product-price">{{ $product->price }}₺</span>
+                                            <button class="btn btn-sm btn-dark add-to-cart-btn" data-id="{{ $product->id }}"><i class="fa-solid fa-cart-plus"></i> Ekle</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     </div>
             </div>
         </div>
@@ -710,6 +820,30 @@
                     console.error('Ajax Error:', error);
                     showToast('error', 'İşlem gerçekleştirilemedi');
                 }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('.add-to-cart-btn').on('click', function () {
+            const productId = $(this).data('id');
+            $.ajax({
+                url: '/cart/add',
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: productId,
+                },
+                success: function (response) {
+                    if (response.success) {
+                        showToast('success', 'Ürün sepete eklendi!');
+                    } else {
+                        showToast('error', 'Ürün sepete eklenemedi.');
+                    }
+                },
+                error: function () {
+                    showToast('error', 'Bir hata oluştu.');
+                },
             });
         });
     });
