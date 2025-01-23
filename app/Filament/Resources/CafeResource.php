@@ -46,7 +46,10 @@ class CafeResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->label('Açıklama')
                     ->rows(3),
-                Forms\Components\TextInput::make('instagram')
+                Forms\Components\TextInput::make('insta_name')
+                    ->label('Instagram Adı')
+                    ->required(),
+                Forms\Components\TextInput::make('insta_link')
                     ->label('Instagram Linki')
                     ->url(),
             ]);

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=72mm, initial-scale=1.0">
     <title>Adisyon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @page {
             size: 72mm auto;
@@ -31,12 +32,12 @@
         }
 
         .header {
-            margin-bottom: 5mm;
+            margin-bottom: 3mm;
         }
 
         .header h1 {
-            font-size: 18px;
-            margin: 0 0 3mm 0;
+            font-size: 20px;
+            margin: 0;
             font-weight: bold;
         }
 
@@ -46,15 +47,27 @@
         }
 
         .info {
-            margin: 5mm 0;
+            margin: 3mm 0 0 0;
             border-top: 1px dashed #000;
-            border-bottom: 1px dashed #000;
-            padding: 4mm 0;
+            padding: 3mm 0 1.5mm 0;
             display: flex;
             justify-content: space-between;
         }
 
         .info span {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .info-two{
+            margin: 0 0 5mm 0;
+            border-bottom: 1px dashed #000;
+            padding: 1.5mm 0 3mm 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-two span {
             font-size: 12px;
             font-weight: bold;
         }
@@ -114,28 +127,44 @@
     </style>
     <script>
         window.onload = function() {
-        window.print();
-
-        // Yazdırma işleminden sonra sayfayı kapat
-        setTimeout(function() {
-            window.close();
-        }, 2000);
-    }
+            window.print();
+            setTimeout(function() {
+                window.close();
+            }, 2000);
+        }
     </script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>{{ $cafe_name }}</h1>
-            <div class="header-info">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <img src="{{ asset('img/cafe-logo.png') }}" alt="Logo" style="width: 50px; height: 50px; border-radius: 8px; margin-right: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                    <h1>{{ $cafe_name }}</h1>
+                    <h5 style="margin: 2px 0 0 0; font-size: 9px; font-weight: normal; color: #555; line-height: 1.5;">{{ $cafe_description }}</h5>
+                </div>
+            </div>
+            <div class="header-info" style="margin-top: 8px;">
                 <div>{{ $cafe_address }}</div>
-                <div>Tel: {{ $cafe_phone }}</div>
+                <div style="display: flex; justify-content: space-between; margin-top: 3px;">
+                    <div>
+                        <i class="fa-solid fa-phone"></i> {{ $cafe_phone }}
+                    </div>
+                    <div>
+                        <i class="fa-brands fa-instagram" style="font-weight: bold;"></i> {{ $cafe_insta_name }}
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="info">
             <span>Masa No: {{ $table_number }}</span>
-            <span>{{ date('H:i | d.m.Y') }}</span>
+            <span>Saat: {{ \Carbon\Carbon::parse($created_at)->format('H:i') }} ≈ {{ date('H:i') }}</span>
+        </div>
+
+        <div class="info-two">
+            <span>Kişi Sayısı: {{ $customer }}</span>
+            <span>Tarih: {{ date('d.m.Y') }}</span>
         </div>
 
         <div class="items">

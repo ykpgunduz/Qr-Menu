@@ -182,7 +182,7 @@
                         <span>{{ $cafe->address }}</span>
                     </a>
                     <div class="social-links">
-                        <a class="social-link" target="_blank" href="{{ $cafe->instagram }}" aria-label="Instagram">
+                        <a class="social-link" target="_blank" href="{{ $cafe->insta_link }}" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>

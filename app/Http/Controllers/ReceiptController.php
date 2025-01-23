@@ -23,12 +23,16 @@ class ReceiptController extends Controller
 
         $data = [
             'table_number' => $calculation->table_number,
+            'customer' => $calculation->customer,
             'order_number' => $calculation->order_number,
             'order_items' => $orderItems,
             'total_amount' => $calculation->total_amount,
+            'created_at' => $calculation->created_at,
             'cafe_name' => $cafe->name ?? 'Cafe Adı',
+            'cafe_description' => $cafe->description ?? 'Açıklama',
             'cafe_address' => $cafe->address ?? 'Adres Bilgisi',
             'cafe_phone' => $cafe->phone ?? 'Telefon Bilgisi',
+            'cafe_insta_name' => $cafe->insta_name ?? 'Instagram Adı',
         ];
 
         return view('receipt', $data);
@@ -48,12 +52,16 @@ class ReceiptController extends Controller
 
         $data = [
             'table_number' => $calculation->table_number,
+            'customer' => $calculation->customer,
             'order_number' => $calculation->order_number,
             'order_items' => $orderItems,
             'total_amount' => $calculation->total_amount,
+            'created_at' => $calculation->created_at,
             'cafe_name' => $cafe->name ?? 'Cafe Adı',
+            'cafe_description' => $cafe->description ?? 'Açıklama',
             'cafe_address' => $cafe->address ?? 'Adres Bilgisi',
             'cafe_phone' => $cafe->phone ?? 'Telefon Bilgisi',
+            'cafe_insta_name' => $cafe->insta_name ?? 'Instagram Adı',
         ];
 
         return view('receipt', $data);
