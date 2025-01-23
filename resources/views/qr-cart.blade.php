@@ -495,10 +495,8 @@
                     const status = document.getElementById('status');
 
                     function showToast(type, message) {
-                        // Önce eski toast'ları temizle
                         $('.toast-message').remove();
 
-                        // Yeni toast oluştur
                         const toast = $(`
                             <div class="toast-message toast-${type}">
                                 <div class="toast-content">
@@ -508,11 +506,9 @@
                             </div>
                         `);
 
-                        // Toast'u ekle ve animasyonla göster
                         $('body').append(toast);
                         setTimeout(() => toast.addClass('show'), 100);
 
-                        // 3 saniye sonra kaldır
                         setTimeout(() => {
                             toast.removeClass('show');
                             setTimeout(() => toast.remove(), 300);
@@ -545,7 +541,6 @@
                     });
 
                 </script>
-                <!-- Ana formu buraya ekliyoruz -->
                     <div id="cart-items" class="cart-container">
                         @if(count($cartItems) == 0)
                         <div class="empty-cart">
@@ -597,7 +592,6 @@
         </div>
         <!-- Menu End -->
 
-        <!-- Success Message -->
         <div id="success-message" class="text-center" style="display: none; color: green;"></div>
 
     </div>
@@ -626,18 +620,15 @@
 
     <script>
     $(document).ready(function() {
-        // AJAX için CSRF token ayarı
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        // Form submit kontrolü
         $('#form1').on('submit', function(e) {
             e.preventDefault();
 
-            // Servis türü kontrolü
             const selectedService = document.querySelector('.option.selected');
             if (!selectedService) {
                 showToast('error', 'Servis türü seçiniz!');
@@ -646,20 +637,17 @@
                 return false;
             }
 
-            // Cart items güncelleme
             updateCartItems().then(() => {
                 this.submit();
             });
         });
 
-        // Servis seçenekleri için click handler
         $('.option').on('click', function() {
             $('.option').removeClass('selected');
             $(this).addClass('selected');
             $('#status').val($(this).attr('id'));
         });
 
-        // Cart items'ı güncelleyen fonksiyon
         async function updateCartItems() {
             try {
                 const response = await $.ajax({

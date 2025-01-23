@@ -79,7 +79,29 @@ class ProductResource extends Resource
                     ->suffix('₺')
                     ->sortable(),
             ])
-            ->actions([Tables\Actions\EditAction::make()]);
+            ->actions([Tables\Actions\EditAction::make()])
+            ->bulkActions([
+                Tables\Actions\BulkAction::make('activate')
+                    ->label('Seçilileri Aktif Yap')
+                    ->icon('heroicon-o-check-circle')
+                    ->action(function ($records) {
+                        $records->each(function ($record) {
+                            $record->update(['active' => true]);
+                        });
+                    })
+                    ->requiresConfirmation()
+                    ->color('success'),
+                Tables\Actions\BulkAction::make('deactivate')
+                    ->label('Seçilileri Pasif Yap')
+                    ->icon('heroicon-o-x-circle')
+                ->action(function ($records) {
+                    $records->each(function ($record) {
+                        $record->update(['active' => false]);
+                    });
+                })
+                ->requiresConfirmation()
+                ->color('danger')
+            ]);
     }
 
     public static function getPages(): array
