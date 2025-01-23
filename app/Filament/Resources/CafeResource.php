@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CafeResource\Pages;
-use App\Models\Cafe;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Cafe;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use App\Filament\Resources\CafeResource\Pages;
 
 class CafeResource extends Resource
 {
@@ -25,33 +25,40 @@ class CafeResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Kafe Adı')
+                    ->label('Kafenin Adı')
+                    ->prefixIcon('heroicon-o-building-storefront')
                     ->required(),
                 Forms\Components\TextInput::make('phone')
-                    ->label('Telefon')
+                    ->label('Telefon Numarası')
+                    ->prefixIcon('heroicon-o-phone')
                     ->required(),
                 Forms\Components\TextInput::make('opening_time')
-                    ->label('Açılış Saati')
+                    ->label('Kafenin Açılış Saati')
+                    ->prefixIcon('heroicon-o-clock')
                     ->required(),
                 Forms\Components\TextInput::make('closing_time')
-                    ->label('Kapanış Saati')
+                    ->label('Kafenin Kapanış Saati')
+                    ->prefixIcon('heroicon-o-clock')
                     ->required(),
                 Forms\Components\TextInput::make('address')
-                    ->label('Adres')
+                    ->label('Kafenin Açık Adresi')
+                    ->prefixIcon('heroicon-o-map-pin')
                     ->required(),
                 Forms\Components\TextInput::make('address_link')
-                    ->label('Adres Linki')
-                    ->required()
+                    ->label('Adres Linki (Google Maps)')
+                    ->prefixIcon('heroicon-o-link')
                     ->url(),
-                Forms\Components\Textarea::make('description')
-                    ->label('Açıklama')
-                    ->rows(3),
                 Forms\Components\TextInput::make('insta_name')
                     ->label('Instagram Adı')
-                    ->required(),
+                    ->prefixIcon('heroicon-o-globe-alt'),
                 Forms\Components\TextInput::make('insta_link')
                     ->label('Instagram Linki')
+                    ->prefixIcon('heroicon-o-link')
                     ->url(),
+                Forms\Components\TextInput::make('description')
+                    ->label('Kafenin Sloganı')
+                    ->prefixIcon('heroicon-o-sparkles')
+                    ->columnSpanFull()
             ]);
     }
 

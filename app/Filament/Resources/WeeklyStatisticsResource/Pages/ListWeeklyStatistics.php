@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\WeeklyStatisticsResource\Pages;
 
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\WeeklyStatisticsResource;
 use App\Filament\Resources\WeeklyStatisticsResource\Widgets\WeeklyChart;

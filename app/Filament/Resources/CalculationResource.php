@@ -25,7 +25,6 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Tables\Actions\DeleteAction;
 use App\Filament\Resources\CalculationResource\Pages;
-use Filament\Actions\Action as FilamentAction;
 use Filament\Tables\Actions\Action as TableAction;
 
 class CalculationResource extends Resource
@@ -71,16 +70,16 @@ class CalculationResource extends Resource
                         ->label('Siparişler')
                         ->relationship('orderItems')
                         ->schema([
-                            Forms\Components\Grid::make(2)->schema([
-                                Select::make('category_id')
-                                    ->label('Kategori Seç')
-                                    ->options(Category::all()->pluck('name', 'id'))
+                            Forms\Components\Radio::make('category_id')
+                                    ->label('')
+                                    ->options(Category::all()->pluck('name', 'id')->toArray())
                                     ->required()
+                                    ->inline()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state, callable $set) {
                                         $set('product_id', null);
                                     }),
-
+                            Forms\Components\Grid::make(2)->schema([
                                 Select::make('product_id')
                                     ->label('Ürün Seç')
                                     ->options(function (callable $get) {
@@ -91,26 +90,21 @@ class CalculationResource extends Resource
                                     ->required()
                                     ->reactive()
                                     ->afterStateUpdated(fn ($state, callable $set) => $set('price', Product::find($state)?->price)),
+                                TextInput::make('quantity')
+                                    ->label('Miktar')
+                                    ->required()
+                                    ->default(1)
+                                    ->numeric()
+                                    ->minValue(1),
+                                TextInput::make('price')
+                                    ->label('Fiyat')
+                                    ->required()
+                                    ->numeric()
+                                    ->readOnly(),
+                                TextInput::make('note')
+                                    ->label('Sipariş Notu')
+                                    ->placeholder('opsiyonel')
                             ]),
-
-                            Forms\Components\Grid::make(2)
-                                ->schema([
-                                    TextInput::make('quantity')
-                                        ->label('Miktar')
-                                        ->required()
-                                        ->default(1)
-                                        ->numeric()
-                                        ->minValue(1),
-                                    TextInput::make('price')
-                                        ->label('Fiyat')
-                                        ->required()
-                                        ->numeric()
-                                        ->readOnly(),
-                                ]),
-
-                            TextInput::make('note')
-                                ->label('Sipariş Notu')
-                                ->placeholder('opsiyonel')
                         ])
                         ->createItemButtonLabel('Yeni Ürün Ekle')
                         ->reorderableWithButtons()
