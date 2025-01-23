@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->text('body')->nullable();
             $table->boolean('active')->default(true);
+            $table->boolean('star')->default(false);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

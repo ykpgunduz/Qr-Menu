@@ -46,11 +46,17 @@ class ProductResource extends Resource
                 ->required()
                 ->columnSpanFull(),
             Forms\Components\Toggle::make('active')
-                ->label('Aktiflik Ayarı')
+                ->label('Ürünün Menüde Görünümü')
                 ->default('on')
                 ->onColor('success')
                 ->offColor('danger')
-                ->required()
+                ->required(),
+            Forms\Components\Toggle::make('star')
+                ->label('Yıldızlı Ürün')
+                ->default('off')
+                ->onColor('warning')
+                ->offColor('gray')
+                ->required(),
         ]);
     }
 
@@ -65,13 +71,27 @@ class ProductResource extends Resource
                     ->label('Ürün Adı')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
-                ->label('Aktiflik')
-                ->action(function($record, $column) {
-                    $name = $column->getName();
-                    $record->update([
-                        $name => !$record->$name
-                    ]);
-                })
+                    ->label('Aktiflik')
+                    ->action(function($record, $column) {
+                        $name = $column->getName();
+                        $record->update([
+                            $name => !$record->$name
+                        ]);
+                    })
+                    ->boolean(),
+                Tables\Columns\IconColumn::make('star')
+                    ->label('Yıldız')
+                    ->color(function ($record) {
+                        return $record->star ? 'warning' : 'gray';
+                    })
+                    ->icon('heroicon-o-star')
+                    ->sortable()
+                    ->action(function ($record, $column) {
+                        $name = $column->getName();
+                        $record->update([
+                            $name => !$record->$name
+                        ]);
+                    })
                     ->boolean(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Fiyat')
