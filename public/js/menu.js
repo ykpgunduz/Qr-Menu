@@ -152,6 +152,7 @@ function decreaseQuantity(productId) {
             if (currentCount <= 0) {
                 counter.hide();
                 removeBtn.hide();
+                counter.text(0);
             } else {
                 counter.text(currentCount);
             }
