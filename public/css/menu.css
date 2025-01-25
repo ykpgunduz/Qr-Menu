@@ -381,7 +381,7 @@ button {
     left: 50%;
     transform: translateX(-50%) translateY(-100%);
     background: white;
-    padding: 12px 24px;
+    padding: 8px 16px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     display: flex;
@@ -404,10 +404,14 @@ button {
     border-left: 4px solid #dc3545;
 }
 
+.toast-warning {
+    border-left: 4px solid #ffc107;
+}
+
 .toast-content {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .toast-success i {
@@ -418,9 +422,13 @@ button {
     color: #dc3545;
 }
 
+.toast-warning i {
+    color: #ffc107;
+}
+
 .toast-message span {
     color: #333;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
 }
 

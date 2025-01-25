@@ -157,7 +157,7 @@ function decreaseQuantity(productId) {
                 counter.text(currentCount);
             }
 
-            showToast('error', 'Ürün çıkarıldı.');
+            showToast('warning', 'Ürün çıkarıldı.');
         },
         error: function(xhr) {
             let errorMessage = 'Bir hata oluştu';
@@ -238,7 +238,7 @@ function showToast(type, message) {
     const toast = $(`
         <div class="toast-message toast-${type}">
             <div class="toast-content">
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-exclamation-circle'}"></i>
                 <span>${message}</span>
             </div>
         </div>
