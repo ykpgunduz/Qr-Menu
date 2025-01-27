@@ -742,13 +742,18 @@
             const selectedService = document.querySelector('.option.selected');
             if (!selectedService) {
                 showToast('error', 'Servis türü seçiniz!');
-                // Sayfanın üst kısmına smooth scroll
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return false;
             }
 
+            // Butonu devre dışı bırak
+            $('button[type="submit"]').prop('disabled', true);
+
             updateCartItems().then(() => {
                 this.submit();
+            }).catch(() => {
+                // Hata durumunda butonu tekrar etkinleştir
+                $('button[type="submit"]').prop('disabled', false);
             });
         });
 
