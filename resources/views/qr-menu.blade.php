@@ -83,7 +83,8 @@
                                                       id="counter-{{ $product->id }}"
                                                       style="display: none;">0</span>
                                                 <img class="flex-shrink-0 img-fluid"
-                                                     src="https://kahhve.com/blog/wp-content/uploads/2022/06/filtre-kahve-cekirdegi-scaled.jpg">
+                                                src="{{ $product->thumbnail ? asset($product->thumbnail) : asset('img/kafe-logo.png') }}"
+                                                alt="{{ $product->title }}">
                                             </div>
                                             <div class="item-info">
                                                 <h3>{{ $product->title }}</h3>
