@@ -97,12 +97,14 @@
                                                         style="display: none;">
                                                     <i class="fa-solid fa-minus"></i>
                                                 </button>
+                                                @if($category->name !== 'Aksesuarlar')
                                                 <button type="submit" class="btn-add-cart" onclick="event.stopPropagation();">
                                                     <div class="loading-spinner"></div>
                                                     <div class="button-content">
                                                         <i class="fa-solid fa-cart-plus"></i>
                                                     </div>
                                                 </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </form>
