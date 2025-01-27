@@ -83,7 +83,7 @@
                                                       id="counter-{{ $product->id }}"
                                                       style="display: none;">0</span>
                                                 <img class="flex-shrink-0 img-fluid"
-                                                src="{{ $product->thumbnail ? asset($product->thumbnail) : asset('img/kafe-logo.png') }}"
+                                                src="{{ $product->thumbnail ? asset(path: 'storage/' . $product->thumbnail) : asset('img/kafe-logo.png') }}"
                                                 alt="{{ $product->title }}">
                                             </div>
                                             <div class="item-info">

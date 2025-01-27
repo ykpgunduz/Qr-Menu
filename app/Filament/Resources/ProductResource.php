@@ -66,7 +66,7 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Fotoğraf')
-                    ->defaultImageUrl(url('storage/img/thumbnail.jpg')),
+                    ->defaultImageUrl(url: ('storage/img/thumbnail.jpg')),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Ürün Adı')
                     ->searchable(),
