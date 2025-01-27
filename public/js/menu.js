@@ -274,3 +274,17 @@ function clearSearch() {
     searchProducts(); // Mevcut arama fonksiyonunu çağır
     searchInput.focus(); // Input'a tekrar odaklan
 }
+
+function showProductDetails(productId) {
+    $.ajax({
+        url: `/product/${productId}`,
+        type: 'GET',
+        success: function(response) {
+            $('#productDetailContent').html(response);
+            $('#productDetailModal').modal('show');
+        },
+        error: function() {
+            showToast('error', 'Ürün detayları yüklenemedi.');
+        }
+    });
+}

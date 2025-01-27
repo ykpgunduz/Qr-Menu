@@ -14,6 +14,7 @@ class CreateProductsTable extends Migration
             $table->string('thumbnail')->nullable();
             $table->integer('price');
             $table->text('body')->nullable();
+            $table->text('stok')->nullable();
             $table->boolean('active')->default(true);
             $table->boolean('star')->default(false);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');

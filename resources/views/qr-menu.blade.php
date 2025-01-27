@@ -77,7 +77,7 @@
                                           data-product-id="{{ $product->id }}"
                                           data-table-number="{{ request()->get('table') }}">
                                         @csrf
-                                        <div class="menu-item">
+                                        <div class="menu-item" onclick="showProductDetails({{ $product->id }})">
                                             <div class="position-relative">
                                                 <span class="product-counter"
                                                       id="counter-{{ $product->id }}"
@@ -87,16 +87,17 @@
                                             </div>
                                             <div class="item-info">
                                                 <h3>{{ $product->title }}</h3>
+                                                <p class="product-description">{{ Str::limit($product->body, 25) }}</p>
                                                 <h4>{{ $product->price }}₺</h4>
                                             </div>
                                             <div class="product-actions">
                                                 <button type="button"
                                                         class="remove-btn"
-                                                        onclick="decreaseQuantity({{ $product->id }})"
+                                                        onclick="event.stopPropagation(); decreaseQuantity({{ $product->id }})"
                                                         style="display: none;">
                                                     <i class="fa-solid fa-minus"></i>
                                                 </button>
-                                                <button type="submit" class="btn-add-cart">
+                                                <button type="submit" class="btn-add-cart" onclick="event.stopPropagation();">
                                                     <div class="loading-spinner"></div>
                                                     <div class="button-content">
                                                         <i class="fa-solid fa-cart-plus"></i>
@@ -149,6 +150,23 @@
             </div>
         </div>
         <!-- Footer End -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailModalLabel">Ürün Detayları</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="productDetailContent">
+                        <!-- Ürün detayları buraya yüklenecek -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
