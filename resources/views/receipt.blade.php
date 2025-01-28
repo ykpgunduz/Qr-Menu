@@ -27,11 +27,13 @@
 
         .container {
             width: 100%;
-            padding: 1mm 4mm;
+            padding: 0 2mm;
             box-sizing: border-box;
+            margin-top: 0;
         }
 
         .header {
+            margin-top: 0;
             margin-bottom: 1mm;
         }
 
@@ -112,6 +114,7 @@
         .footer {
             margin-top: 3mm;
             font-size: 10px;
+            margin-bottom: 0;
         }
 
         @media print {
@@ -137,19 +140,19 @@
                 <img src="{{ asset('img/underground-siyah.png') }}" alt="Logo" style="width: 50px; height: 50px; border-radius: 8px; margin-right: 10px;">
                 <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
                     <h1>{{ $cafe_name }}</h1>
-                    <h5 style="margin: 2px 0 0 0; font-size: 9px; font-weight: normal; color: #555; line-height: 1.5;">{{ $cafe_description }}</h5>
+                    <div style="font-size: 12px; color: #444; margin: 2px 0 2px 1px; font-style: italic; font-weight: 500; letter-spacing: 0.5px;">COFFEE SHOP</div>
                 </div>
             </div>
         </div>
 
         <div class="info">
-            <span>Masa No: {{ $table_number }}</span>
-            <span>Saat: {{ \Carbon\Carbon::parse($created_at)->format('H:i') }} ≈ {{ date('H:i') }}</span>
+            <span>{{ \Carbon\Carbon::parse($created_at)->format('H:i') }} - {{ date('H:i') }}</span>
+            <span>{{ \Carbon\Carbon::parse($created_at)->translatedFormat('d F Y l') }}</span>
         </div>
 
         <div class="info-two">
-            <span>Kişi Sayısı: {{ $customer }}</span>
-            <span>Tarih: {{ date('d.m.Y') }}</span>
+            <span>{{ $table_number }}. Masa {{ !empty($customer) ? "| $customer Kişi" : "" }}</span>
+            <span>{{ $order_number }}</span>
         </div>
 
         <div class="items">
