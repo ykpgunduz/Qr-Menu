@@ -21,7 +21,17 @@ class CategorySeeder extends Seeder
                 'color' => '#B40000',
             ],
             [
+                'name' => 'Ekstralar',
+                'icon' => 'fa-solid fa-bolt-lightning',
+                'color' => '#120A8F',
+            ],
+            [
                 'name' => 'Atıştırmalıklar',
+                'icon' => 'fa-solid fa-burger',
+                'color' => '#A35200',
+            ],
+            [
+                'name' => 'Abur Cuburlar',
                 'icon' => 'fa-solid fa-cookie-bite',
                 'color' => '#A35200',
             ],

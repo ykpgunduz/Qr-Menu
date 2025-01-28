@@ -642,8 +642,8 @@
                             <div class="cart-item" data-id="{{ $cartItem->id }}" data-price="{{ $cartItem->price }}">
                                 <div class="cart-item-content">
                                     <img class="cart-item-image"
-                                         src="{{ $cartItem->product->thumbnail ? asset('storage/img/' . $cartItem->product->thumbnail) : asset('img/kafe-logo.png') }}"
-                                         alt="{{ $cartItem->product->title }}">
+                                    src="{{ $cartItem->product->thumbnail && file_exists(public_path('storage/img/' . $cartItem->product->thumbnail)) ? asset('storage/img/' . $cartItem->product->thumbnail) : asset('img/cafe-logo.png') }}"
+                                    alt="{{ $cartItem->product->title }}">
                                     <div class="cart-item-info">
                                         <h5 class="cart-item-title">{{ $cartItem->product->title }}</h5>
                                         <span class="cart-item-price">{{ $cartItem->price }}₺</span>

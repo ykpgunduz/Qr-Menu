@@ -83,7 +83,7 @@
                                                       id="counter-{{ $product->id }}"
                                                       style="display: none;">0</span>
                                                 <img class="flex-shrink-0 img-fluid"
-                                                src="{{ $product->thumbnail ? asset(path: 'storage/img/' . $product->thumbnail) : asset('img/kafe-logo.png') }}"
+                                                src="{{ $product->thumbnail && file_exists(public_path('storage/img/' . $product->thumbnail)) ? asset('storage/img/' . $product->thumbnail) : asset('img/kafe-logo.png') }}"
                                                 alt="{{ $product->title }}">
                                             </div>
                                             <div class="item-info">
@@ -98,7 +98,7 @@
                                                         style="display: none;">
                                                     <i class="fa-solid fa-minus"></i>
                                                 </button>
-                                                @if($category->name !== 'Aksesuarlar')
+                                                @if($category->name !== 'Aksesuarlar' && $category->name !== 'Abur Cuburlar')
                                                 <button type="submit" class="btn-add-cart" onclick="event.stopPropagation();">
                                                     <div class="loading-spinner"></div>
                                                     <div class="button-content">

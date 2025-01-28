@@ -91,22 +91,22 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'mocha.webp',
                 'title' => 'Mocha',
-                'price' => 135.00,
+                'price' => 150.00,
                 'body' => 'Kahve ile çikolatanın  valsi olabilir, ...',
                 'category' => 'Sıcak İçecekler'
             ],
             [
                 'thumbnail' => 'filtre-kahve.webp',
                 'title' => 'Filtre Kahve',
-                'price' => 110.00,
+                'price' => 120.00,
                 'body' => 'Filtre kahve, öğütülmüş kahve çekirdeklerinin sıcak suyla buluşturulup demlenmesi sonucu elde edilen kahve çeşididir. Genel olarak farklı tipte ürün skalaları fanatiklerini de oluşturmuştur. Underground olarak karakteristik ve gövdeli kahve deneyimi sunarken kahve adına dip not bilgiler vermek gerekirse yağ yakıcıdır, diyabet kontrolüne destek verir, Alzheimer önleyici olup tam bir antioksidan deposudur demek yeterli olur şimdilik.',
                 'category' => 'Sıcak İçecekler'
             ],
             [
                 'thumbnail' => 'decaf-filtre-kahve.webp',
-                'title' => 'Decaf Filtre Kahve',
+                'title' => 'Decaf Filter Coffee',
                 'price' => 115.00,
-                'body' => '"Decaf" olarak da adlandırılan bu içecek aslında tamamen kafeinsiz değildir çünkü kafein, bitkinin kendisinde ve çekirdeklerinde doğal olarak bulunur ve Kafeinsiz kahve çeşitleri ise normale göre yaklaşık olarak  %97 oranında daha az kafein içerir.',
+                'body' => '"Decaf" olarak da adlandırılan bu içecek aslında tamamen kafeinsiz değildir çünkü kafein, bitkinin kendisinde ve çekirdeklerinde doğal olarak bulunur ve Kafeinsiz kahve çeşitleri ise normale göre yaklaşık olarak %97 oranında daha az kafein içerir.',
                 'category' => 'Sıcak İçecekler'
             ],
             [
@@ -236,16 +236,16 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'iced-chocolate.webp',
+                'thumbnail' => 'ice-chocolate.webp',
                 'title' => 'Ice Chocolate',
-                'price' => 160.00,
+                'price' => 155.00,
                 'body' => 'Hem serin hem uzun içim hem de şeker patlması olsun ama bayılmamam lazım diyenlerin fantazisidir. Aslında ismi gibi de erotik bir tat. Siz sadece aromasını belirleyin gerisi bizde. Ruby, Caramel, Vanilya, Beyaz Çikolata, Beyaz Çikolata, Lotus',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'iced-salepso.webp',
                 'title' => 'Iced Salepso',
-                'price' => 165.00,
+                'price' => 140.00,
                 'body' => 'Espresoo ve sahlep için uzun serin formu',
                 'category' => 'Soğuk İçecekler'
             ],
@@ -348,9 +348,9 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'organik-cay.webp',
-                'title' => 'Organik Çaylar',
-                'price' => 95.00,
+                'thumbnail' => 'organic-cay.webp',
+                'title' => 'Organic Çay Çeşitleri',
+                'price' => 110.00,
                 'body' => 'Organikçileri ve mevsimsel alışkanlıkları unutmadık.  Bahçeden diyerek abartı olabilir ama abla tezgahta bunlar var şu an dediklerimiz...Atom Kış Çayı, Hibisküs, Ihlamur, Adaçayı, Kuşburnu, Yeşil Çay, Rezene, Papatya, Melisa',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -371,7 +371,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'take-away-cay.webp',
                 'title' => 'Take Away Çay',
-                'price' => 70.00,
+                'price' => 75.00,
                 'body' => 'Karton bardakta al-götür çay',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -418,7 +418,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'coca-cola.webp',
+                'thumbnail' => 'coca-cola.png',
                 'title' => 'Coca Cola',
                 'price' => 80.00,
                 'body' => 'Kahve ve çay tarzı bir şey içmek istemeyenleri için alternatif bulunduruyoruz',
@@ -460,7 +460,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'churchill.webp',
+                'thumbnail' => 'churchil.webp',
                 'title' => 'Churchill',
                 'price' => 70.00,
                 'body' => 'Maden Suyu hiç böyle afilli olmamıştı. Fizz görüntüsüne içinler az değil.',
@@ -474,14 +474,14 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'cheesecake.webp',
+                'thumbnail' => 'limonlu.png',
                 'title' => 'Limonlu Cheesecake',
                 'price' => 130.00,
                 'body' => 'Cheesecake her zaman akıllardadır.',
                 'category' => 'Atıştırmalıklar'
             ],
             [
-                'thumbnail' => 'cheesecake.webp',
+                'thumbnail' => 'frambuazli.jpg',
                 'title' => 'Frambuazlı Cheesecake',
                 'price' => 130.00,
                 'body' => 'Cheesecake her zaman akıllardadır.',
@@ -569,77 +569,56 @@ class ProductSeeder extends Seeder
                 'title' => 'Şıpsevdi',
                 'price' => 5.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış eski tatlardan. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'topitop.webp',
+                'thumbnail' => 'lolipop.webp',
                 'title' => 'TopiTop',
                 'price' => 20.00,
                 'body' => 'Yalap çalap emzik niyetine .. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
                 'thumbnail' => 'haribo.webp',
                 'title' => 'Haribo',
                 'price' => 15.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış  eski tatlardan. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
-            ],
-            [
-                'thumbnail' => 'mabel.webp',
-                'title' => 'Mabel',
-                'price' => 25.00,
-                'body' => '',
-                'category' => 'Atıştırmalıklar'
-            ],
-            [
-                'thumbnail' => 'wafer-master.webp',
-                'title' => 'Wafer Master',
-                'price' => 10.00,
-                'body' => '',
-                'category' => 'Atıştırmalıklar'
-            ],
-            [
-                'thumbnail' => 'hanuta.webp',
-                'title' => 'Hanuta',
-                'price' => 45.00,
-                'body' => '',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
                 'thumbnail' => 'hobby.webp',
                 'title' => 'Hobby',
                 'price' => 20.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış eski tatlardan. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'tadelle.webp',
+                'thumbnail' => 'tadelle.jpg',
                 'title' => 'Tadelle',
                 'price' => 35.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış  eski tatlardan. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
                 'thumbnail' => 'bahceden-fındıklı-bar.webp',
                 'title' => 'Bahçeden Fındıklı Bar',
-                'price' => 35.00,
+                'price' => 60.00,
                 'body' => 'Sporcuları unutmadık acil set protein grubu. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'bahceden-fıstıklı-bar.webp  ',
+                'thumbnail' => 'bahceden-fıstıklı-bar.webp',
                 'title' => 'Bahçeden Fıstıklı Bar',
                 'price' => 35.00,
                 'body' => 'Sporcuları unutmadık acil set protein grubu. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'çokokrem.webp',
+                'thumbnail' => 'cokokrem.jpg',
                 'title' => 'Çokokrem',
-                'price' => 45.00,
+                'price' => 70.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış eski tatlardan. Kasa önü satışı vardır.',
-                'category' => 'Atıştırmalıklar'
+                'category' => 'Abur Cuburlar'
             ],
             [
                 'thumbnail' => 'korumasız-deri-eldiven.webp',
