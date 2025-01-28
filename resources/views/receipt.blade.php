@@ -27,23 +27,23 @@
 
         .container {
             width: 100%;
-            padding: 4mm;
+            padding: 1mm 4mm;
             box-sizing: border-box;
         }
 
         .header {
-            margin-bottom: 3mm;
+            margin-bottom: 1mm;
         }
 
         .header h1 {
-            font-size: 20px;
-            margin: 0;
+            font-size: 18px;
+            margin: 7px 0 0 0;
             font-weight: bold;
         }
 
         .header-info {
-            font-size: 10px;
-            line-height: 1.5;
+            font-size: 9px;
+            line-height: 1.3;
         }
 
         .info {
@@ -110,12 +110,8 @@
         }
 
         .footer {
-            margin-top: 5mm;
+            margin-top: 3mm;
             font-size: 10px;
-        }
-
-        .footer-text {
-            margin-bottom: 2mm;
         }
 
         @media print {
@@ -138,21 +134,10 @@
     <div class="container">
         <div class="header">
             <div style="display: flex; align-items: center; justify-content: center;">
-                <img src="{{ asset('img/cafe-logo.png') }}" alt="Logo" style="width: 50px; height: 50px; border-radius: 8px; margin-right: 10px;">
+                <img src="{{ asset('img/underground-siyah.png') }}" alt="Logo" style="width: 50px; height: 50px; border-radius: 8px; margin-right: 10px;">
                 <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
                     <h1>{{ $cafe_name }}</h1>
                     <h5 style="margin: 2px 0 0 0; font-size: 9px; font-weight: normal; color: #555; line-height: 1.5;">{{ $cafe_description }}</h5>
-                </div>
-            </div>
-            <div class="header-info" style="margin-top: 8px;">
-                <div>{{ $cafe_address }}</div>
-                <div style="display: flex; justify-content: space-between; margin-top: 3px;">
-                    <div>
-                        <i class="fa-solid fa-phone"></i> {{ $cafe_phone }}
-                    </div>
-                    <div>
-                        <i class="fa-brands fa-instagram" style="font-weight: bold;"></i> {{ $cafe_insta_name }}
-                    </div>
                 </div>
             </div>
         </div>
@@ -185,7 +170,14 @@
         </div>
 
         <div class="footer">
-            <div class="footer-text">Bizi Tercih Ettiğiniz İçin Teşekkür Ederiz :)</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 3px;">
+                <div>
+                    <i class="fa-solid fa-phone"></i> {{ $cafe_phone }}
+                </div>
+                <div>
+                    <i class="fa-brands fa-instagram" style="font-weight: bold;"></i> {{ $cafe_insta_name }}
+                </div>
+            </div>
         </div>
     </div>
 </body>
