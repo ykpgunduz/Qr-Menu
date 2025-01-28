@@ -68,13 +68,6 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'espresso-double.webp',
-                'title' => 'Espresso Double',
-                'price' => 90.00,
-                'body' => 'Double shot espresso genellikle zihni uyandırırmak içindir',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
                 'thumbnail' => 'espresso-macchiato.webp',
                 'title' => 'Espresso Macchiato',
                 'price' => 95.00,
@@ -89,13 +82,6 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'mocha.webp',
-                'title' => 'Mocha',
-                'price' => 150.00,
-                'body' => 'Kahve ile çikolatanın  valsi olabilir, ...',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
                 'thumbnail' => 'filtre-kahve.webp',
                 'title' => 'Filtre Kahve',
                 'price' => 120.00,
@@ -107,6 +93,20 @@ class ProductSeeder extends Seeder
                 'title' => 'Decaf Filter Coffee',
                 'price' => 115.00,
                 'body' => '"Decaf" olarak da adlandırılan bu içecek aslında tamamen kafeinsiz değildir çünkü kafein, bitkinin kendisinde ve çekirdeklerinde doğal olarak bulunur ve Kafeinsiz kahve çeşitleri ise normale göre yaklaşık olarak %97 oranında daha az kafein içerir.',
+                'category' => 'Sıcak İçecekler'
+            ],
+            [
+                'thumbnail' => 'mocha.webp',
+                'title' => 'Mocha',
+                'price' => 135.00,
+                'body' => 'Kahve ile çikolatanın  valsi olabilir, ...',
+                'category' => 'Sıcak İçecekler'
+            ],
+            [
+                'thumbnail' => 'mocha-cesitleri.webp',
+                'title' => 'Mocha Çeşitleri',
+                'price' => 150.00,
+                'body' => 'Mocha için hangi stil size ait ...Caramel, Ruby, Lotus, Vanilya, Çikolata',
                 'category' => 'Sıcak İçecekler'
             ],
             [
@@ -152,8 +152,8 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'aromalı-latte.webp',
-                'title' => 'Aromalı Latte',
+                'thumbnail' => 'latte-cesitleri.webp',
+                'title' => 'Latte Çeşitleri',
                 'price' => 135.00,
                 'body' => 'Latte sütün bol olduğu içecek anlamı verirken bunu kendi zevkine göre özelleştirmek isteyen tarzını belirlesin. Seçenekler : Fındık, Vanilya, Hind Ceviz, Karamel, Ruby, Balkabağı, Lotus, Bitter, ',
                 'category' => 'Sıcak İçecekler'
@@ -180,7 +180,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'aromalı-ice-latte.webp',
+                'thumbnail' => 'aromali-ice-latte.webp',
                 'title' => 'Aromalı Ice Latte',
                 'price' => 140.00,
                 'body' => 'Sütlü, buzlu,  kahveli olan bu denkleme istediğiniz aroma ile şenlendirin Ruby, Karamel, Hindistan Ceviz, Lotus, Vanilya, Beyaz Çik, Bitter, Fındık, Bal Kabak, Irish Cream vb..',
@@ -194,8 +194,8 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'aromalı-ice-mocha.webp',
-                'title' => 'Aromalı Ice Mocha',
+                'thumbnail' => 'ice-mocha-cesitleri.webp',
+                'title' => 'Ice Mocha Çeşitleri',
                 'price' => 170.00,
                 'body' => 'Mocha nın ruhu bu aromalarla yeniden tasarlandı. Araba gibi düşünün ve modele siz karar verin... Ruby, Karamel, Hindistan Ceviz, Lotus, Vanilya, Beyaz Çik, , Fındık, Irish Cream',
                 'category' => 'Soğuk İçecekler'
@@ -208,8 +208,8 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
-                'thumbnail' => 'aromalı-frappe.webp',
-                'title' => 'Aromalı Frappe',
+                'thumbnail' => 'frappe-cesitleri.webp',
+                'title' => 'Frappe Çeşitleri',
                 'price' => 165.00,
                 'body' => 'Fındıklı, Çikolatalı, Vanilyalı, Karamelli, Hindistan Cevizli, Irish Cream',
                 'category' => 'Soğuk İçecekler'
@@ -231,7 +231,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'iced-matcha-latte.webp',
                 'title' => 'Iced Matcha Latte',
-                'price' => 170.00,
+                'price' => 160.00,
                 'body' => 'Buzlu içeceklerde seçiminiz deneysel olarak kahve, süt ve bitkisel aromalar üzerine olacaksa son dönemlerdeki yenilik arayanların favorisi olarak menümüzde yerini aldı. ',
                 'category' => 'Soğuk İçecekler'
             ],
@@ -252,7 +252,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'chai-tea-latte.webp',
                 'title' => 'Chai Tea Latte',
-                'price' => 125.00,
+                'price' => 135.00,
                 'body' => 'Tarçın, baharatlar, siyah çay ve şekerin, buharda ısıtılmış süt ve süt köpüğü ile egzotik birleşimi. Son dönemlerin enteresan tercihlerinden',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -264,7 +264,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'sıcak-çikolata.webp',
+                'thumbnail' => 'sicak-cikolata.webp',
                 'title' => 'Sıcak Çikolata',
                 'price' => 145.00,
                 'body' => 'Yoğunluğu arttıkça, tadı da bağıl olarak muhteşemleşen, ılıkken de süper olan, müthiş içecek. Sizin seçiminiz ne ? Çikolata, Beyaz Çikolata, Ruby, Lotus, Karamel ...',
@@ -275,13 +275,6 @@ class ProductSeeder extends Seeder
                 'title' => 'Salep',
                 'price' => 130.00,
                 'body' => 'Kış dönemi için tüm zamanlarda sevdiğimiz bu içecek Antik Roma döneminde de bilinen ve tüketilen salep içeceği, Anadolu orkidesinin toprak altındaki yumrularından sağlanan tozdan elde edilir. Iskalamayın ve gönül rahatlığıyla sipariş verin porsiyon ve tat garantili.',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
-                'thumbnail' => 'mocha-ve-ceşitleri.webp',
-                'title' => 'Mocha ve Çeşitleri',
-                'price' => 135.00,
-                'body' => 'Mocha için hangi stil size ait ...Caramel, Ruby, Lotus, Vanilya, Çikolata',
                 'category' => 'Sıcak İçecekler'
             ],
             [
@@ -299,20 +292,6 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'damla-sakızlı-kahve.webp',
-                'title' => 'Damla Sakızlı Türk Kahve',
-                'price' => 95.00,
-                'body' => '',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
-                'thumbnail' => 'double-damla-sakızlı-kahve.webp',
-                'title' => 'Double Damla Sakızlı Türk Kahve',
-                'price' => 135.00,
-                'body' => '',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
                 'thumbnail' => 'menengiç-kahvesi.webp',
                 'title' => 'Menengiç Kahvesi',
                 'price' => 100.00,
@@ -322,22 +301,8 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'double-menengiç-kahvesi.webp',
                 'title' => 'Double Menengiç Kahvesi',
-                'price' => 140.00,
+                'price' => 145.00,
                 'body' => 'Sakız ağacıgillerden bir meyve olan menengicin  kremsi muhteşemliğin süt veya suyla karıştırılarak içimi hoş bir içecek haline getirilmişi olup menengiç kahve gibi nikotin ve kafein içermediği için acı olmaz.',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
-                'thumbnail' => 'dibek-kahve.webp',
-                'title' => 'Dibek Türk Kahve',
-                'price' => 95.00,
-                'body' => '',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
-                'thumbnail' => 'double-dibek-kahve.webp',
-                'title' => 'Double Dibek Türk Kahve',
-                'price' => 135.00,
-                'body' => '',
                 'category' => 'Sıcak İçecekler'
             ],
             [
@@ -349,22 +314,15 @@ class ProductSeeder extends Seeder
             ],
             [
                 'thumbnail' => 'organic-cay.webp',
-                'title' => 'Organic Çay Çeşitleri',
+                'title' => 'Organic Çaylar',
                 'price' => 110.00,
                 'body' => 'Organikçileri ve mevsimsel alışkanlıkları unutmadık.  Bahçeden diyerek abartı olabilir ama abla tezgahta bunlar var şu an dediklerimiz...Atom Kış Çayı, Hibisküs, Ihlamur, Adaçayı, Kuşburnu, Yeşil Çay, Rezene, Papatya, Melisa',
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'klasik-cay.webp',
-                'title' => 'Klasik Çay',
-                'price' => 30.00,
-                'body' => '',
-                'category' => 'Sıcak İçecekler'
-            ],
-            [
                 'thumbnail' => 'fincan-cay.webp',
                 'title' => 'Fincan Çay',
-                'price' => 50.00,
+                'price' => 55.00,
                 'body' => 'Çay da ekonomi bu ürünle mümkün :)',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -376,9 +334,9 @@ class ProductSeeder extends Seeder
                 'category' => 'Sıcak İçecekler'
             ],
             [
-                'thumbnail' => 'sinirsiz-cay.webp',
-                'title' => 'Sınırsız Çay',
-                'price' => 100.00,
+                'thumbnail' => 'pot-cay.webp',
+                'title' => 'Pot Çay',
+                'price' => 150.00,
                 'body' => 'Kalabalıksak ve de mutlaka 2. içerim diyorsak ama çarpılmasak da diyorsak seçim bu. 6 ince belli bardak servisi alabilirsiniz.',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -392,7 +350,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'smoothie.webp',
                 'title' => 'Smoothie Çeşitleri',
-                'price' => 160.00,
+                'price' => 170.00,
                 'body' => 'Smoothie, taze meyve ve sebzelerin sıkılmasıyla hazırlanan bir içecektir. Özellikle diyet yapanlar ve sporcular tarafından sık sık tüketilir. Çeşitleri için sorunuz lütfen',
                 'category' => 'Soğuk İçecekler'
             ],
@@ -420,49 +378,49 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'coca-cola.png',
                 'title' => 'Coca Cola',
-                'price' => 80.00,
+                'price' => 85.00,
                 'body' => 'Kahve ve çay tarzı bir şey içmek istemeyenleri için alternatif bulunduruyoruz',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'cola-zero.webp',
                 'title' => 'Coca Cola Zero',
-                'price' => 80.00,
+                'price' => 85.00,
                 'body' => 'Şekersiz seçim.',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'beyoglu-gazozu.webp',
                 'title' => 'Beyoğlu Gazoz',
-                'price' => 80.00,
+                'price' => 85.00,
                 'body' => 'Beyoğlu ismiyle beraber zaten UNDERGROUND, marka çatımız altında çok severek bulunduruyoruz ve sıkı içicileriyiz size de öneriririz.',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'beyoglu-zencefil.webp',
                 'title' => 'Beyoğlu Gazoz Zencefil',
-                'price' => 80.00,
+                'price' => 85.00,
                 'body' => 'Doğal zengin mineralli sudan yapılan bu ürün gizli fanatiklerini bekliyor.',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'su.webp',
                 'title' => 'Su',
-                'price' => 30.00,
+                'price' => 35.00,
                 'body' => '',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'maden-suyu.webp',
                 'title' => 'Maden Suyu',
-                'price' => 50.00,
+                'price' => 75.00,
                 'body' => 'Soda ile kaıştırmayalım :)',
                 'category' => 'Soğuk İçecekler'
             ],
             [
                 'thumbnail' => 'churchil.webp',
                 'title' => 'Churchill',
-                'price' => 70.00,
+                'price' => 85.00,
                 'body' => 'Maden Suyu hiç böyle afilli olmamıştı. Fizz görüntüsüne içinler az değil.',
                 'category' => 'Soğuk İçecekler'
             ],
@@ -565,21 +523,21 @@ class ProductSeeder extends Seeder
                 'category' => 'Atıştırmalıklar'
             ],
             [
-                'thumbnail' => 'sipsevdi.webp',
-                'title' => 'Şıpsevdi',
+                'thumbnail' => 'sipsevdi.jpg',
+                'title' => 'Şıpsevdi Sakız',
                 'price' => 5.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış eski tatlardan. Kasa önü satışı vardır.',
                 'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'lolipop.webp',
+                'thumbnail' => 'topitop.webp',
                 'title' => 'TopiTop',
                 'price' => 20.00,
                 'body' => 'Yalap çalap emzik niyetine .. Kasa önü satışı vardır.',
                 'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'haribo.webp',
+                'thumbnail' => 'haribo.jpg',
                 'title' => 'Haribo',
                 'price' => 15.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış  eski tatlardan. Kasa önü satışı vardır.',
@@ -628,7 +586,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Aksesuarlar'
             ],
             [
-                'thumbnail' => 'motowolf-korumalı-eldiven.webp',
+                'thumbnail' => 'motowolf-korumali-eldiven.webp',
                 'title' => 'Motowolf Korumalı Eldiven',
                 'price' => 2000.00,
                 'body' => 'Bu üründe farklı modeller ve fiyatlar mevcut olup bedenleri ve renkleri için reyonlara bakalım lütfen.',
@@ -698,7 +656,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Aksesuarlar'
             ],
             [
-                'thumbnail' => 'biblo-motor.webp',
+                'thumbnail' => 'biblo.webp',
                 'title' => 'Biblo Motor',
                 'price' => 2000.00,
                 'body' => 'Bu üründe farklı modeller ve fiyatlar mevcut olup renkleri için reyonlara bakalım lütfen.',
@@ -724,6 +682,69 @@ class ProductSeeder extends Seeder
                 'price' => 300.00,
                 'body' => 'Bu üründe farklı modeller ve fiyatlar mevcut olup renkleri için reyonlara bakalım lütfen.',
                 'category' => 'Aksesuarlar'
+            ],
+            [
+                'thumbnail' => 'laktozsuz-sut.webp',
+                'title' => 'Laktozsuz Süt',
+                'price' => 30.00,
+                'body' => 'Extra tercih veyahut ürünlerin hazırlanmasında tercih edilirse eklenir.',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'vegan-sut.webp',
+                'title' => 'Vegan Süt',
+                'price' => 30.00,
+                'body' => 'Extra tercih veyahut ürünlerin hazırlanmasında tercih edilirse eklenir.',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'espresso.webp',
+                'title' => 'Espresso',
+                'price' => 30.00,
+                'body' => 'Extra tercih veyahut ürünlerin hazırlanmasında tercih edilirse eklenir.',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'bal.webp',
+                'title' => 'Bal',
+                'price' => 30.00,
+                'body' => 'Extra tercih veyahut ürünlerin hazırlanmasında tercih edilirse eklenir.',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'aroma.webp',
+                'title' => 'Aroma',
+                'price' => 30.00,
+                'body' => 'Extra tercih veyahut ürünlerin hazırlanmasında tercih edilirse eklenir.',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'paket-espresso.webp',
+                'title' => 'Lugano Espresso 1kg',
+                'price' => 850.00,
+                'body' => 'Strong Kahve Çekirdeği 1 Kg Lugano Caffé, espressonun başkenti olan İtalya’da kurulmuştur ve yıllardır milyarlarca fincan İtalyan espressosunu müşterilerine sunmaktadır.Markamız, İtalyan cazibesinin ve İsviçre hassasiyetinin birleştiği, güzellik ve meydan okuma anlamlarına gelen Lugano şehrinden ilham alarak tüm dünyada İtalyan kahve sevdalılarına espressonun orijinal tadını sunacak bir elçi görevi görmektedir. Robusta ve Arabica’nın kalitesini harmanlayarak yoğun bir tat ve orta içim kahve deneyimi sunar.Karakteristik tatları sevenler için mükemmel seçim.tam kıvamlı ve güçlü aromalı espresso kahve karışımı.Kahve çekirdeği yağlarının orijinal tadını korumak için düşük kavurma derecesi ile ayırt edilir. 1000 gr. Kahve Ambalajında.',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'paket-filtre-kahve.webp',
+                'title' => 'Paketli Filtre Kahve 250gr',
+                'price' => 180.00,
+                'body' => 'Lugano Strong Öğütülmüş Filtre Kahve 250 gr Vakum Paket',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'kafeinsiz-filtre-kahve.webp',
+                'title' => 'Kafeinsiz Filtre Kahve 250gr',
+                'price' => 200.00,
+                'body' => 'Kuru kahveci Mehmet Efendi Guatemala Filitre Kahve 250gr',
+                'category' => 'Ekstralar'
+            ],
+            [
+                'thumbnail' => 'kafeinsiz-ogutulmus-espresso-cekirdek.webp',
+                'title' => 'Kafeinsiz Öğütülmüş Espresso Çekirdek 250gr',
+                'price' => 260.00,
+                'body' => 'Filtre kahve makinesi, french press ve moka pot ile kullanabilirsiniz. Kolombiya\'nın yüksek tarım alanlarında yetişen ve özenle toplanan kahve çekirdekleri, öğütülmüş ve kafeinden arındırılmıştır. Zengin lezzetli ve dolgun aromalı, kafeinsiz bir kahve keyfi arzuluyorsanız Exclusive Decaf\'ı tercih edin.',
+                'category' => 'Ekstralar'
             ],
         ];
 
