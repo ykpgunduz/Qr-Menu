@@ -160,10 +160,10 @@ class CalculationResource extends Resource
                     Tables\Columns\Layout\Grid::make(1)
                         ->schema([
                             TextColumn::make('orderItems')
-                                ->label('Ürünler')
                                 ->formatStateUsing(function ($state, $record) {
+                                    if (!$record) return 'Sipariş bulunamadı';
                                     return $record->orderItems->map(function ($item) {
-                                        return $item->quantity . ' x ' . $item->product->title;
+                                        return $item->quantity . ' x ' . optional($item->product)->title;
                                     })->implode('<br>');
                                 })
                                 ->html(),
