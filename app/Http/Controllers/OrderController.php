@@ -100,12 +100,10 @@ class OrderController extends Controller
         $tableNumber = $request->query('table');
         $cafe = Cafe::first();
 
-        // Öncelikle Calculation tablosunda sipariş kontrol edilir
         $order = Calculation::with('orderItems.product')
             ->where('table_number', $tableNumber)
             ->first();
 
-        // Eğer Calculation tablosunda sipariş bulunamazsa, PastOrder'dan veri çek
         if (!$order) {
             $order = DB::table('past_orders')
                 ->where('table_number', $tableNumber)
@@ -116,11 +114,9 @@ class OrderController extends Controller
                 return redirect()->back()->with('error', 'Sipariş bulunamadı.');
             }
 
-            // PastOrder tablosundaki verileri kullanarak bir view döndür
             return redirect()->route('past.order.show', ['orderNumber' => $order->order_number]);
         }
 
-        // Eğer Calculation'da sipariş varsa mevcut view döndürülür
         return view('qr-orders', compact('order', 'tableNumber', 'cafe'));
     }
 

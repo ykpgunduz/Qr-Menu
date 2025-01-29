@@ -155,7 +155,11 @@ class OrderResource extends Resource
             ->poll('10s')
             ->groups([
                 Group::make('table_number')
-                    ->label('Masa')
+                    ->titlePrefixedWithLabel(false)
+                    ->getTitleFromRecordUsing(function ($record) {
+                        $calculation = Calculation::where('table_number', $record->table_number)->first();
+                        return 'Masa ' . $record->table_number . ($calculation ? ' - ' . $calculation->status : '');
+                    })
             ])
             ->defaultGroup('table_number')
             ->groupingSettingsHidden()
