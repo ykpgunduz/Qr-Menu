@@ -407,7 +407,7 @@ class ProductSeeder extends Seeder
                 'thumbnail' => 'su.webp',
                 'title' => 'Su',
                 'price' => 40.00,
-                'body' => '',
+                'body' => 'pH : 7,5 .. Bu değeri aradık açıkçası',
                 'category' => 'Soğuk İçecekler'
             ],
             [
@@ -497,14 +497,14 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'karisik.webp',
                 'title' => 'Sucuklu Kaşarlı Tost',
-                'price' => 120.00,
+                'price' => 145.00,
                 'body' => '',
                 'category' => 'Atıştırmalıklar'
             ],
             [
                 'thumbnail' => 'jambonlu-sandivich.webp',
                 'title' => 'Jambonlu Kaşarlı Sandivich',
-                'price' => 130.00,
+                'price' => 120.00,
                 'body' => 'Soğuk sandivich',
                 'category' => 'Atıştırmalıklar'
             ],
@@ -530,7 +530,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Abur Cuburlar'
             ],
             [
-                'thumbnail' => 'big-babol.jpg',
+                'thumbnail' => 'big-babol.webp',
                 'title' => 'Big Babol',
                 'price' => 35.00,
                 'body' => 'Arık retrolaşmış ve de şımarık reyonunda yerini almış  eski tatlardan. Kasa önü satışı vardır.',
