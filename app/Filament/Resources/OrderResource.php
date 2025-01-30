@@ -158,7 +158,7 @@ class OrderResource extends Resource
                     ->titlePrefixedWithLabel(false)
                     ->getTitleFromRecordUsing(function ($record) {
                         $calculation = Calculation::where('table_number', $record->table_number)->first();
-                        return 'Masa ' . $record->table_number . ($calculation ? ' - ' . $calculation->status : '');
+                        return 'Masa ' . $record->table_number . ($calculation ? ' - ' . $calculation->status . ' Servis' : '');
                     })
             ])
             ->defaultGroup('table_number')
