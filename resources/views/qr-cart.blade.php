@@ -488,29 +488,6 @@
             background: #1a1a1a;
             color: #fff;
         }
-
-        @media (max-width: 480px) {
-            .recommended-product-card {
-                min-width: 120px;
-            }
-
-            .recommended-product-card img {
-                height: 80px;
-            }
-
-            .product-title {
-                font-size: 0.8rem;
-            }
-
-            .product-price {
-                font-size: 0.75rem;
-            }
-
-            .add-to-cart-btn {
-                font-size: 0.7rem;
-                padding: 4px 8px;
-            }
-        }
     </style>
 </head>
 
@@ -683,7 +660,7 @@
                             <div class="recommended-carousel">
                                 @foreach ($products->where('star', true) as $product)
                                 <div class="recommended-product-card">
-                                    <img src="https://kahhve.com/blog/wp-content/uploads/2022/06/filtre-kahve-cekirdegi-scaled.jpg" alt="{{ $product->title }}">
+                                    <img src="{{ $product->thumbnail && file_exists(public_path('storage/img/' . $product->thumbnail)) ? asset('storage/img/' . $product->thumbnail) : asset('img/cafe-logo.png') }}" alt="{{ $product->title }}" style="max-width: 100%; height: auto; object-fit: cover;">
                                     <div class="info">
                                         <h6 class="product-title">{{ $product->title }}</h6>
                                         <div class="price-add">
