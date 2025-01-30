@@ -656,16 +656,16 @@
 
                         @if($products->where('star', true)->isNotEmpty())
                         <div class="recommended-products my-4">
-                            <h5 class="text-center mb-3">Yıldızlı Ürünler</h5>
+                            <h5 class="text-center mb-3">Yanında İyi Gider...</h5>
                             <div class="recommended-carousel">
                                 @foreach ($products->where('star', true) as $product)
                                 <div class="recommended-product-card">
-                                    <img src="{{ $product->thumbnail && file_exists(public_path('storage/img/' . $product->thumbnail)) ? asset('storage/img/' . $product->thumbnail) : asset('img/cafe-logo.png') }}" alt="{{ $product->title }}" style="max-width: 100%; height: auto; object-fit: cover;">
+                                    <img src="{{ $product->thumbnail && file_exists(public_path('storage/img/' . $product->thumbnail)) ? asset('storage/img/' . $product->thumbnail) : asset('img/cafe-logo.png') }}" alt="{{ $product->title }}" style="max-width: 150px; height: auto; object-fit: cover;">
                                     <div class="info">
                                         <h6 class="product-title">{{ $product->title }}</h6>
                                         <div class="price-add">
                                             <span class="product-price">{{ $product->price }}₺</span>
-                                            <button class="btn btn-sm btn-dark add-to-cart-btn" data-id="{{ $product->id }}"><i class="fa-solid fa-cart-plus"></i> Ekle</button>
+                                            <button class="btn btn-sm btn-dark add-to-cart-btn" data-id="{{ $product->id }}"><i class="fa-solid fa-cart-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
