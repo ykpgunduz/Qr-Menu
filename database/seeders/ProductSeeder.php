@@ -257,6 +257,20 @@ class ProductSeeder extends Seeder
                 'category' => 'Soğuk İçecekler'
             ],
             [
+                'thumbnail' => 'ice-latte.webp',
+                'title' => 'Iced Cappuccino',
+                'price' => 165.00,
+                'body' => 'Sütle yapılan soğuk içecek, ferahlamak isteyenler için birebir',
+                'category' => 'Soğuk İçecekler'
+            ],
+            [
+                'thumbnail' => 'espresso.webp',
+                'title' => 'Iced Espresso',
+                'price' => 120.00,
+                'body' => 'Soğuk ve dinç kalmak isteyenler için',
+                'category' => 'Soğuk İçecekler'
+            ],
+            [
                 'thumbnail' => 'chai-tea-latte.webp',
                 'title' => 'Chai Tea Latte',
                 'price' => 150.00,
@@ -372,7 +386,7 @@ class ProductSeeder extends Seeder
                 'thumbnail' => 'milkshake.webp',
                 'title' => 'Mocktail Çeşitleri',
                 'price' => 170.00,
-                'body' => 'Ferahlık veren ve anında serinlemeyi mümkün kılan içeceklerden bir tanesidir. Çeşitleri mevcuttur nota nasıl bir içecek istediğinizi anlatabilirsiniz.',
+                'body' => 'Mocktaillerin cesitleri de francis, carter, rodman, O\'neal ve Kemp.',
                 'category' => 'Mocktailler'
             ],
             [
