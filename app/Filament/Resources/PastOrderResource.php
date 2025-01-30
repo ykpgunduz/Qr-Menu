@@ -16,6 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\PastOrderResource\Pages;
+use Filament\Tables\Actions\Action;
 
 class PastOrderResource extends Resource
 {
@@ -218,6 +219,18 @@ class PastOrderResource extends Resource
                         ->action(function (PastOrder $record, array $data) {
                             $record->update($data);
                         })
+                        ->visible(function (PastOrder $record) {
+                            $start = Carbon::today()->addHours(7);
+                            $end = Carbon::tomorrow()->addHours(3);
+                            $createdAt = Carbon::parse($record->created_at);
+
+                            return $createdAt->between($start, $end);
+                        }),
+                    Action::make('print_receipt')
+                        ->label('Fiş Yazdır')
+                        ->icon('heroicon-o-printer')
+                        ->url(fn (PastOrder $record) => route('receipt.print', ['calculation' => $record->id]))
+                        ->openUrlInNewTab()
                         ->visible(function (PastOrder $record) {
                             $start = Carbon::today()->addHours(7);
                             $end = Carbon::tomorrow()->addHours(3);

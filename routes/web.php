@@ -32,3 +32,4 @@ Route::get('/past-order/{orderNumber}', [OrderController::class, 'showPastOrder'
 Route::get('/rating/{orderNumber}', [RatingController::class, 'screen'])->name('rating.show');
 Route::post('rating/{orderNumber}', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/product/{id}', [ProductController::class, 'getDetails'])->name('product.details');
+Route::get('/receipt/print/{calculation}', [ReceiptController::class, 'print'])->name('receipt.print');
