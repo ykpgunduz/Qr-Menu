@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'espresso-ristretto.webp',
                 'title' => 'Espresso Ristretto',
-                'price' => 85.00,
+                'price' => 90.00,
                 'body' => 'İlk damlalar kahvenin en yoğun geldiği damlalar olduğu için konsantre bir lezzet vardır. Akış miktarı arttıkça başlıktan gelen kahve yoğunluğu giderek düşer. İşte bu ilk yudumları daha çok seven İtalyanlar double espresso\'yu 40ml su ile hazırlayarak buna kısıtlı anlamına gelen ristretto ismini vermişler. Aynı miktarda kahve ve daha az suyla hazırlandığı için daha yoğun bir lezzete sahip olan ristretto özellikle sabah uyanmak için birebir. Günümüzün Türçe  tabiriyle İngilazca konuşan bünyelerin  "bir quickie" siparişidir.',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -91,7 +91,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'filtre-kahve.webp',
                 'title' => 'Filtre Kahve',
-                'price' => 115.00,
+                'price' => 120.00,
                 'body' => 'Filtre kahve, öğütülmüş kahve çekirdeklerinin sıcak suyla buluşturulup demlenmesi sonucu elde edilen kahve çeşididir. Genel olarak farklı tipte ürün skalaları fanatiklerini de oluşturmuştur. Underground olarak karakteristik ve gövdeli kahve deneyimi sunarken kahve adına dip not bilgiler vermek gerekirse yağ yakıcıdır, diyabet kontrolüne destek verir, Alzheimer önleyici olup tam bir antioksidan deposudur demek yeterli olur şimdilik.',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -133,7 +133,7 @@ class ProductSeeder extends Seeder
             [
                 'thumbnail' => 'latte-macchiato.webp',
                 'title' => 'Latte Macchiato',
-                'price' => 145.00,
+                'price' => 150.00,
                 'body' => 'Kademeli görünümüyle özel zevklerim var demenin kahvedeki klasik yolu.... Esmer şeker ile  her zaman favori..',
                 'category' => 'Sıcak İçecekler'
             ],
@@ -156,6 +156,13 @@ class ProductSeeder extends Seeder
                 'title' => 'Latte Çeşitleri',
                 'price' => 160.00,
                 'body' => 'Latte sütün bol olduğu içecek anlamı verirken bunu kendi zevkine göre özelleştirmek isteyen tarzını belirlesin. Seçenekler : Fındık, Vanilya, Hind Ceviz, Karamel, Ruby, Balkabağı, Lotus, Bitter, ',
+                'category' => 'Sıcak İçecekler'
+            ],
+            [
+                'thumbnail' => 'americano.webp',
+                'title' => 'Kafeinsiz Americano',
+                'price' => 115.00,
+                'body' => 'Americano, bir Espresso’nun sıcak su ile seyreltilmesiyle yapılır. Ne kadar sıcak su kullanılacağına dair özel bir kılavuz yoktur. Bazı insanlar 1:2 Espresso su oranının "standart" bir Americano olduğunu iddia ederken, diğerleri 1:1 oranlı bir Americano\'yu tercih eder. Gerçekte kahve dükkanları, Espressolarının yoğunluğuna ve müşterilerin damak zevkine bağlı olarak 1:15\'e kadar yüksek bir oran kullanabilir. Espresso sertliğine alışık olmayan bünyeler için daha yumuşak bir deneyim olup Amerikano nun afilli ismine bakıp Amerikancı bünyeleri hayal kırıklığına uğratmayacağımıza emin olabilirsiniz.',
                 'category' => 'Sıcak İçecekler'
             ],
             [
@@ -345,21 +352,28 @@ class ProductSeeder extends Seeder
                 'title' => 'Milkshake Çeşitleri',
                 'price' => 175.00,
                 'body' => 'Milkshake süt, kırılmış buz, çeşitli meyvelerin karışımından oluşan serinletici ve tatlı ihtiyacını anında kesen harika bir içecek!  Vanilya, Çikolata, Caramel, Orman Meyve, Muz, Lotus, Çilek, Frambuaz, Ananas,Mango, Yeşil Elma, Passion Fruit',
-                'category' => 'Soğuk İçecekler'
+                'category' => 'Mocktailler'
             ],
             [
                 'thumbnail' => 'smoothie.webp',
                 'title' => 'Smoothie Çeşitleri',
                 'price' => 185.00,
                 'body' => 'Smoothie, taze meyve ve sebzelerin sıkılmasıyla hazırlanan bir içecektir. Özellikle diyet yapanlar ve sporcular tarafından sık sık tüketilir. Çeşitleri için sorunuz lütfen',
-                'category' => 'Soğuk İçecekler'
+                'category' => 'Mocktailler'
             ],
             [
                 'thumbnail' => 'frozen.webp',
                 'title' => 'Frozen Çeşitleri',
                 'price' => 180.00,
                 'body' => 'Ferahlık veren ve anında serinlemeyi mümkün kılan içeceklerden bir tanesi frozen olarak biline içeceklerdir. Buzlu meyveler kullanılarak hazırlanan frozen çok farklı alternatiflere de sahiptir. Çilekli, Orman Meyveli, Frambuaz, Yeşil Elma, Kavun, Karpuz, Mango, Karadut, Passion Fruit,Ananas',
-                'category' => 'Soğuk İçecekler'
+                'category' => 'Mocktailler'
+            ],
+            [
+                'thumbnail' => 'milkshake.webp',
+                'title' => 'Mocktail Çeşitleri',
+                'price' => 170.00,
+                'body' => 'Ferahlık veren ve anında serinlemeyi mümkün kılan içeceklerden bir tanesidir. Çeşitleri mevcuttur nota nasıl bir içecek istediğinizi anlatabilirsiniz.',
+                'category' => 'Mocktailler'
             ],
             [
                 'thumbnail' => 'limonata.webp',

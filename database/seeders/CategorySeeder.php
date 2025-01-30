@@ -21,14 +21,19 @@ class CategorySeeder extends Seeder
                 'color' => '#B40000',
             ],
             [
-                'name' => 'Ekstralar',
-                'icon' => 'fa-solid fa-bolt-lightning',
-                'color' => '#120A8F',
+                'name' => 'Mocktailler',
+                'icon' => 'fa-solid fa-wine-glass-empty',
+                'color' => '#B40000',
             ],
             [
                 'name' => 'Atıştırmalıklar',
                 'icon' => 'fa-solid fa-burger',
                 'color' => '#A35200',
+            ],
+            [
+                'name' => 'Ekstralar',
+                'icon' => 'fa-solid fa-bolt-lightning',
+                'color' => '#120A8F',
             ],
             [
                 'name' => 'Abur Cuburlar',
