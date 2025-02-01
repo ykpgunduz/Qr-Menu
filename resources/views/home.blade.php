@@ -400,17 +400,17 @@
                     <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="img/dworks-app-project.png" class="img-fluid rounded-top w-100" alt="D'works Website Projesi">
+                                <img src="img/gunlukcu-app-project.png" class="img-fluid rounded-top w-100" alt="Günlükçü Website Projesi">
                                 <div class="blog-categiry py-2 px-4">
                                     <span>Mobil Uygulama</span>
                                 </div>
                             </div>
                             <div class="blog-content p-4 bg-white">
-                                <h4 class="h4 d-inline-block mb-3">D'works Mobil Uygulama</h4>
+                                <h4 class="h4 d-inline-block mb-3">Günlükçü Mobil Uygulama</h4>
                                 <p class="mb-3">
                                     Çalışan ve işverenlerin kolaylıkla iletişim kurabilmesi ve sistemli bir süreç yürütebilmesi için tasarlanmıştır.
                                 </p>
-                                <a href="#" class="btn p-0">İncele  <i class="fa fa-arrow-right"></i></a>
+                                <a href="https://gunlukcu.harpysocial.com" target="_blank" class="btn p-0">İncele  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
