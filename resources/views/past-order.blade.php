@@ -218,7 +218,7 @@
         <div class="payment-summary">
             @if($order->ikram > 0 || $order->selfikram > 0)
             <div class="payment-row">
-                <span>Personel İkram:</span>
+                <span>İşletme İkramı:</span>
                 <span>-{{ $order->ikram }}₺</span>
             </div>
             <div class="payment-row">
