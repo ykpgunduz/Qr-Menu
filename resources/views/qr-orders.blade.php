@@ -149,15 +149,33 @@
                                 <td>{{ $item->price }}₺</td>
                             </tr>
                         @endforeach
-                        <tr>
-                            @if ($order->ikram > 0)
-                                <td colspan="2" class="text-end"><strong>Self Servis İndirimli Tutarı:</strong></td>
-                                <td colspan="3"><strong><span class="text-success">{{ $order->total_amount }}₺</span></strong></td>
-                            @else
-                                <td colspan="2" class="text-end"><strong>Toplam Tutar:</strong></td>
-                                <td><strong>{{ $order->total_amount }}₺</strong></td>
-                            @endif
-                        </tr>
+                        @if ($order->ikram > 0)
+                            <tr>
+                                <td colspan="2" class="text-end">
+                                    <strong>Toplam Tutar:</strong>
+                                </td>
+                                <td>
+                                    <strong><del>{{ $order->total_amount + $order->ikram }}₺</del></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-end">
+                                    <strong>Self Servis İndirimli:</strong>
+                                </td>
+                                <td>
+                                    <strong class="text-success">{{ $order->total_amount }}₺</strong>
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="2" class="text-end">
+                                    <strong>Toplam Tutar:</strong>
+                                </td>
+                                <td>
+                                    <strong>{{ $order->total_amount }}₺</strong>
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -200,33 +218,31 @@
     <!-- Footer End -->
 
     <nav class="navbar navbar-expand-lg fixed-bottom">
-        <div class="container d-flex justify-content-center">
+        <div class="container d-flex flex-column justify-content-center">
             @if ($order->status === 'Hesap')
-            <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Hesap isteğiniz bize ulaştı teşekkür ederiz.</p>
+                <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Hesap isteğiniz bize ulaştı teşekkür ederiz.</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <a class="btn btn-warning btn-md ms-2"><i class="fa-solid fa-clock"></i> Hesap İstendi</a>
+                    <a href="{{ route('index', ['table' => $tableNumber]) }}" class="btn btn-light btn-md ms-2"><i class="fa-solid fa-book-open"></i> Menüye Dön</a>
+                </div>
+            @elseif ($order->status === 'Self')
+                <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Farklı bir sipariş için menüye dönebilirsiniz.</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <a href="{{ route('index', ['table' => $tableNumber]) }}" class="btn btn-light btn-md ms-2"><i class="fa-solid fa-book-open"></i> Menüye Dön</a>
+                </div>
             @else
-            <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Masanızdan kalkmadan hesabı isteyebilirsiniz.</p>
+                <p class="text-light my-2"><i class="fa-solid fa-circle-info"></i> Masanızdan kalkmadan hesabı isteyebilirsiniz.</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <form action="{{ route('order.come') }}" method="POST" onsubmit="return confirmSubmit();">
+                        @csrf
+                        <input type="hidden" name="table_number" value="{{ $order->table_number }}">
+                        <button type="submit" class="btn btn-light btn-md ms-2">
+                            <i class="fa-solid fa-credit-card"></i> Hesabı İste
+                        </button>
+                    </form>
+                    <a href="{{ route('index', ['table' => $tableNumber]) }}" class="btn btn-light btn-md ms-2"><i class="fa-solid fa-book-open"></i> Menüye Dön</a>
+                </div>
             @endif
-            <div class="container d-flex justify-content-center mb-2">
-            @if ($order->status === 'Hesap')
-                <a class="btn btn-warning btn-md ms-2"><i class="fa-solid fa-clock"></i> Hesap İstendi</a>
-            @else
-            <form action="{{ route('order.come') }}" method="POST" onsubmit="return confirmSubmit();">
-                @csrf
-                <input type="hidden" name="table_number" value="{{ $order->table_number }}">
-                <button type="submit" class="btn btn-light btn-md ms-2">
-                    <i class="fa-solid fa-credit-card"></i> Hesabı İste
-                </button>
-            </form>
-
-            <script>
-                function confirmSubmit() {
-                    return confirm("Hesabı istediğinize emin misiniz?");
-                }
-            </script>
-
-            @endif
-                <a href="{{ route('index', ['table' => $tableNumber]) }}" class="btn btn-light btn-md ms-2"><i class="fa-solid fa-book-open"></i> Menüye Dön</a>
-            </div>
         </div>
     </nav>
 
