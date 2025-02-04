@@ -206,7 +206,7 @@ class CalculationResource extends Resource
                 DeleteAction::make()
                     ->label('Sil')
                     ->icon('heroicon-o-x-circle')
-                    ->visible(fn ($record) => $record->total_amount == 0)
+                    ->visible(fn ($record) => $record->total_amount <= 0)
                     ->modalHeading('Bu Masayı Silmek İstiyor musunuz?')
                     ->modalSubheading('Bu işlem geri alınamaz, masa komple silinecektir.')
                     ->modalButton('Evet, Sil'),
